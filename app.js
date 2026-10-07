@@ -5,7 +5,7 @@ const KEY = "academy-progress-v1", POS = "academy-pos-v2", LANGKEY = "academy-la
 
 const store = {
   get(k, d){ try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch(e){ return d; } },
-  set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+  set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} if((k === KEY || k === NOTES || k === CERTN) && window.Cloud) window.Cloud.queueSave(); }
 };
 
 let progress = store.get(KEY, {}) || {};
@@ -56,6 +56,11 @@ function renderBar(){
   $("#nav").innerHTML = [
     ["home", t.home], ["apps", t.apps]
   ].map(([v,l]) => `<button class="navbtn" data-nav="${v}" aria-current="${(state.view===v)||(v==="apps"&&state.view==="app")}">${l}</button>`).join("");
+  if(window.Cloud){
+    let ac = $("#acct");
+    if(!ac){ ac = document.createElement("button"); ac.id = "acct"; ac.className = "navbtn acct"; ac.dataset.nav = "account"; $("#langs").before(ac); }
+    ac.textContent = window.Cloud.label(); ac.setAttribute("aria-current", state.view === "account");
+  }
   $("#langs").innerHTML = LANGS.map(l => `<button data-lang="${l}" aria-pressed="${l===state.lang}" title="${window.I18N[l].langName}">${l==="kk"?"ҚАЗ":l==="ru"?"РУС":"ENG"}</button>`).join("");
   $("#langs").setAttribute("aria-label", t.lang);
 }
@@ -364,6 +369,7 @@ function render(scrollTop){
   if(state.view === "home") renderHome();
   else if(state.view === "apps") renderApps();
   else if(state.view === "app") renderApp();
+  else if(state.view === "account"){ if(window.Cloud) window.Cloud.render($("#view")); else { state.view = "home"; renderHome(); } }
   else renderCourse();
   $("#foot-text").textContent = T().academy;
   savePos();
@@ -463,5 +469,12 @@ document.addEventListener("input", e => {
 document.addEventListener("submit", e => e.preventDefault());
 document.addEventListener("click", e => { if(!e.target.closest(".searchbox")){ const r = $("#results"); if(r) r.hidden = true; } }, true);
 
+if(window.Cloud) window.Cloud.init({
+  lang: () => state.lang,
+  get: () => ({ progress, notes, certName: store.get(CERTN, "") }),
+  set(d){ progress = d.progress || {}; notes = d.notes || {}; store.set(KEY, progress); store.set(NOTES, notes); store.set(CERTN, d.certName || ""); render(); },
+  rerender: () => render(),
+  go(v){ state.view = v; render(true); }
+});
 render();
 })();

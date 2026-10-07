@@ -34,6 +34,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .navbtn{background:none;border:0;color:#cfe0f2;padding:8px 12px;border-radius:6px;white-space:nowrap;font-weight:700;font-size:.92rem}
 .navbtn:hover{color:#fff;background:rgba(255,255,255,.08)}
 .navbtn[aria-current="true"]{color:#fff;background:rgba(255,255,255,.14)}
+.navbtn.acct{flex:none;border:1px solid rgba(255,255,255,.35)}
 .langs{display:flex;border:1px solid rgba(255,255,255,.35);border-radius:999px;overflow:hidden;flex:none}
 .langs button{background:none;border:0;color:#cfe0f2;padding:5px 10px;font-weight:700;font-size:.8rem;letter-spacing:.04em}
 .langs button[aria-pressed="true"]{background:#fff;color:var(--navy-deep)}
@@ -257,3 +258,21 @@ fieldset.q legend{font-weight:700;padding:0 6px;margin-left:-6px}
   .navbtn[data-nav="home"]{display:none}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* Жеке кабинет (Supabase) */
+.cloud-box{max-width:520px;margin:32px auto;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:26px 28px}
+.cloud-box h2{font-family:var(--f-head);margin:0 0 8px}
+.cloud-lead{color:var(--muted);margin:0 0 18px}
+.cloud-form{display:grid;gap:14px}
+.cloud-form label{display:grid;gap:6px;font-weight:700}
+.cloud-form input{padding:10px 12px;border:1px solid var(--line);border-radius:8px;font:inherit;font-weight:400;background:var(--surface);color:var(--fg)}
+.cloud-form .btn{justify-content:center}
+.cloud-alt{margin:16px 0 0;color:var(--muted)}
+.cloud-msg{padding:12px 14px;border-radius:8px;background:var(--ok-soft);margin:0 0 16px}
+.cloud-msg.bad{background:var(--bad-soft)}
+.cloud-stats{display:flex;gap:12px;margin:16px 0}
+.cloud-stats div{flex:1;background:var(--accent-soft);border-radius:10px;padding:14px;display:grid}
+.cloud-stats b{font-family:var(--f-head);font-size:1.6rem}
+.cloud-stats span{color:var(--muted);font-size:.9rem}
+.cloud-sync{color:var(--ok);min-height:1.5em;margin:0 0 14px}
+.cloud-sync.bad{color:var(--bad)}

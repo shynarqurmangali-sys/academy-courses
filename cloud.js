@@ -1,0 +1,177 @@
+/* Аккаунт и облачное сохранение прогресса (Supabase). Без входа сайт работает как раньше — всё хранится в браузере. */
+(() => {
+"use strict";
+const URL_ = "https://wlwpixuiaqdpzowbbvrg.supabase.co";
+const KEY_ = "sb_publishable_KQqp2q5aoKz7sMK9Xx8BaA_e8jLwEnu";
+
+const S = {
+  kk: { login:"Кіру", cabinet:"Кабинет", title:"Жеке кабинет",
+    lead:"Тіркелсеңіз, прогресіңіз, тест нәтижелері мен жазбаларыңыз бұлтта сақталады және кез келген құрылғыда ашылады.",
+    email:"Электрондық пошта", pass:"Құпиясөз (кемінде 6 таңба)", signIn:"Кіру", signUp:"Тіркелу",
+    noAcc:"Аккаунтыңыз жоқ па?", haveAcc:"Аккаунтыңыз бар ма?", forgot:"Құпиясөзді ұмыттыңыз ба?",
+    sent:"Поштаңызға хат жіберілді. Сілтемені басып, тіркелуді растаңыз, содан кейін кіріңіз.",
+    resetSent:"Құпиясөзді қалпына келтіру сілтемесі поштаңызға жіберілді.",
+    newPass:"Жаңа құпиясөз", savePass:"Құпиясөзді сақтау", passSaved:"Құпиясөз жаңартылды.",
+    you:"Сіз кірдіңіз:", synced:"Прогресс бұлтта сақталды", syncing:"Сақталуда…", syncErr:"Бұлтқа сақтау сәтсіз болды. Интернетті тексеріңіз.",
+    stats:"Өтілген тақырыптар", notesN:"Жазбалар", logout:"Шығу", offline:"Бұлтқа қосылу мүмкін болмады. Сайт браузерде жұмыс істей береді.",
+    err:"Қате:", badLogin:"Пошта немесе құпиясөз қате.", notConfirmed:"Пошта әлі расталмаған. Хаттағы сілтемені басыңыз." },
+  ru: { login:"Войти", cabinet:"Кабинет", title:"Личный кабинет",
+    lead:"Зарегистрируйтесь, и ваш прогресс, результаты тестов и заметки будут храниться в облаке и открываться на любом устройстве.",
+    email:"Электронная почта", pass:"Пароль (не меньше 6 символов)", signIn:"Войти", signUp:"Зарегистрироваться",
+    noAcc:"Нет аккаунта?", haveAcc:"Уже есть аккаунт?", forgot:"Забыли пароль?",
+    sent:"Мы отправили письмо. Перейдите по ссылке, чтобы подтвердить регистрацию, затем войдите.",
+    resetSent:"Ссылка для восстановления пароля отправлена на почту.",
+    newPass:"Новый пароль", savePass:"Сохранить пароль", passSaved:"Пароль обновлён.",
+    you:"Вы вошли как:", synced:"Прогресс сохранён в облаке", syncing:"Сохраняется…", syncErr:"Не удалось сохранить в облако. Проверьте интернет.",
+    stats:"Пройдено тем", notesN:"Заметок", logout:"Выйти", offline:"Не удалось подключиться к облаку. Сайт продолжает работать в браузере.",
+    err:"Ошибка:", badLogin:"Неверная почта или пароль.", notConfirmed:"Почта ещё не подтверждена. Перейдите по ссылке из письма." },
+  en: { login:"Sign in", cabinet:"Account", title:"My account",
+    lead:"Create an account to keep your progress, test results and notes in the cloud and open them on any device.",
+    email:"Email", pass:"Password (at least 6 characters)", signIn:"Sign in", signUp:"Sign up",
+    noAcc:"No account yet?", haveAcc:"Already have an account?", forgot:"Forgot password?",
+    sent:"We sent you an email. Follow the link to confirm your account, then sign in.",
+    resetSent:"A password reset link has been sent to your email.",
+    newPass:"New password", savePass:"Save password", passSaved:"Password updated.",
+    you:"Signed in as:", synced:"Progress saved to the cloud", syncing:"Saving…", syncErr:"Could not save to the cloud. Check your connection.",
+    stats:"Topics passed", notesN:"Notes", logout:"Sign out", offline:"Could not reach the cloud. The site keeps working in your browser.",
+    err:"Error:", badLogin:"Wrong email or password.", notConfirmed:"Email not confirmed yet. Follow the link in the email." }
+};
+
+let app = null, sb = null, user = null, loadedFor = null, saveT = null;
+let ui = { mode:"in", msg:"", bad:false, busy:false, sync:"", recovery:false };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const L = () => S[app.lang()] || S.kk;
+const here = () => location.origin + location.pathname;
+
+function mergeProgress(a, b){
+  const out = Object.assign({}, a);
+  for(const k in b){
+    const x = out[k], y = b[k];
+    out[k] = x ? { passed: !!(x.passed || y.passed), best: Math.max(x.best || 0, y.best || 0) } : y;
+  }
+  return out;
+}
+
+async function load(u){
+  loadedFor = u.id;
+  const { data, error } = await sb.from("student_data").select("progress,notes,cert_name").eq("user_id", u.id).maybeSingle();
+  if(error){ ui.sync = "err"; app.rerender(); return; }
+  const local = app.get(), cloud = data || { progress:{}, notes:{}, cert_name:"" };
+  const notes = Object.assign({}, local.notes);
+  for(const k in cloud.notes) if(cloud.notes[k]) notes[k] = cloud.notes[k];
+  app.set({ progress: mergeProgress(cloud.progress || {}, local.progress), notes, certName: cloud.cert_name || local.certName || "" });
+  await save();
+}
+
+async function save(){
+  if(!user || loadedFor !== user.id) return;
+  clearTimeout(saveT);
+  const d = app.get();
+  ui.sync = "saving"; paintSync();
+  const { error } = await sb.from("student_data").upsert({ user_id:user.id, progress:d.progress, notes:d.notes, cert_name:d.certName, updated_at:new Date().toISOString() });
+  ui.sync = error ? "err" : "ok"; paintSync();
+}
+
+function paintSync(){
+  const el = document.getElementById("cloud-sync"); if(!el) return;
+  const l = L();
+  el.textContent = ui.sync === "saving" ? l.syncing : ui.sync === "err" ? l.syncErr : ui.sync === "ok" ? "✓ " + l.synced : "";
+  el.className = "cloud-sync " + (ui.sync === "err" ? "bad" : "");
+}
+
+function errText(e){
+  const l = L(), m = (e && e.message) || String(e);
+  if(/invalid login/i.test(m)) return l.badLogin;
+  if(/not confirmed/i.test(m)) return l.notConfirmed;
+  return l.err + " " + m;
+}
+
+function renderInto(view){
+  const l = L();
+  let body;
+  if(!sb){
+    body = `<p class="cloud-msg bad">${l.offline}</p>`;
+  } else if(user && ui.recovery){
+    body = `<form class="cloud-form" data-cloud-form="newpass">
+      <label>${l.newPass}<input type="password" name="pass" minlength="6" required autocomplete="new-password"></label>
+      <button class="btn primary" type="submit" ${ui.busy?"disabled":""}>${l.savePass}</button></form>`;
+  } else if(user){
+    const d = app.get(), passed = Object.values(d.progress).filter(p => p && p.passed).length, nn = Object.values(d.notes).filter(Boolean).length;
+    body = `<p>${l.you} <b>${esc(user.email)}</b></p>
+      <div class="cloud-stats"><div><b>${passed}</b><span>${l.stats}</span></div><div><b>${nn}</b><span>${l.notesN}</span></div></div>
+      <p id="cloud-sync" class="cloud-sync"></p>
+      <button class="btn" data-cloud="logout">${l.logout}</button>`;
+  } else {
+    const up = ui.mode === "up";
+    body = `<form class="cloud-form" data-cloud-form="${ui.mode}">
+      <label>${l.email}<input type="email" name="email" required autocomplete="email"></label>
+      ${ui.mode === "forgot" ? "" : `<label>${l.pass}<input type="password" name="pass" minlength="6" required autocomplete="${up?"new-password":"current-password"}"></label>`}
+      <button class="btn primary" type="submit" ${ui.busy?"disabled":""}>${ui.mode === "forgot" ? l.forgot.replace("?","") : up ? l.signUp : l.signIn}</button>
+    </form>
+    <p class="cloud-alt">${up || ui.mode === "forgot" ? `${l.haveAcc} <button class="linkbtn" data-cloud="in">${l.signIn}</button>`
+      : `${l.noAcc} <button class="linkbtn" data-cloud="up">${l.signUp}</button> · <button class="linkbtn" data-cloud="forgot">${l.forgot}</button>`}</p>`;
+  }
+  view.innerHTML = `<div class="wrap section"><div class="cloud-box">
+    <h2>${user && !ui.recovery ? l.cabinet : l.title}</h2>${user ? "" : `<p class="cloud-lead">${l.lead}</p>`}
+    ${ui.msg ? `<p class="cloud-msg ${ui.bad?"bad":""}">${esc(ui.msg)}</p>` : ""}${body}</div></div>`;
+  paintSync();
+}
+
+function setMsg(m, bad){ ui.msg = m; ui.bad = !!bad; ui.busy = false; app.rerender(); }
+
+document.addEventListener("click", async e => {
+  const b = e.target.closest("[data-cloud]"); if(!b || !sb) return;
+  const a = b.dataset.cloud;
+  if(a === "logout"){
+    await sb.auth.signOut();
+    app.set({ progress:{}, notes:{}, certName:"" });
+    return;
+  }
+  ui.mode = a; ui.msg = ""; app.rerender();
+});
+
+document.addEventListener("submit", async e => {
+  const f = e.target.closest("[data-cloud-form]"); if(!f || !sb) return;
+  e.preventDefault();
+  const kind = f.dataset.cloudForm, email = f.email ? f.email.value.trim() : "", pass = f.pass ? f.pass.value : "";
+  ui.busy = true; ui.msg = ""; app.rerender();
+  try {
+    if(kind === "in"){
+      const { error } = await sb.auth.signInWithPassword({ email, password:pass });
+      if(error) throw error;
+      ui.busy = false;
+    } else if(kind === "up"){
+      const { data, error } = await sb.auth.signUp({ email, password:pass, options:{ emailRedirectTo: here() } });
+      if(error) throw error;
+      if(!data.session){ ui.mode = "in"; setMsg(L().sent); } else ui.busy = false;
+    } else if(kind === "forgot"){
+      const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: here() });
+      if(error) throw error;
+      ui.mode = "in"; setMsg(L().resetSent);
+    } else if(kind === "newpass"){
+      const { error } = await sb.auth.updateUser({ password:pass });
+      if(error) throw error;
+      ui.recovery = false; setMsg(L().passSaved);
+    }
+  } catch(err){ setMsg(errText(err), true); }
+});
+
+window.Cloud = {
+  init(api){
+    app = api;
+    if(!window.supabase || !window.supabase.createClient) return;
+    try { sb = window.supabase.createClient(URL_, KEY_, { auth:{ persistSession:true, autoRefreshToken:true, detectSessionInUrl:true } }); }
+    catch(e){ sb = null; return; }
+    sb.auth.onAuthStateChange((event, session) => {
+      user = session ? session.user : null;
+      if(event === "PASSWORD_RECOVERY"){ ui.recovery = true; app.go("account"); }
+      if(!user){ loadedFor = null; ui.sync = ""; app.rerender(); return; }
+      if(loadedFor !== user.id) setTimeout(() => load(user), 0);
+      app.rerender();
+    });
+  },
+  label(){ const l = L(); return user ? "👤 " + l.cabinet : l.login; },
+  render: renderInto,
+  queueSave(){ if(!user) return; clearTimeout(saveT); saveT = setTimeout(save, 800); }
+};
+})();

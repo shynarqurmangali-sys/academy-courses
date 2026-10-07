@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Учебный портал Академии</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600;7..72,700&family=Golos+Text:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: учебник — вкладки институтов сверху, оглавление курса слева, страница учебника справа */
+:root{
+  --bg:#f6f7f4; --surface:#ffffff; --fg:#1d2321; --muted:#5d6763; --line:#dde2dd;
+  --accent:#0f5c56; --accent-soft:#e3efec; --ok:#1f7a3a; --ok-soft:#e2f2e6; --bad:#b0352b; --bad-soft:#f8e5e2;
+  --inst:#0f5c56;
+  --f-display:"Literata", Georgia, "Times New Roman", serif;
+  --f-ui:"Golos Text", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141917; --surface:#1b211f; --fg:#e6ebe8; --muted:#9aa5a0; --line:#2e3633;
+  --accent:#5fbcb1; --accent-soft:#1f3532; --ok:#5cc47c; --ok-soft:#1d3324; --bad:#ec7b6f; --bad-soft:#3a2220; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141917; --surface:#1b211f; --fg:#e6ebe8; --muted:#9aa5a0; --line:#2e3633;
+  --accent:#5fbcb1; --accent-soft:#1f3532; --ok:#5cc47c; --ok-soft:#1d3324; --bad:#ec7b6f; --bad-soft:#3a2220; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-ui);font-size:15px;line-height:1.5}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible,input:focus-visible+span{outline:2px solid var(--accent);outline-offset:2px}
+
+header.top{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.top-in{max-width:1240px;margin:0 auto;padding-inline:16px;display:flex;flex-direction:column;gap:6px;padding-block:14px 0}
+.brand{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand h1{font-family:var(--f-display);font-size:1.35rem;margin:0;font-weight:700;letter-spacing:-.01em}
+.brand .overall{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+nav.tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+nav.tabs::-webkit-scrollbar{display:none}
+.tab{background:none;border:0;border-bottom:3px solid transparent;padding:10px 14px 9px;white-space:nowrap;color:var(--muted);font-weight:500;display:flex;gap:8px;align-items:center}
+.tab:hover{color:var(--fg)}
+.tab[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--inst);font-weight:600}
+.tab .cnt{font-size:.75rem;background:var(--accent-soft);color:var(--accent);border-radius:999px;padding:1px 7px;font-variant-numeric:tabular-nums}
+
+.wrap{max-width:1240px;margin:0 auto;padding-inline:16px;padding-block:24px 48px;display:grid;grid-template-columns:300px minmax(0,1fr);gap:28px;align-items:start}
+aside.side{position:sticky;top:calc(env(safe-area-inset-top,0px) + 110px);max-height:calc(100vh - 130px);overflow:auto;display:flex;flex-direction:column;gap:18px}
+.inst-intro{font-size:.85rem;color:var(--muted)}
+.inst-intro b{display:block;color:var(--fg);font-family:var(--f-display);font-size:1.05rem;margin-bottom:2px}
+.course h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 6px;font-weight:600}
+.course .bar{height:4px;background:var(--line);border-radius:2px;overflow:hidden;margin-bottom:8px}
+.course .bar i{display:block;height:100%;background:var(--ok);transition:width .3s}
+.course .ctitle{font-weight:600;font-size:.95rem;margin-bottom:6px;display:flex;justify-content:space-between;gap:8px}
+.course .ctitle span{font-weight:500;color:var(--muted);font-size:.8rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.topics{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.topic-btn{width:100%;text-align:left;background:none;border:0;border-radius:6px;padding:7px 8px;display:flex;gap:10px;align-items:flex-start;font-size:.9rem}
+.topic-btn:hover{background:var(--accent-soft)}
+.topic-btn[aria-current="true"]{background:var(--accent-soft);font-weight:600}
+.mark{flex:none;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;margin-top:1px;font-size:11px}
+.mark.done{background:var(--ok);border-color:var(--ok);color:var(--surface)}
+.mark.fail{border-color:var(--bad);color:var(--bad)}
+.side-foot{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);padding-top:12px;display:flex;flex-direction:column;gap:8px}
+.linkbtn{background:none;border:0;padding:0;color:var(--muted);text-decoration:underline;text-underline-offset:3px;text-align:left}
+.linkbtn:hover{color:var(--bad)}
+.confirm{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.confirm button{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:4px 10px;font-size:.8rem}
+.confirm .danger{border-color:var(--bad);color:var(--bad)}
+
+main.page{background:var(--surface);border:1px solid var(--line);border-radius:10px;min-width:0}
+.page-head{padding:22px 32px 16px;border-bottom:1px solid var(--line)}
+.crumbs{font-size:.8rem;color:var(--muted);margin-bottom:6px}
+.page-head h2{font-family:var(--f-display);font-size:1.75rem;line-height:1.2;margin:0;text-wrap:balance}
+.steps{display:flex;gap:6px;margin-top:14px;flex-wrap:wrap}
+.step{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 12px;font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.step[aria-current="true"]{background:var(--fg);color:var(--surface);border-color:var(--fg)}
+.step.test-step{border-style:dashed}
+.step.test-step.done{border:1px solid var(--ok);color:var(--ok);background:var(--ok-soft)}
+.step.test-step[aria-current="true"]{border-style:solid}
+
+article.text{padding:26px 32px 8px;font-family:var(--f-display);font-size:1.06rem;line-height:1.7;max-width:72ch}
+article.text h3{font-family:var(--f-display);font-size:1.25rem;margin:0 0 12px;line-height:1.3}
+article.text p{margin:0 0 14px}
+article.text ul,article.text ol{margin:0 0 14px;padding-left:1.3em}
+article.text li{margin-bottom:6px}
+.term{background:var(--accent-soft);border-radius:8px;padding:12px 16px;margin:6px 0 16px;font-family:var(--f-ui);font-size:.95rem;line-height:1.55}
+.term b{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:3px}
+.pager{display:flex;justify-content:space-between;gap:10px;padding:18px 32px 26px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:9px 16px;font-weight:500}
+.btn:hover{border-color:var(--fg)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+
+.quiz{padding:24px 32px 8px;display:flex;flex-direction:column;gap:18px;max-width:780px}
+.quiz-note{color:var(--muted);font-size:.9rem;margin:0}
+fieldset.q{border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:0}
+fieldset.q legend{font-weight:600;padding:0 6px;margin-left:-6px;font-size:1rem}
+.opts{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:7px;border:1px solid transparent;cursor:pointer}
+.opt:hover{background:var(--bg)}
+.opt input{margin-top:4px;accent-color:var(--accent)}
+.opt.right{background:var(--ok-soft);border-color:var(--ok)}
+.opt.wrong{background:var(--bad-soft);border-color:var(--bad)}
+.verdict{margin-top:10px;font-size:.9rem;display:flex;gap:8px;align-items:flex-start}
+.verdict .tag{flex:none;font-weight:700;font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;padding:2px 8px;border-radius:4px}
+.verdict.ok .tag{background:var(--ok);color:var(--surface)}
+.verdict.no .tag{background:var(--bad);color:var(--surface)}
+.result{border-radius:10px;padding:16px 18px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.result.pass{background:var(--ok-soft);color:var(--fg)}
+.result.failr{background:var(--bad-soft)}
+.result .score{font-family:var(--f-display);font-size:1.8rem;font-weight:700;font-variant-numeric:tabular-nums}
+.result.pass .score{color:var(--ok)} .result.failr .score{color:var(--bad)}
+.result div{min-width:0;flex:1}
+
+.mobile-toggle{display:none}
+@media (max-width:860px){
+  .wrap{grid-template-columns:minmax(0,1fr);gap:16px;padding-block:16px 40px}
+  aside.side{position:static;max-height:none;display:none;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px}
+  aside.side.open{display:flex}
+  .mobile-toggle{display:flex;justify-content:space-between;align-items:center;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-weight:600}
+  .page-head,article.text,.quiz,.pager{padding-left:18px;padding-right:18px}
+  .page-head h2{font-size:1.4rem}
+  article.text{font-size:1rem}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<style>body{margin:0}</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <div class="brand">
+      <h1>Учебный портал Академии</h1>
+      <div class="overall" id="overall"></div>
+    </div>
+    <nav class="tabs" role="tablist" id="tabs"></nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <button class="mobile-toggle" id="mtoggle" aria-expanded="false" aria-controls="side"><span>Темы курса</span><span id="mtoggle-state">▾</span></button>
+  <aside class="side" id="side"></aside>
+  <main class="page" id="page"></main>
+</div>
+
+<script>
+const DATA = [
+{ id:"upr", name:"Институт управления", color:"#0f5c56",
+  about:"Курсы о том, как устроено и как работает государственное управление.",
+  courses:[
+  { id:"osn", title:"Основы государственного управления", topics:[
+    { id:"gos", title:"Государство и государственное управление",
+      pages:[
+      `<h3>Что такое государственное управление</h3>
+       <p>Государственное управление — это деятельность органов власти по организации общественной жизни: выработка решений, их исполнение и контроль за результатом. В отличие от управления компанией, здесь цель не прибыль, а общественная польза и соблюдение закона.</p>
+       <div class="term"><b>Ключевое понятие</b>Публичная ценность — результат, который граждане считают важным: безопасность, доступные услуги, доверие к институтам.</div>
+       <p>Управление строится на трёх опорах: правовая основа (законы и подзаконные акты), организационная структура (министерства, ведомства, местные органы) и ресурсы (бюджет, кадры, данные).</p>`,
+      `<h3>Ветви власти и уровни управления</h3>
+       <p>Принцип разделения властей распределяет функции между законодательной, исполнительной и судебной ветвями. Государственное управление в узком смысле — это прежде всего работа исполнительной власти.</p>
+       <ul><li><b>Центральный уровень</b> — правительство и министерства задают политику и стандарты.</li>
+       <li><b>Региональный уровень</b> — областные органы адаптируют политику к условиям территории.</li>
+       <li><b>Местный уровень</b> — органы на местах непосредственно оказывают услуги гражданам.</li></ul>
+       <p>Распределение полномочий между уровнями называют децентрализацией. Чем ближе решение к гражданину, тем точнее оно учитывает местные потребности, но тем важнее становятся единые стандарты и контроль качества.</p>`
+      ],
+      quiz:[
+        {q:"Что является главной целью государственного управления?", o:["Получение прибыли","Создание общественной пользы в рамках закона","Сокращение числа госслужащих"], a:1, e:"Госуправление ориентировано на общественную пользу, а не на прибыль."},
+        {q:"Какая ветвь власти в первую очередь осуществляет государственное управление в узком смысле?", o:["Судебная","Законодательная","Исполнительная"], a:2, e:"Исполнение законов и оказание услуг — задача исполнительной власти."},
+        {q:"Передача полномочий с центрального уровня на местный называется…", o:["Децентрализацией","Приватизацией","Кодификацией"], a:0, e:"Децентрализация приближает решения к гражданам."}
+      ]},
+    { id:"models", title:"Модели государственного управления",
+      pages:[
+      `<h3>Бюрократическая модель</h3>
+       <p>Классическая модель, описанная Максом Вебером, опирается на иерархию, письменные правила, специализацию и отбор по квалификации. Её сильные стороны — предсказуемость и равное отношение ко всем.</p>
+       <div class="term"><b>Ключевое понятие</b>Рациональная бюрократия — организация, где решения принимаются по формальным правилам, а не по личным связям.</div>
+       <p>Слабые стороны проявляются, когда правила становятся самоцелью: решения замедляются, а граждане сталкиваются с избыточными процедурами.</p>`,
+      `<h3>Новый государственный менеджмент</h3>
+       <p>С 1980-х годов многие страны перенесли в госсектор методы бизнеса: показатели результативности, конкуренцию между поставщиками услуг, ориентацию на «клиента».</p>
+       <ul><li>управление по результатам и KPI;</li><li>аутсорсинг и государственно-частное партнёрство;</li><li>большая самостоятельность руководителей.</li></ul>
+       <p>Критики отмечают, что гражданин — не только клиент, а измеряемые показатели не всегда отражают общественную ценность.</p>`,
+      `<h3>Надлежащее управление (Good Governance)</h3>
+       <p>Современный подход делает акцент на качестве взаимодействия государства и общества. Его принципы: подотчётность, прозрачность, участие граждан, верховенство права, эффективность и инклюзивность.</p>
+       <p>На практике модели сосуществуют: в одном министерстве можно встретить и строгие процедуры, и KPI, и открытые консультации с гражданами.</p>`
+      ],
+      quiz:[
+        {q:"Кто описал модель рациональной бюрократии?", o:["Макс Вебер","Адам Смит","Вудро Вильсон"], a:0, e:"Модель рациональной бюрократии связана с именем Макса Вебера."},
+        {q:"Какой инструмент характерен для нового государственного менеджмента?", o:["Пожизненный найм без оценки","Ключевые показатели результативности (KPI)","Отказ от бюджетного планирования"], a:1, e:"NPM переносит в госсектор управление по результатам."},
+        {q:"Какой принцип НЕ относится к надлежащему управлению?", o:["Прозрачность","Подотчётность","Закрытость решений от граждан"], a:2, e:"Good Governance требует открытости и участия граждан."}
+      ]},
+    { id:"digital", title:"Цифровое правительство",
+      pages:[
+      `<h3>От электронного к цифровому правительству</h3>
+       <p>Электронное правительство переводит существующие услуги в онлайн: заявление можно подать через портал вместо визита в ведомство. Цифровое правительство идёт дальше и перестраивает сами процессы вокруг данных.</p>
+       <div class="term"><b>Ключевое понятие</b>Проактивная услуга — услуга, которую государство оказывает само, без заявления гражданина, на основе уже имеющихся данных.</div>`,
+      `<h3>Данные и искусственный интеллект</h3>
+       <p>Межведомственный обмен данными позволяет не запрашивать у гражданина справки, которые уже есть у государства. Алгоритмы помогают прогнозировать нагрузку на больницы, выявлять риски в закупках и сортировать обращения.</p>
+       <p>Вместе с возможностями растут и риски: защита персональных данных, объяснимость алгоритмических решений и цифровое неравенство. Поэтому внедрение ИИ сопровождается правилами этики и человеческим контролем.</p>`
+      ],
+      quiz:[
+        {q:"Чем цифровое правительство отличается от электронного?", o:["Только наличием сайта","Перестройкой процессов вокруг данных","Отказом от законов"], a:1, e:"Цифровое правительство меняет сами процессы, а не только канал подачи."},
+        {q:"Что такое проактивная услуга?", o:["Услуга без заявления, на основе имеющихся данных","Платная срочная услуга","Услуга только в ЦОНе"], a:0, e:"Государство само инициирует услугу, когда возникает жизненная ситуация."},
+        {q:"Какой риск связан с применением ИИ в госуправлении?", o:["Слишком низкая скорость обработки","Необъяснимость алгоритмических решений","Избыток бумажных документов"], a:1, e:"Решения алгоритмов должны быть понятны и проверяемы."}
+      ]}
+  ]},
+  { id:"proj", title:"Проектное управление в госсекторе", topics:[
+    { id:"cycle", title:"Жизненный цикл проекта",
+      pages:[
+      `<h3>Проект и его фазы</h3>
+       <p>Проект — временная деятельность для создания уникального результата: новой услуги, информационной системы, объекта инфраструктуры. У проекта есть начало, конец, бюджет и измеримая цель.</p>
+       <ol><li><b>Инициация</b> — обоснование и паспорт проекта.</li><li><b>Планирование</b> — сроки, ресурсы, команда.</li><li><b>Исполнение</b> — работа над результатом.</li><li><b>Мониторинг</b> — сравнение плана и факта.</li><li><b>Завершение</b> — приёмка и уроки.</li></ol>`,
+      `<h3>Особенности госпроектов</h3>
+       <p>Государственные проекты зависят от бюджетного цикла и процедур закупок, а результат оценивается не прибылью, а эффектом для граждан. Поэтому особую роль играют заинтересованные стороны: ведомства-партнёры, местные органы, общественные советы.</p>
+       <div class="term"><b>Ключевое понятие</b>Проектный офис — подразделение, которое задаёт методологию и следит за портфелем проектов ведомства.</div>`
+      ],
+      quiz:[
+        {q:"Какой признак отличает проект от текущей деятельности?", o:["Он бесконечен","Он временный и создаёт уникальный результат","Он не требует бюджета"], a:1, e:"Проект ограничен во времени и нацелен на уникальный результат."},
+        {q:"На какой фазе составляется паспорт проекта?", o:["Инициация","Исполнение","Завершение"], a:0, e:"Паспорт оформляется при инициации."},
+        {q:"Кто задаёт методологию проектов в ведомстве?", o:["Бухгалтерия","Проектный офис","Пресс-служба"], a:1, e:"Проектный офис отвечает за методологию и портфель."}
+      ]},
+    { id:"risk", title:"Риски и показатели",
+      pages:[
+      `<h3>Управление рисками</h3>
+       <p>Риск — событие, которое может случиться и повлиять на цели проекта. Риски оценивают по двум осям: вероятность и влияние. Произведение этих оценок помогает расставить приоритеты.</p>
+       <p>Стратегии реагирования: избежать, снизить, передать (например, через договор) или принять, заранее подготовив резерв.</p>`,
+      `<h3>SMART-показатели</h3>
+       <p>Хороший показатель отвечает критериям SMART: конкретный, измеримый, достижимый, значимый и ограниченный во времени.</p>
+       <div class="term"><b>Пример</b>Не «улучшить услугу», а «сократить срок выдачи справки с 5 до 1 рабочего дня к декабрю».</div>`
+      ],
+      quiz:[
+        {q:"По каким двум осям оценивают риск?", o:["Цена и срок","Вероятность и влияние","Отдел и должность"], a:1, e:"Вероятность × влияние даёт приоритет риска."},
+        {q:"Передача риска — это, например…", o:["Страхование или договор с подрядчиком","Игнорирование риска","Отмена проекта"], a:0, e:"Риск передаётся третьей стороне через договор или страхование."},
+        {q:"Какой показатель соответствует SMART?", o:["Повысить качество работы","Сократить срок услуги до 1 дня к декабрю","Стараться лучше"], a:1, e:"Он конкретен, измерим и ограничен во времени."}
+      ]}
+  ]}
+]},
+{ id:"dip", name:"Институт дипломатии", color:"#2d4f8a",
+  about:"Курсы о внешней политике, дипломатической службе и международных организациях.",
+  courses:[
+  { id:"basics", title:"Основы дипломатии", topics:[
+    { id:"func", title:"Дипломатия: понятие и функции",
+      pages:[
+      `<h3>Что такое дипломатия</h3>
+       <p>Дипломатия — это ведение официальных отношений между государствами мирными средствами: переговорами, перепиской, участием в международных организациях. Её основу составляет Венская конвенция о дипломатических сношениях 1961 года.</p>
+       <div class="term"><b>Ключевое понятие</b>Агреман — согласие принимающего государства на назначение конкретного лица главой дипломатического представительства.</div>`,
+      `<h3>Функции посольства</h3>
+       <ul><li>представительство своего государства;</li><li>защита интересов государства и его граждан;</li><li>ведение переговоров с правительством страны пребывания;</li><li>выяснение законными средствами условий и событий в стране;</li><li>развитие экономических, культурных и научных связей.</li></ul>
+       <p>Консульские учреждения дополняют работу посольства и занимаются в первую очередь документами и помощью гражданам.</p>`
+      ],
+      quiz:[
+        {q:"Какой документ регулирует дипломатические сношения?", o:["Венская конвенция 1961 года","Устав ВТО","Парижское соглашение"], a:0, e:"Венская конвенция о дипломатических сношениях принята в 1961 году."},
+        {q:"Что такое агреман?", o:["Вид визы","Согласие страны пребывания на назначение посла","Нота протеста"], a:1, e:"Без агремана посол не может приступить к работе."},
+        {q:"Кто в первую очередь помогает гражданам с документами за рубежом?", o:["Консульство","Министерство финансов","Парламент"], a:0, e:"Это основная задача консульских учреждений."}
+      ]},
+    { id:"protocol", title:"Дипломатический протокол",
+      pages:[
+      `<h3>Правила и старшинство</h3>
+       <p>Протокол — свод правил проведения официальных мероприятий: визитов, приёмов, переговоров. Он снимает неопределённость и показывает уважение к партнёру.</p>
+       <p>Старшинство глав миссий определяется датой вручения верительных грамот. Самый старший по этому признаку посол становится дуайеном дипломатического корпуса.</p>`,
+      `<h3>Дипломатические документы</h3>
+       <p>Основной вид переписки — нота. Личная нота пишется от первого лица и подписывается, вербальная нота составляется от третьего лица и заверяется печатью.</p>
+       <div class="term"><b>Ключевое понятие</b>Верительная грамота — документ, удостоверяющий полномочия посла; вручается главе принимающего государства.</div>`
+      ],
+      quiz:[
+        {q:"Как определяется старшинство послов?", o:["По возрасту","По дате вручения верительных грамот","По размеру страны"], a:1, e:"Порядок старшинства идёт по дате вручения грамот."},
+        {q:"Кто такой дуайен?", o:["Старший по старшинству глава миссии","Переводчик посольства","Министр протокола"], a:0, e:"Дуайен возглавляет дипломатический корпус."},
+        {q:"Какая нота пишется от третьего лица?", o:["Личная","Вербальная","Коллективная записка"], a:1, e:"Вербальная нота составляется от третьего лица и заверяется печатью."}
+      ]},
+    { id:"neg", title:"Международные переговоры",
+      pages:[
+      `<h3>Подготовка к переговорам</h3>
+       <p>Успех переговоров на 80% определяется подготовкой: анализом интересов сторон, позиций и альтернатив. Позиция — то, что сторона заявляет; интерес — то, что ей действительно нужно.</p>
+       <div class="term"><b>Ключевое понятие</b>BATNA (НАОС) — наилучшая альтернатива обсуждаемому соглашению. Чем она сильнее, тем увереннее переговорная позиция.</div>`,
+      `<h3>Ход переговоров</h3>
+       <p>Переговоры обычно проходят через этапы: уточнение позиций, обсуждение вариантов, согласование формулировок. Итог фиксируется в коммюнике, меморандуме или договоре.</p>
+       <p>Многосторонние переговоры сложнее двусторонних: участники образуют коалиции, а решение часто ищется консенсусом.</p>`
+      ],
+      quiz:[
+        {q:"Чем интерес отличается от позиции?", o:["Ничем","Интерес — реальная потребность, позиция — заявленное требование","Позиция всегда тайная"], a:1, e:"Работа с интересами открывает больше вариантов решения."},
+        {q:"Что означает BATNA?", o:["Наилучшая альтернатива соглашению","Тип дипломатической ноты","Международная организация"], a:0, e:"BATNA — точка опоры при выборе: соглашаться или нет."},
+        {q:"Как часто принимаются решения в многосторонних переговорах?", o:["Жребием","Консенсусом","Только решением председателя"], a:1, e:"Консенсус — распространённый способ решения в многостороннем формате."}
+      ]}
+  ]},
+  { id:"io", title:"Международные организации", topics:[
+    { id:"un", title:"Организация Объединённых Наций",
+      pages:[
+      `<h3>Устав и цели ООН</h3>
+       <p>ООН создана в 1945 году. Её цели: поддержание международного мира и безопасности, развитие дружественных отношений между нациями, международное сотрудничество и защита прав человека.</p>`,
+      `<h3>Главные органы</h3>
+       <ul><li><b>Генеральная Ассамблея</b> — все государства-члены, по одному голосу.</li><li><b>Совет Безопасности</b> — 15 членов, из них 5 постоянных с правом вето.</li><li><b>Экономический и Социальный Совет</b>.</li><li><b>Международный Суд</b> в Гааге.</li><li><b>Секретариат</b> во главе с Генеральным секретарём.</li></ul>`
+      ],
+      quiz:[
+        {q:"В каком году создана ООН?", o:["1919","1945","1991"], a:1, e:"Устав ООН вступил в силу в 1945 году."},
+        {q:"Сколько постоянных членов в Совете Безопасности?", o:["5","10","15"], a:0, e:"Пять постоянных членов обладают правом вето."},
+        {q:"Где находится Международный Суд ООН?", o:["Нью-Йорк","Женева","Гаага"], a:2, e:"Международный Суд заседает в Гааге."}
+      ]},
+    { id:"reg", title:"Региональные организации",
+      pages:[
+      `<h3>Зачем нужны региональные объединения</h3>
+       <p>Региональные организации решают задачи, которые проще согласовать соседям: торговля, транспорт, безопасность границ, водные ресурсы. Они бывают экономическими, политическими и военно-политическими.</p>`,
+      `<h3>Примеры и формы интеграции</h3>
+       <p>Ступени экономической интеграции: зона свободной торговли, таможенный союз, общий рынок, экономический союз. Каждая следующая требует передачи большего числа полномочий наднациональным органам.</p>
+       <div class="term"><b>Ключевое понятие</b>Наднациональный орган — орган, чьи решения обязательны для государств-членов без отдельного согласия каждого.</div>`
+      ],
+      quiz:[
+        {q:"Какая ступень интеграции идёт после зоны свободной торговли?", o:["Таможенный союз","Экономический союз","Общий рынок"], a:0, e:"Таможенный союз добавляет единый внешний тариф."},
+        {q:"Что характерно для наднационального органа?", o:["Его решения носят рекомендательный характер","Его решения обязательны для членов","Он состоит из частных лиц"], a:1, e:"Наднациональные решения обязательны."},
+        {q:"Какую задачу чаще всего решают региональные организации?", o:["Согласование торговли и транспорта соседних стран","Выборы президента","Назначение судей"], a:0, e:"Региональный уровень удобен для общих соседских вопросов."}
+      ]}
+  ]}
+]},
+{ id:"nsgp", name:"Национальная школа госполитики", color:"#8a4a1f",
+  about:"Курсы для руководителей: анализ политики, лидерство и ценности госслужбы.",
+  courses:[
+  { id:"policy", title:"Анализ государственной политики", topics:[
+    { id:"pcycle", title:"Политический цикл",
+      pages:[
+      `<h3>Стадии политического цикла</h3>
+       <p>Модель политического цикла описывает путь решения от проблемы до оценки результата.</p>
+       <ol><li>Формирование повестки — проблема признаётся важной.</li><li>Разработка альтернатив.</li><li>Принятие решения.</li><li>Реализация.</li><li>Оценка и корректировка.</li></ol>`,
+      `<h3>Ограничения модели</h3>
+       <p>В реальности стадии накладываются друг на друга, а решения часто принимаются под давлением времени. Модель полезна как карта: она подсказывает, какие вопросы задать на каждом шаге.</p>
+       <div class="term"><b>Ключевое понятие</b>Окно возможностей — момент, когда проблема, решение и политическая воля совпадают, и изменения становятся возможными.</div>`
+      ],
+      quiz:[
+        {q:"С какой стадии начинается политический цикл?", o:["С оценки","С формирования повестки","С реализации"], a:1, e:"Сначала проблема должна попасть в повестку."},
+        {q:"Что такое окно возможностей?", o:["Срок подачи бюджетной заявки","Совпадение проблемы, решения и политической воли","Перерыв между сессиями парламента"], a:1, e:"Понятие из модели множественных потоков Кингдона."},
+        {q:"Какой недостаток есть у модели цикла?", o:["Стадии в реальности накладываются друг на друга","Она слишком короткая","Она запрещает оценку"], a:0, e:"Модель — упрощение реального процесса."}
+      ]},
+    { id:"tools", title:"Инструменты политики",
+      pages:[
+      `<h3>Три группы инструментов</h3>
+       <p>Государство влияет на поведение людей и организаций тремя основными способами — их называют «кнут, пряник и проповедь».</p>
+       <ul><li><b>Регулирование</b> — запреты, нормы, лицензии.</li><li><b>Экономические стимулы</b> — налоги, субсидии, гранты.</li><li><b>Информация</b> — кампании, рейтинги, маркировка.</li></ul>`,
+      `<h3>Поведенческие инструменты</h3>
+       <p>Подталкивание (nudge) меняет поведение без запретов и денег: через удобный выбор по умолчанию, напоминания, сравнение с соседями. Например, автоматическое включение в накопительную программу с правом выхода.</p>
+       <p>Выбор инструмента зависит от цели, стоимости, готовности граждан и способности государства контролировать исполнение.</p>`
+      ],
+      quiz:[
+        {q:"Субсидия относится к…", o:["Регулированию","Экономическим стимулам","Информационным инструментам"], a:1, e:"Субсидия — это «пряник», экономический стимул."},
+        {q:"Что такое nudge?", o:["Мягкое подталкивание без запретов и денег","Штраф","Новый налог"], a:0, e:"Nudge меняет архитектуру выбора."},
+        {q:"Пример информационного инструмента:", o:["Лицензия","Маркировка продуктов","Акциз"], a:1, e:"Маркировка даёт людям информацию для выбора."}
+      ]},
+    { id:"ria", title:"Оценка политики и АРВ",
+      pages:[
+      `<h3>Анализ регуляторного воздействия</h3>
+       <p>АРВ — процедура оценки последствий нового регулирования до его принятия: кто выиграет, кто понесёт издержки, есть ли менее обременительные альтернативы.</p>
+       <div class="term"><b>Ключевое понятие</b>Нулевой вариант — сценарий «ничего не менять», с которым сравнивают все альтернативы.</div>`,
+      `<h3>Оценка результатов</h3>
+       <p>После реализации политику оценивают: достигнуты ли цели, какой ценой и почему. Различают оценку процесса (как реализовывали) и оценку воздействия (что изменилось благодаря политике).</p>
+       <p>Для оценки воздействия нужна контрольная группа или сравнение «до и после» с учётом внешних факторов.</p>`,
+      `<h3>Использование выводов</h3>
+       <p>Оценка полезна только если её выводы попадают в следующий цикл решений. Поэтому отчёт пишут коротко, с ясными рекомендациями и сроками, и публикуют для общества.</p>`
+      ],
+      quiz:[
+        {q:"Когда проводится АРВ?", o:["До принятия регулирования","Только через 10 лет","Никогда в госсекторе"], a:0, e:"АРВ — оценка до принятия решения."},
+        {q:"Что такое нулевой вариант?", o:["Отмена всех законов","Сценарий «ничего не менять»","Бюджет без расходов"], a:1, e:"С ним сравнивают все альтернативы."},
+        {q:"Что нужно для оценки воздействия?", o:["Контрольная группа или корректное сравнение","Только мнение руководителя","Количество проведённых совещаний"], a:0, e:"Без сравнения нельзя отделить эффект политики от внешних факторов."}
+      ]}
+  ]},
+  { id:"lead", title:"Лидерство и этика на госслужбе", topics:[
+    { id:"leader", title:"Лидерство в государственном секторе",
+      pages:[
+      `<h3>Стили лидерства</h3>
+       <p>Транзакционный лидер управляет через задачи, контроль и вознаграждение. Трансформационный лидер вдохновляет общей целью и развивает людей. Служащее лидерство ставит в центр потребности команды и граждан.</p>`,
+      `<h3>Адаптивное лидерство</h3>
+       <p>Многие задачи госсектора не имеют готовых решений: изменение климата, демография, доверие к институтам. Адаптивный лидер не даёт ответ сверху, а организует совместный поиск решения с участием тех, кого проблема касается.</p>
+       <div class="term"><b>Ключевое понятие</b>Адаптивный вызов — проблема, решение которой требует изменения ценностей и привычек самих участников.</div>`
+      ],
+      quiz:[
+        {q:"Какой стиль строится на контроле и вознаграждении?", o:["Транзакционный","Трансформационный","Служащий"], a:0, e:"Транзакционный лидер обменивает результат на вознаграждение."},
+        {q:"Что отличает адаптивный вызов?", o:["Есть готовая инструкция","Требуется изменение ценностей и привычек участников","Решается одним приказом"], a:1, e:"Технические задачи решаются экспертами, адаптивные — вместе с людьми."},
+        {q:"Служащее лидерство ставит в центр…", o:["Личную карьеру лидера","Потребности команды и граждан","Только формальные процедуры"], a:1, e:"Лидер служит команде и обществу."}
+      ]},
+    { id:"ethics", title:"Этика и противодействие коррупции",
+      pages:[
+      `<h3>Ценности госслужбы</h3>
+       <p>Этический кодекс закрепляет базовые ценности: честность, беспристрастность, профессионализм, уважение к гражданам. Они помогают принять решение там, где закон не даёт однозначного ответа.</p>
+       <div class="term"><b>Ключевое понятие</b>Конфликт интересов — ситуация, когда личная заинтересованность служащего может повлиять на исполнение обязанностей.</div>`,
+      `<h3>Как действовать при конфликте интересов</h3>
+       <ol><li>Письменно уведомить руководителя.</li><li>Отказаться от участия в решении по этому вопросу.</li><li>При необходимости передать актив в доверительное управление.</li></ol>
+       <p>Профилактика коррупции строится на прозрачных процедурах, цифровизации услуг (меньше личных контактов) и защите тех, кто сообщает о нарушениях.</p>`
+      ],
+      quiz:[
+        {q:"Что такое конфликт интересов?", o:["Спор между ведомствами","Влияние личной заинтересованности на служебные решения","Разногласие в команде"], a:1, e:"Ключевое — риск влияния личного интереса на решение."},
+        {q:"Первый шаг при конфликте интересов:", o:["Скрыть его","Письменно уведомить руководителя","Уволиться"], a:1, e:"Уведомление — обязательный первый шаг."},
+        {q:"Как цифровизация помогает против коррупции?", o:["Снижает число личных контактов с чиновниками","Повышает зарплаты","Отменяет контроль"], a:0, e:"Меньше личных контактов — меньше возможностей для злоупотреблений."}
+      ]}
+  ]}
+]}
+];
+
+const PASS = 2; // правильных ответов из 3, чтобы тема считалась пройденной
+const KEY = "academy-progress-v1";
+let progress = {};
+try { progress = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch(e) { progress = {}; }
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(progress)); } catch(e){} }
+
+const state = { inst: 0, course: 0, topic: 0, page: 0, answers: {}, checked: false, confirmReset: false };
+const $ = id => document.getElementById(id);
+const tKey = (i,c,t) => `${DATA[i].id}/${DATA[i].courses[c].id}/${DATA[i].courses[c].topics[t].id}`;
+const status = k => progress[k] ? (progress[k].passed ? "done" : "fail") : "none";
+
+function countInst(inst){ let d=0,n=0; inst.courses.forEach(c=>c.topics.forEach(t=>{n++; if(progress[`${inst.id}/${c.id}/${t.id}`]?.passed) d++;})); return [d,n]; }
+
+function renderTabs(){
+  $("tabs").innerHTML = DATA.map((inst,i)=>{ const [d,n]=countInst(inst);
+    return `<button class="tab" role="tab" aria-selected="${i===state.inst}" data-i="${i}">${inst.name}<span class="cnt">${d}/${n}</span></button>`;}).join("");
+  let D=0,N=0; DATA.forEach(x=>{const [d,n]=countInst(x); D+=d; N+=n;});
+  $("overall").textContent = `Пройдено тем: ${D} из ${N}`;
+  document.documentElement.style.setProperty("--inst", DATA[state.inst].color);
+}
+
+function renderSide(){
+  const inst = DATA[state.inst];
+  let h = `<div class="inst-intro"><b>${inst.name}</b>${inst.about}</div>`;
+  inst.courses.forEach((c,ci)=>{
+    const done = c.topics.filter((t,ti)=>status(tKey(state.inst,ci,ti))==="done").length;
+    h += `<div class="course"><h3>Курс ${ci+1}</h3><div class="ctitle">${c.title}<span>${done}/${c.topics.length}</span></div>
+      <div class="bar"><i style="width:${done/c.topics.length*100}%"></i></div><ul class="topics">`;
+    c.topics.forEach((t,ti)=>{
+      const s = status(tKey(state.inst,ci,ti));
+      const cur = ci===state.course && ti===state.topic;
+      const lbl = s==="done"?"пройдено":s==="fail"?"тест не сдан":"не пройдено";
+      h += `<li><button class="topic-btn" data-c="${ci}" data-t="${ti}" aria-current="${cur}"><span class="mark ${s}" aria-label="${lbl}" title="${lbl}">${s==="done"?"✓":s==="fail"?"✕":""}</span><span>${t.title}</span></button></li>`;
+    });
+    h += `</ul></div>`;
+  });
+  h += `<div class="side-foot"><div>✓ — тема пройдена, ✕ — тест не сдан. Прогресс хранится в этом браузере.</div>`;
+  h += state.confirmReset
+    ? `<div class="confirm"><span>Сбросить весь прогресс?</span><button class="danger" id="reset-yes">Сбросить</button><button id="reset-no">Отмена</button></div>`
+    : `<button class="linkbtn" id="reset">Сбросить прогресс</button>`;
+  h += `</div>`;
+  $("side").innerHTML = h;
+}
+
+function renderPage(){
+  const inst = DATA[state.inst], course = inst.courses[state.course], topic = course.topics[state.topic];
+  const k = tKey(state.inst,state.course,state.topic);
+  const total = topic.pages.length, isTest = state.page === total;
+  const passed = progress[k]?.passed;
+  let steps = topic.pages.map((_,i)=>`<button class="step" data-p="${i}" aria-current="${i===state.page}">Стр. ${i+1}</button>`).join("");
+  steps += `<button class="step test-step ${passed?"done":""}" data-p="${total}" aria-current="${isTest}">${passed?"✓ Тест сдан":"Тест"}</button>`;
+  let h = `<div class="page-head"><div class="crumbs">${inst.name} · ${course.title}</div><h2>${topic.title}</h2><div class="steps">${steps}</div></div>`;
+  if(!isTest){
+    h += `<article class="text">${topic.pages[state.page]}</article>
+      <div class="pager"><button class="btn" id="prev" ${state.page===0?"disabled":""}>← Назад</button>
+      <button class="btn primary" id="next">${state.page===total-1?"Перейти к тесту →":"Далее →"}</button></div>`;
+  } else {
+    h += `<form class="quiz" id="quiz"><p class="quiz-note">${topic.quiz.length} вопроса. Чтобы тема засчиталась, ответьте верно минимум на ${PASS}.${progress[k]?` Лучший результат: ${progress[k].best}/${topic.quiz.length}.`:""}</p>`;
+    topic.quiz.forEach((q,qi)=>{
+      const ans = state.answers[qi];
+      h += `<fieldset class="q"><legend>${qi+1}. ${q.q}</legend><div class="opts">`;
+      q.o.forEach((o,oi)=>{
+        let cls = "";
+        if(state.checked){ if(oi===q.a && ans===oi) cls="right"; else if(ans===oi) cls="wrong"; }
+        h += `<label class="opt ${cls}"><input type="radio" id="q${qi}o${oi}" name="q${qi}" value="${oi}" ${ans===oi?"checked":""} ${state.checked?"disabled":""}><span>${o}</span></label>`;
+      });
+      h += `</div>`;
+      if(state.checked){
+        const ok = ans===q.a;
+        h += `<div class="verdict ${ok?"ok":"no"}"><span class="tag">${ok?"Верно":"Неверно"}</span><span>${ok?"":`Правильный ответ: «${q.o[q.a]}». `}${q.e}</span></div>`;
+      }
+      h += `</fieldset>`;
+    });
+    if(state.checked){
+      const score = topic.quiz.filter((q,qi)=>state.answers[qi]===q.a).length, ok = score>=PASS;
+      h += `<div class="result ${ok?"pass":"failr"}"><span class="score">${score}/${topic.quiz.length}</span><div>${ok?"<b>Тема пройдена.</b> Отметка появилась в списке тем слева.":"<b>Тест не сдан.</b> Перечитайте страницы темы и попробуйте ещё раз."}</div></div>`;
+    }
+    h += `</form><div class="pager"><button class="btn" id="back-text">← К тексту темы</button>`;
+    if(!state.checked) h += `<button class="btn primary" id="check" ${Object.keys(state.answers).length<topic.quiz.length?"disabled":""}>Проверить ответы</button>`;
+    else h += `<span style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="retry">Пройти заново</button>${nextTopic()?`<button class="btn primary" id="next-topic">Следующая тема →</button>`:""}</span>`;
+    h += `</div>`;
+  }
+  $("page").innerHTML = h;
+  $("mtoggle").firstElementChild.textContent = `Темы: ${topic.title}`;
+}
+
+function nextTopic(){
+  const inst = DATA[state.inst];
+  if(state.topic < inst.courses[state.course].topics.length-1) return [state.course, state.topic+1];
+  if(state.course < inst.courses.length-1) return [state.course+1, 0];
+  return null;
+}
+function go(c,t){ Object.assign(state,{course:c,topic:t,page:0,answers:{},checked:false}); render(); window.scrollTo({top:0}); }
+function render(){ renderTabs(); renderSide(); renderPage(); try{ localStorage.setItem(KEY+"-pos", JSON.stringify([state.inst,state.course,state.topic])); }catch(e){} }
+
+document.addEventListener("click", e=>{
+  const tab = e.target.closest(".tab");
+  if(tab){ state.inst=+tab.dataset.i; go(0,0); return; }
+  const tb = e.target.closest(".topic-btn");
+  if(tb){ go(+tb.dataset.c, +tb.dataset.t); $("side").classList.remove("open"); $("mtoggle").setAttribute("aria-expanded","false"); return; }
+  const st = e.target.closest(".step");
+  if(st){ state.page=+st.dataset.p; state.checked=false; state.answers={}; renderPage(); return; }
+  const id = e.target.closest("button")?.id;
+  if(id==="next"){ state.page++; renderPage(); window.scrollTo({top:0}); }
+  else if(id==="prev"){ state.page--; renderPage(); }
+  else if(id==="back-text"){ state.page=0; state.checked=false; state.answers={}; renderPage(); }
+  else if(id==="check"){
+    e.preventDefault();
+    const topic = DATA[state.inst].courses[state.course].topics[state.topic], k = tKey(state.inst,state.course,state.topic);
+    const score = topic.quiz.filter((q,qi)=>state.answers[qi]===q.a).length;
+    const prev = progress[k] || {passed:false,best:0};
+    progress[k] = {passed: prev.passed || score>=PASS, best: Math.max(prev.best, score)};
+    save(); state.checked=true; renderTabs(); renderSide(); renderPage();
+  }
+  else if(id==="retry"){ state.answers={}; state.checked=false; renderPage(); }
+  else if(id==="next-topic"){ const n=nextTopic(); if(n) go(n[0],n[1]); }
+  else if(id==="reset"){ state.confirmReset=true; renderSide(); }
+  else if(id==="reset-no"){ state.confirmReset=false; renderSide(); }
+  else if(id==="reset-yes"){ progress={}; save(); state.confirmReset=false; state.answers={}; state.checked=false; render(); }
+  else if(id==="mtoggle" || e.target.closest("#mtoggle")){ const o=$("side").classList.toggle("open"); $("mtoggle").setAttribute("aria-expanded",String(o)); $("mtoggle-state").textContent=o?"▴":"▾"; }
+});
+document.addEventListener("change", e=>{
+  const m = e.target.name?.match(/^q(\d+)$/);
+  if(m){ state.answers[+m[1]] = +e.target.value; const b=$("check"); if(b){ const n=DATA[state.inst].courses[state.course].topics[state.topic].quiz.length; b.disabled = Object.keys(state.answers).length<n; } }
+});
+document.addEventListener("submit", e=>e.preventDefault());
+
+try { const p = JSON.parse(localStorage.getItem(KEY+"-pos")||"null"); if(Array.isArray(p) && DATA[p[0]]?.courses[p[1]]?.topics[p[2]]) { state.inst=p[0]; state.course=p[1]; state.topic=p[2]; } } catch(e){}
+render();
+</script>
+</body>
+</html>

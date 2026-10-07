@@ -7,6 +7,6 @@
 - Интерактивные модули: глоссарий-карточки, матрица рисков, политический цикл, уровень риска ИИ (EU AI Act), самооценка зрелости GovTech.
 - Прогресс хранится в браузере (localStorage). После входа (кнопка «Кіру / Войти») прогресс, результаты тестов, заметки и имя для сертификата сохраняются в Supabase (проект `academy-courses`, таблица `student_data`, доступ только к своей строке через RLS).
 
-Файлы: `index.html`, `styles.css`, `app.js`, `i18n.js` (тексты интерфейса), `data/kk.js`, `data/ru.js`, `data/en.js` (учебные материалы), `cloud.js` (аккаунт и облако Supabase), `vendor/supabase.js` (библиотека supabase-js 2.117.2), `assets/`.
+Файлы: `index.html`, `styles.css`, `app.js`, `i18n.js` (тексты интерфейса), `data/kk.js`, `data/ru.js`, `data/en.js` (учебные материалы), `cloud.js` (аккаунт и облако Supabase), `calendar.js` (учебный календарь, личный план, объявления; события Академии и объявления добавляют администраторы из таблицы `admins`), `vendor/supabase.js` (библиотека supabase-js 2.117.2), `assets/`.
 
 Сайт: https://shynarqurmangali-sys.github.io/academy-courses/

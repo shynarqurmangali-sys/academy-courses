@@ -276,3 +276,57 @@ fieldset.q legend{font-weight:700;padding:0 6px;margin-left:-6px}
 .cloud-stats span{color:var(--muted);font-size:.9rem}
 .cloud-sync{color:var(--ok);min-height:1.5em;margin:0 0 14px}
 .cloud-sync.bad{color:var(--bad)}
+
+/* Күнтізбе, хабарландырулар, кабинеттегі курстар */
+.muted{color:var(--muted)}
+.cal-layout{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:20px;align-items:start;padding-bottom:32px}
+.cal-side{display:grid;gap:20px}
+.cal-box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px}
+.cal-box h3,.cal-day{font-family:var(--f-head);font-size:1.05rem;margin:0 0 12px}
+.cal-day{margin-top:22px}
+.cal-head{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.cal-head b{font-family:var(--f-head);font-size:1.15rem;flex:1;text-align:center;order:0}
+.cal-head .btn{padding:6px 12px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.cal-grid .wd{text-align:center;font-size:.78rem;font-weight:700;color:var(--muted);padding:4px 0}
+.cell{min-height:64px;border:1px solid var(--line);border-radius:8px;background:var(--surface);display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;padding:6px;text-align:left}
+.cell.empty{border:0;background:none}
+.cell span{font-weight:700;font-size:.9rem}
+.cell i{display:flex;gap:3px;flex-wrap:wrap}
+.cell:hover{border-color:var(--accent)}
+.cell.today span{background:var(--navy);color:#fff;border-radius:999px;padding:0 7px}
+.cell.sel{border:2px solid var(--accent);background:var(--accent-soft)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--sky)}
+.dot.k-lecture{background:#2a5a8a}.dot.k-deadline{background:#b7791f}.dot.k-exam{background:#b23a30}.dot.k-event{background:#4d93c7}.dot.k-mine{background:#1f7a4a}
+.cal-legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:12px;font-size:.85rem;color:var(--muted)}
+.cal-legend span{display:inline-flex;align-items:center;gap:6px}
+.ev-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.ev{border-left:4px solid var(--sky);background:var(--bg);border-radius:8px;padding:10px 12px;display:grid;gap:6px}
+.ev.k-lecture{border-color:#2a5a8a}.ev.k-deadline{border-color:#b7791f}.ev.k-exam{border-color:#b23a30}.ev.k-mine{border-color:#1f7a4a}
+.ev-main{display:grid;gap:2px}
+.ev-main small{color:var(--muted)}
+.ev-tag{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.ev-act{display:flex;flex-wrap:wrap;gap:12px;font-size:.85rem}
+.ev-act a.linkbtn{color:var(--muted)}
+.cal-form{margin-top:16px}
+.cal-form summary{cursor:pointer;font-weight:700;color:var(--accent)}
+.cal-form form{display:grid;gap:12px;margin-top:12px}
+.cal-form label{display:grid;gap:6px;font-weight:700;font-size:.92rem}
+.cal-form input,.cal-form select,.cal-form textarea{padding:9px 12px;border:1px solid var(--line);border-radius:8px;font:inherit;font-weight:400;background:var(--surface);color:var(--fg)}
+.news{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.news li{display:grid;gap:4px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.news small{color:var(--muted)}
+.news p{margin:0}
+.home-cal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.news-one{display:grid;gap:6px;align-content:start}
+.news-one p{margin:0;color:var(--muted)}
+.cloud-h3{font-family:var(--f-head);font-size:1.05rem;margin:22px 0 10px}
+.cloud-courses{list-style:none;margin:0 0 18px;padding:0;display:grid;gap:10px}
+.cloud-courses button{width:100%;display:flex;justify-content:space-between;gap:10px;background:none;border:0;padding:0;text-align:left}
+.cloud-courses span{display:grid}
+.cloud-courses small{color:var(--muted)}
+.cloud-courses em{font-style:normal;font-weight:700;color:var(--accent)}
+.meter2{height:6px;background:var(--accent-soft);border-radius:999px;margin-top:6px;overflow:hidden}
+.meter2 i{display:block;height:100%;background:var(--accent)}
+@media (max-width:900px){.cal-layout{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:600px){.cell{min-height:46px;padding:4px}.cal-box{padding:14px}}

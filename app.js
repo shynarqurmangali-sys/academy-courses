@@ -55,7 +55,7 @@ function renderBar(){
   $("#brand-text").textContent = t.academy;
   $("#nav").innerHTML = [
     ["home", t.home], ["apps", t.apps]
-  ].map(([v,l]) => `<button class="navbtn" data-nav="${v}" aria-current="${(state.view===v)||(v==="apps"&&state.view==="app")}">${l}</button>`).join("");
+  ].concat(window.Cal ? [["calendar", window.Cal.label()]] : []).map(([v,l]) => `<button class="navbtn" data-nav="${v}" aria-current="${(state.view===v)||(v==="apps"&&state.view==="app")}">${l}</button>`).join("");
   if(window.Cloud){
     let ac = $("#acct");
     if(!ac){ ac = document.createElement("button"); ac.id = "acct"; ac.className = "navbtn acct"; ac.dataset.nav = "account"; $("#langs").before(ac); }
@@ -104,6 +104,7 @@ function renderHome(){
 
   h += `<section class="section"><div class="sec-head"><div><h2>${t.apps}</h2><p>${t.appsLead}</p></div></div>${appGrid()}</section></div>`;
   $("#view").innerHTML = h;
+  if(window.Cal) window.Cal.homeWidget();
 }
 
 const APPS = [
@@ -369,6 +370,7 @@ function render(scrollTop){
   if(state.view === "home") renderHome();
   else if(state.view === "apps") renderApps();
   else if(state.view === "app") renderApp();
+  else if(state.view === "calendar"){ if(window.Cal) window.Cal.render($("#view")); else { state.view = "home"; renderHome(); } }
   else if(state.view === "account"){ if(window.Cloud) window.Cloud.render($("#view")); else { state.view = "home"; renderHome(); } }
   else renderCourse();
   $("#foot-text").textContent = T().academy;
@@ -469,11 +471,13 @@ document.addEventListener("input", e => {
 document.addEventListener("submit", e => e.preventDefault());
 document.addEventListener("click", e => { if(!e.target.closest(".searchbox")){ const r = $("#results"); if(r) r.hidden = true; } }, true);
 
+if(window.Cal) window.Cal.init({ lang: () => state.lang, rerender: () => render() });
 if(window.Cloud) window.Cloud.init({
   lang: () => state.lang,
   get: () => ({ progress, notes, certName: store.get(CERTN, "") }),
   set(d){ progress = d.progress || {}; notes = d.notes || {}; store.set(KEY, progress); store.set(NOTES, notes); store.set(CERTN, d.certName || ""); render(); },
   rerender: () => render(),
+  courses: () => { const out = []; D().forEach((I,i) => I.courses.forEach((C,c) => { const [d, n] = counts((ii,cc) => ii === i && cc === c); out.push({ i, c, inst:I.name, title:C.title, done:d, total:n }); })); return out; },
   go(v){ state.view = v; render(true); }
 });
 render();

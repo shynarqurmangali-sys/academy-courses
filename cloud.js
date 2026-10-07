@@ -5,7 +5,8 @@ const URL_ = "https://wlwpixuiaqdpzowbbvrg.supabase.co";
 const KEY_ = "sb_publishable_KQqp2q5aoKz7sMK9Xx8BaA_e8jLwEnu";
 
 const S = {
-  kk: { login:"Кіру", cabinet:"Кабинет", title:"Жеке кабинет",
+  kk: { myCourses:"Менің курстарым", noCourses:"Әлі ешбір тақырып өтілмеді. Оқуды бастаңыз!", admin:"Сіз әкімшісіз: күнтізбеге оқиға мен хабарландыру қоса аласыз.",
+    login:"Кіру", cabinet:"Кабинет", title:"Жеке кабинет",
     lead:"Тіркелсеңіз, прогресіңіз, тест нәтижелері мен жазбаларыңыз бұлтта сақталады және кез келген құрылғыда ашылады.",
     email:"Электрондық пошта", pass:"Құпиясөз (кемінде 6 таңба)", signIn:"Кіру", signUp:"Тіркелу",
     noAcc:"Аккаунтыңыз жоқ па?", haveAcc:"Аккаунтыңыз бар ма?", forgot:"Құпиясөзді ұмыттыңыз ба?",
@@ -15,7 +16,8 @@ const S = {
     you:"Сіз кірдіңіз:", synced:"Прогресс бұлтта сақталды", syncing:"Сақталуда…", syncErr:"Бұлтқа сақтау сәтсіз болды. Интернетті тексеріңіз.",
     stats:"Өтілген тақырыптар", notesN:"Жазбалар", logout:"Шығу", offline:"Бұлтқа қосылу мүмкін болмады. Сайт браузерде жұмыс істей береді.",
     err:"Қате:", badLogin:"Пошта немесе құпиясөз қате.", notConfirmed:"Пошта әлі расталмаған. Хаттағы сілтемені басыңыз." },
-  ru: { login:"Войти", cabinet:"Кабинет", title:"Личный кабинет",
+  ru: { myCourses:"Мои курсы", noCourses:"Пока ни одна тема не пройдена. Начните обучение!", admin:"Вы администратор: можете добавлять события и объявления в календарь.",
+    login:"Войти", cabinet:"Кабинет", title:"Личный кабинет",
     lead:"Зарегистрируйтесь, и ваш прогресс, результаты тестов и заметки будут храниться в облаке и открываться на любом устройстве.",
     email:"Электронная почта", pass:"Пароль (не меньше 6 символов)", signIn:"Войти", signUp:"Зарегистрироваться",
     noAcc:"Нет аккаунта?", haveAcc:"Уже есть аккаунт?", forgot:"Забыли пароль?",
@@ -25,7 +27,8 @@ const S = {
     you:"Вы вошли как:", synced:"Прогресс сохранён в облаке", syncing:"Сохраняется…", syncErr:"Не удалось сохранить в облако. Проверьте интернет.",
     stats:"Пройдено тем", notesN:"Заметок", logout:"Выйти", offline:"Не удалось подключиться к облаку. Сайт продолжает работать в браузере.",
     err:"Ошибка:", badLogin:"Неверная почта или пароль.", notConfirmed:"Почта ещё не подтверждена. Перейдите по ссылке из письма." },
-  en: { login:"Sign in", cabinet:"Account", title:"My account",
+  en: { myCourses:"My courses", noCourses:"No topics passed yet. Start learning!", admin:"You are an admin: you can add events and announcements to the calendar.",
+    login:"Sign in", cabinet:"Account", title:"My account",
     lead:"Create an account to keep your progress, test results and notes in the cloud and open them on any device.",
     email:"Email", pass:"Password (at least 6 characters)", signIn:"Sign in", signUp:"Sign up",
     noAcc:"No account yet?", haveAcc:"Already have an account?", forgot:"Forgot password?",
@@ -37,7 +40,7 @@ const S = {
     err:"Error:", badLogin:"Wrong email or password.", notConfirmed:"Email not confirmed yet. Follow the link in the email." }
 };
 
-let app = null, sb = null, user = null, loadedFor = null, saveT = null;
+let app = null, sb = null, user = null, loadedFor = null, saveT = null, admin = false;
 let ui = { mode:"in", msg:"", bad:false, busy:false, sync:"", recovery:false };
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const L = () => S[app.lang()] || S.kk;
@@ -100,6 +103,8 @@ function renderInto(view){
     body = `<p>${l.you} <b>${esc(user.email)}</b></p>
       <div class="cloud-stats"><div><b>${passed}</b><span>${l.stats}</span></div><div><b>${nn}</b><span>${l.notesN}</span></div></div>
       <p id="cloud-sync" class="cloud-sync"></p>
+      ${admin ? `<p class="cloud-msg">${l.admin}</p>` : ""}
+      <h3 class="cloud-h3">${l.myCourses}</h3>${coursesHtml()}
       <button class="btn" data-cloud="logout">${l.logout}</button>`;
   } else {
     const up = ui.mode === "up";
@@ -115,6 +120,12 @@ function renderInto(view){
     <h2>${user && !ui.recovery ? l.cabinet : l.title}</h2>${user ? "" : `<p class="cloud-lead">${l.lead}</p>`}
     ${ui.msg ? `<p class="cloud-msg ${ui.bad?"bad":""}">${esc(ui.msg)}</p>` : ""}${body}</div></div>`;
   paintSync();
+}
+
+function coursesHtml(){
+  const l = L(), list = app.courses().filter(c => c.done > 0);
+  if(!list.length) return `<p class="muted">${l.noCourses}</p>`;
+  return `<ul class="cloud-courses">${list.map(c => `<li><button data-course="${c.i},${c.c}"><span><b>${esc(c.title)}</b><small>${esc(c.inst)}</small></span><em>${c.done}/${c.total}</em></button><div class="meter2"><i style="width:${Math.round(c.done / c.total * 100)}%"></i></div></li>`).join("")}</ul>`;
 }
 
 function setMsg(m, bad){ ui.msg = m; ui.bad = !!bad; ui.busy = false; app.rerender(); }
@@ -165,13 +176,18 @@ window.Cloud = {
     sb.auth.onAuthStateChange((event, session) => {
       user = session ? session.user : null;
       if(event === "PASSWORD_RECOVERY"){ ui.recovery = true; app.go("account"); }
-      if(!user){ loadedFor = null; ui.sync = ""; app.rerender(); return; }
+      if(window.Cal) window.Cal.reset();
+      if(!user){ loadedFor = null; admin = false; ui.sync = ""; app.rerender(); return; }
+      if(loadedFor !== user.id) setTimeout(async () => { const r = await sb.rpc("is_admin"); admin = !!(r && r.data); app.rerender(); }, 0);
       if(loadedFor !== user.id) setTimeout(() => load(user), 0);
       app.rerender();
     });
   },
   label(){ const l = L(); return user ? "👤 " + l.cabinet : l.login; },
   render: renderInto,
+  client: () => sb,
+  user: () => user,
+  isAdmin: () => admin,
   queueSave(){ if(!user) return; clearTimeout(saveT); saveT = setTimeout(save, 800); }
 };
 })();

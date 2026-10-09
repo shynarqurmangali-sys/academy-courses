@@ -1,0 +1,1269 @@
+<!doctype html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Вайб-кодинг негіздері</title>
+<meta name="description" content="Мемлекеттік басқару академиясының магистранттары, докторанттары мен оқытушыларына арналған вайб-кодинг бойынша автономды интерактивті оқу құралы.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Unbounded:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: оқу кітабы — сол жақта тұрақты мазмұн, оң жақта бір ғана тарау; әр сабақ 12 нөмірленген бөлімнен тұратын тізбек. */
+:root{
+  --bg:#eef2f4; --paper:#ffffff; --ink:#14233a; --muted:#566476; --line:#d5dde5;
+  --accent:#0f5c8c; --accent-ink:#ffffff; --soft:#e3edf5; --gold:#b9821a; --gold-soft:#f8eed7;
+  --ok:#1f7a4d; --ok-soft:#e0f2e8; --warn:#9a5b00; --warn-soft:#fbefd9; --bad:#a33a2c; --bad-soft:#f8e3df;
+  --shadow:0 10px 30px rgba(20,35,58,.07); --radius:16px;
+  --f-display:'Unbounded','Golos Text',system-ui,sans-serif;
+  --f-body:'Golos Text','Segoe UI',system-ui,-apple-system,sans-serif;
+  --f-mono:'JetBrains Mono',Consolas,'Courier New',monospace;
+  --base:16px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1621; --paper:#16202e; --ink:#e6edf5; --muted:#9aa8b8; --line:#2a3748;
+  --accent:#5fb0e6; --accent-ink:#08131f; --soft:#1b2d40; --gold:#e3b04f; --gold-soft:#2e2615;
+  --ok:#6bcf98; --ok-soft:#15301f; --warn:#f0b65a; --warn-soft:#33270f; --bad:#f08a7a; --bad-soft:#3a1d19;
+  --shadow:0 10px 30px rgba(0,0,0,.35); color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#0f1621; --paper:#16202e; --ink:#e6edf5; --muted:#9aa8b8; --line:#2a3748;
+  --accent:#5fb0e6; --accent-ink:#08131f; --soft:#1b2d40; --gold:#e3b04f; --gold-soft:#2e2615;
+  --ok:#6bcf98; --ok-soft:#15301f; --warn:#f0b65a; --warn-soft:#33270f; --bad:#f08a7a; --bad-soft:#3a1d19;
+  --shadow:0 10px 30px rgba(0,0,0,.35); color-scheme:dark }
+:root.large{--base:18px}
+*{box-sizing:border-box}
+html{scroll-padding-top:90px}
+body{margin:0;background:var(--bg);color:var(--ink);font:var(--base)/1.65 var(--f-body)}
+a{color:var(--accent);text-underline-offset:3px}
+button,input,select,textarea{font:inherit;color:inherit}
+button,.button{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--line);border-radius:10px;padding:9px 15px;background:var(--paper);color:var(--ink);font-size:14px;font-weight:600;line-height:1.3;min-height:42px;cursor:pointer;text-decoration:none}
+button:hover,.button:hover{border-color:var(--accent);background:var(--soft)}
+button.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+button.primary:hover{filter:brightness(1.08);background:var(--accent)}
+button.danger{color:var(--bad)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+h1,h2,h3{text-wrap:balance}
+h2{font-size:1.4em;line-height:1.3;margin:0 0 .6em;letter-spacing:-.01em}
+h3{font-size:1.05em;margin:0 0 .4em}
+p{margin:.5em 0 1em}
+code{font-family:var(--f-mono);font-size:.88em;background:var(--soft);padding:1px 6px;border-radius:5px}
+
+/* top bar */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--paper);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:16px;padding:12px 24px;min-height:70px}
+.brand{display:flex;gap:12px;align-items:center;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;line-height:1.25;min-width:0}
+.brand-mark{flex:none;width:42px;height:42px;border-radius:12px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-family:var(--f-display);font-size:15px}
+.brand small{display:block;color:var(--muted);font-weight:500;font-size:11px;letter-spacing:.06em}
+.search-box{position:relative;flex:1;max-width:440px;margin-left:auto}
+.search-box input{width:100%;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:10px 13px;font-size:14px}
+#search-results{position:absolute;top:48px;left:0;right:0;background:var(--paper);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);max-height:60vh;overflow:auto;padding:6px}
+#search-results a{display:block;padding:9px 11px;border-radius:8px;text-decoration:none;color:var(--ink);font-size:14px}
+#search-results a:hover{background:var(--soft)}
+#search-results small{display:block;color:var(--muted);font-size:12px}
+.top-actions{display:flex;gap:6px}
+.top-actions button{padding:6px 11px;min-height:38px;font-size:17px}
+#menu-toggle{display:none}
+
+/* layout */
+.layout{display:grid;grid-template-columns:270px minmax(0,1fr);align-items:start}
+.sidebar{position:sticky;top:calc(70px + env(safe-area-inset-top,0px));height:calc(100vh - 70px);overflow:auto;padding:20px 14px 40px;border-right:1px solid var(--line);background:var(--paper)}
+.side-progress{padding:14px 15px;background:var(--soft);border-radius:12px;font-size:13px;color:var(--accent);margin-bottom:14px}
+.progress-track{height:6px;background:var(--line);border-radius:10px;overflow:hidden;margin:8px 0 4px}
+.progress-fill{height:100%;width:0;background:var(--accent)}
+.nav-group{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:18px 10px 6px}
+.sidebar nav a{display:flex;gap:9px;align-items:baseline;padding:7px 10px;border-radius:9px;text-decoration:none;color:var(--ink);font-size:14px;line-height:1.35}
+.sidebar nav a:hover{background:var(--soft)}
+.sidebar nav a.active{background:var(--accent);color:var(--accent-ink)}
+.nav-num{font-family:var(--f-mono);font-size:11px;opacity:.7;min-width:20px}
+.nav-check{margin-left:auto;font-size:13px;color:var(--ok)}
+.sidebar nav a.active .nav-check{color:inherit}
+main{min-width:0;padding:34px 44px 100px;max-width:1040px}
+.chapter{display:none}
+.chapter.current{display:block}
+
+/* chapter heading */
+.chapter-heading{display:flex;gap:14px;align-items:flex-start;margin-bottom:26px}
+.chapter-heading>div{flex:1;min-width:0}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.chapter-heading h1{font-family:var(--f-display);font-weight:700;font-size:clamp(24px,3vw,36px);line-height:1.2;letter-spacing:-.02em;margin:8px 0 10px}
+.lead{color:var(--muted);font-size:1.06em;margin:0;max-width:62ch}
+.bookmark{font-size:22px;min-width:44px;padding:4px 10px}
+.bookmark[aria-pressed="true"]{color:var(--gold);background:var(--gold-soft);border-color:var(--gold)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.4fr 1fr;gap:28px;align-items:center;padding:8px 0 26px}
+.hero h1{font-family:var(--f-display);font-weight:700;font-size:clamp(30px,4.4vw,52px);line-height:1.08;letter-spacing:-.03em;margin:12px 0 18px}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero-art{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;font-size:13px}
+.hero-art .mock-title{font-weight:700;margin-bottom:10px}
+.mock-row{display:grid;grid-template-columns:1fr auto;gap:10px;padding:7px 0;border-bottom:1px dashed var(--line)}
+.mock-row b{font-family:var(--f-mono);font-variant-numeric:tabular-nums;color:var(--accent)}
+.mock-note{margin-top:10px;padding:9px 11px;border-radius:9px;background:var(--gold-soft);color:var(--ink);font-size:12px}
+
+/* blocks */
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;min-width:0}
+.card p{margin:.3em 0 0;color:var(--muted);font-size:14px}
+.card .tag{margin-bottom:8px}
+.tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--accent);background:var(--soft);padding:4px 9px;border-radius:6px}
+.callout{background:var(--soft);border-radius:12px;padding:14px 18px;margin:18px 0;font-size:.95em}
+.callout.warn{background:var(--warn-soft)}
+.callout.warn strong{color:var(--warn)}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:18px 0}
+.flow span{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:9px 13px;font-size:14px}
+.flow b{color:var(--muted);font-weight:500}
+.flow .end{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.table-wrap{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:12px;background:var(--paper)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:10px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);background:var(--bg)}
+tr:last-child td{border-bottom:0}
+td input{min-width:70px}
+.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+
+/* lesson parts: 12 numbered parts in fixed order */
+.part{display:grid;grid-template-columns:44px minmax(0,1fr);gap:16px;padding:24px 0;border-top:1px solid var(--line)}
+.part-no{font-family:var(--f-display);font-size:14px;font-weight:700;color:var(--accent);background:var(--soft);width:40px;height:40px;border-radius:12px;display:grid;place-items:center}
+.part-body{min-width:0}
+.part-body>h2{font-size:1.2em;margin-top:8px}
+ol.steps,ul.plain{padding-left:1.3em;margin:.4em 0 1em}
+ol.steps li,ul.plain li{margin:.35em 0}
+.outcomes{display:grid;gap:8px;padding:0;list-style:none;margin:0}
+.outcomes li{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.outcomes li::before{content:"✓ ";color:var(--ok);font-weight:700}
+
+/* prompt boxes */
+.prompt{background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin:16px 0}
+.prompt-top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);font-size:13px;background:var(--bg)}
+.prompt-top button{min-height:34px;padding:5px 12px;font-size:12px}
+pre{font:13.5px/1.7 var(--f-mono);white-space:pre-wrap;overflow-wrap:anywhere;margin:0;padding:16px;max-width:100%}
+
+/* forms */
+.demo{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin:18px 0}
+.demo h3{margin-bottom:10px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.wide{grid-column:1/-1}
+.field{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;margin:10px 0;min-width:0}
+input:not([type=checkbox]):not([type=radio]),textarea,select{border:1px solid var(--line);background:var(--bg);border-radius:9px;padding:10px 12px;width:100%;font-size:15px;font-weight:400}
+textarea{min-height:96px;resize:vertical}
+input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;height:18px;flex:none}
+.result{background:var(--soft);border-radius:10px;padding:13px 16px;margin:12px 0;font-size:14px;white-space:pre-line}
+.checklist{display:grid;gap:8px;margin:10px 0}
+.checklist label{display:flex;gap:11px;align-items:flex-start;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:10px 13px;font-size:15px;cursor:pointer}
+.checklist input{margin-top:4px}
+.checklist label:has(input:checked){border-color:var(--ok);background:var(--ok-soft)}
+.crit-row{display:grid;grid-template-columns:minmax(0,1.3fr) 90px minmax(0,2fr) 42px;gap:8px;align-items:start;margin:6px 0}
+.crit-row button{min-height:42px;padding:0}
+.chip{display:inline-block;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px}
+.chip.ok{background:var(--ok-soft);color:var(--ok)}
+.chip.warn{background:var(--warn-soft);color:var(--warn)}
+.chip.bad{background:var(--bad-soft);color:var(--bad)}
+.example-badge{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--gold);background:var(--gold-soft);padding:3px 8px;border-radius:6px;margin-left:6px;vertical-align:middle}
+
+/* errors */
+.err{border:1px solid var(--line);border-radius:12px;background:var(--paper);padding:14px 16px;margin:10px 0}
+.err dt{font-weight:700;color:var(--bad)}
+.err dd{margin:.3em 0 .6em}
+.err dd:last-child{margin-bottom:0}
+
+/* quiz */
+.quiz{display:grid;gap:14px}
+.q{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.q p{font-weight:600;margin:0 0 8px}
+.q label{display:flex;gap:10px;align-items:flex-start;padding:6px 4px;font-size:15px;cursor:pointer}
+.q label input{margin-top:4px}
+.q .fb{font-size:14px;margin-top:6px;padding:8px 11px;border-radius:8px}
+.q .fb.ok{background:var(--ok-soft);color:var(--ink)}
+.q .fb.no{background:var(--bad-soft);color:var(--ink)}
+
+/* end of lesson */
+.submission{background:var(--gold-soft);border-radius:var(--radius);padding:18px 20px;margin:26px 0 0}
+.submission h2{font-size:1.15em}
+.mentor{background:var(--paper);border:1px dashed var(--accent);border-radius:12px;padding:14px 16px;margin:18px 0;font-size:.95em}
+.chapter-footer{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;border-top:1px solid var(--line);margin-top:30px;padding-top:18px}
+.chapter-footer label{display:flex;gap:10px;align-items:center;font-weight:600}
+.chapter-next{display:flex;gap:8px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:12px 0 24px}
+.stats div{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.stats strong{display:block;font-family:var(--f-display);font-size:24px;font-variant-numeric:tabular-nums}
+.stats span{font-size:13px;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:10px;font-size:14px;z-index:60;max-width:calc(100% - 32px)}
+.confirm-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:14px}
+dl.gloss{display:grid;grid-template-columns:minmax(120px,200px) minmax(0,1fr);gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper)}
+dl.gloss dt,dl.gloss dd{margin:0;padding:12px 15px;border-bottom:1px solid var(--line)}
+dl.gloss dt{font-weight:700;background:var(--bg)}
+
+@media (max-width:900px){
+  .layout{display:block}
+  .sidebar{position:fixed;top:calc(64px + env(safe-area-inset-top,0px));left:0;bottom:0;width:min(300px,86vw);height:auto;z-index:40;transform:translateX(-105%);transition:transform .2s;box-shadow:var(--shadow)}
+  body.menu-open .sidebar{transform:none}
+  #menu-toggle{display:inline-flex}
+  .topbar{padding:10px 16px;gap:10px;min-height:64px}
+  .brand-text{display:none}
+  main{padding:24px 16px 80px}
+  .hero{grid-template-columns:1fr}
+  .form-grid{grid-template-columns:1fr}
+  .part{grid-template-columns:1fr;gap:8px}
+  .stats{grid-template-columns:1fr}
+  .crit-row{grid-template-columns:1fr 80px 42px}
+  .crit-row .crit-desc{grid-column:1/-1;grid-row:2}
+  dl.gloss{grid-template-columns:1fr}
+  dl.gloss dt{border-bottom:0}
+}
+@media (max-width:520px){.top-actions .opt{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media print{.topbar,.sidebar,.chapter-footer,.actions,button{display:none!important}.chapter{display:block!important;page-break-after:always}.layout{display:block}main{padding:0}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main" style="position:absolute;left:-999px">Мазмұнға өту</a>
+<header class="topbar">
+  <button id="menu-toggle" aria-label="Мазмұнды ашу" aria-expanded="false">☰</button>
+  <a class="brand" href="#start"><span class="brand-mark">ВК</span><span class="brand-text">Вайб-кодинг негіздері<small>АВТОНОМДЫ ОҚУ ҚҰРАЛЫ</small></span></a>
+  <div class="search-box"><input id="search" type="search" placeholder="Іздеу: промпт, критерий, қате…" autocomplete="off" aria-label="Кітап бойынша іздеу"><div id="search-results" hidden></div></div>
+  <div class="top-actions">
+    <button id="font-toggle" class="opt" title="Қаріп өлшемі" aria-label="Қаріпті үлкейту">Аа</button>
+    <button id="theme-toggle" title="Жарық / қараңғы тақырып" aria-label="Тақырыпты ауыстыру">◐</button>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="side-progress"><strong>Менің жолым</strong><div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div><span id="progress-label">0 / 0 бөлім</span></div>
+  <nav id="nav" aria-label="Мазмұны"></nav>
+</aside>
+<main id="main">
+
+<!-- ============ БАСТАУ ============ -->
+<article id="start" class="chapter" data-title="Бастау" data-group="Бастау">
+  <section class="hero">
+    <div>
+      <span class="eyebrow">Мемлекеттік басқару академиясы · магистранттар, докторанттар, оқытушылар</span>
+      <h1>Кодты жаттамай, <em>AI-мен</em> пайдалы құрал жасаймыз</h1>
+      <p class="lead">Бұл — өз бетіңізше өтетін оқу құралы. Алты сабақта сіз үй тапсырмасына алдын ала баға мен кері байланыс ұсынатын шағын веб-құрал жасайсыз. Кодты AI жазады. Сіз мәселені сипаттайсыз, тапсырма бересіз және нәтижені тексересіз.</p>
+      <div class="actions"><button class="primary" data-go="l1">1-сабақты бастау</button><button data-go="map">Курс картасы</button></div>
+    </div>
+    <div class="hero-art" aria-label="Болашақ құралдың үлгісі">
+      <div class="mock-title">Эссе: алдын ала баға <span class="example-badge">ҮЛГІ</span></div>
+      <div class="mock-row"><span>Мәселені анықтау</span><b>20 / 25</b></div>
+      <div class="mock-row"><span>Дәлелдер мен деректер</span><b>15 / 25</b></div>
+      <div class="mock-row"><span>Ұсыныстың нақтылығы</span><b>24 / 30</b></div>
+      <div class="mock-row"><span>Құрылым және тіл</span><b>17 / 20</b></div>
+      <div class="mock-row"><span><strong>Барлығы</strong></span><b>76 / 100</b></div>
+      <div class="mock-note">Бұл — AI ұсынысы. Соңғы бағаны оқытушы тексеріп бекітеді.</div>
+    </div>
+  </section>
+
+  <h2>Кітапты қалай пайдалану керек?</h2>
+  <div class="grid">
+    <div class="card"><span class="tag">1</span><h3>Ретімен жүріңіз</h3><p>Әр сабақ бір дағдыны үйретеді. Сабақ 20–30 минут алады.</p></div>
+    <div class="card"><span class="tag">2</span><h3>Промптты көшіріңіз</h3><p>«Көшіру» батырмасын басып, мәтінді кез келген AI чатына қойыңыз.</p></div>
+    <div class="card"><span class="tag">3</span><h3>Нәтижені тексеріңіз</h3><p>Әр сабақтың соңында тексеру тізімі мен 3 сұрақ бар.</p></div>
+    <div class="card"><span class="tag">4</span><h3>Белгі қойыңыз</h3><p>«Бөлім меңгерілді» деп белгілесеңіз, сол жақтағы жол жасылға боялады.</p></div>
+  </div>
+
+  <div class="callout warn"><strong>Басты ереже.</strong> Ашық AI чаттарына студенттің аты-жөнін, ЖСН-ін, телефонын, бағалар журналын, құпиясөзді және қызметтік құжатты енгізбеңіз. Жаттығу үшін ойдан шығарылған немесе аты жасырылған мәтінді қолданыңыз. Бұл кітапта аты-жөнді жасыратын <a href="#anon">көмекші құрал</a> бар.</div>
+
+  <h2>Сізге не керек?</h2>
+  <ul class="plain">
+    <li>Компьютер және браузер (Chrome, Edge, Safari немесе Firefox).</li>
+    <li>Бір AI чатына кіру: Claude (claude.ai), ChatGPT (chatgpt.com) немесе Gemini (gemini.google.com). Тегін нұсқасы жеткілікті.</li>
+    <li>Өз пәніңіздің бір үй тапсырмасы және оның бағалау критерийлері.</li>
+  </ul>
+  <p>Сервистердің батырмалары мен мәзір атаулары жиі өзгереді. Экранда басқа сөз көрсеңіз, мағынасы жақын батырманы іздеңіз немесе AI-дың өзінен «бұл қай жерде?» деп сұраңыз.</p>
+  <p class="lead">Жазбаларыңыз бен прогресіңіз тек осы браузерде сақталады. Басқа құрылғыға көшіру үшін <a href="#my">«Менің прогресім»</a> бөлімінен файл ретінде жүктеп алыңыз.</p>
+  <footer class="chapter-footer"><label><input type="checkbox" data-done="start"> Бұл бөлім меңгерілді</label><div class="chapter-next"></div></footer>
+</article>
+
+<!-- ============ КУРС КАРТАСЫ ============ -->
+<article id="map" class="chapter" data-title="Курс картасы" data-group="Бастау">
+  <header class="chapter-heading"><div><span class="eyebrow">Бастау · 5 минут</span><h1>Курс картасы</h1><p class="lead">Алты сабақ, бір жоба. Әр сабақ алдыңғысының нәтижесіне сүйенеді.</p></div><button class="bookmark" data-bookmark="map" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+  <div class="flow"><span>Сипаттама</span><b>→</b><span>Алғашқы нұсқа</span><b>→</b><span>AI бағалауы</span><b>→</b><span>Тексеру</span><b>→</b><span>Жетілдіру</span><b>→</b><span class="end">Бөлісу</span></div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Сабақ</th><th>Негізгі дағды</th><th>Сабақтың нәтижесі</th><th>Уақыт</th></tr></thead>
+    <tbody>
+      <tr><td><a href="#l1">1. Құралдың сипаттамасы</a></td><td>Мәселені нақты сипаттау</td><td>Бір беттік сипаттама және 3–5 критерий</td><td class="num">20–30 мин</td></tr>
+      <tr><td><a href="#l2">2. Алғашқы нұсқа</a></td><td>AI-ға бет жасату</td><td>Браузерде ашылатын форма</td><td class="num">25–30 мин</td></tr>
+      <tr><td><a href="#l3">3. AI бағалауы</a></td><td>Бағалау промптын құрастыру</td><td>Критерий бойынша балл мен пікір</td><td class="num">25–30 мин</td></tr>
+      <tr><td><a href="#l4">4. Тексеру</a></td><td>Сынақ жауаптарымен тексеру</td><td>Салыстыру кестесі және түзетілген критерийлер</td><td class="num">20–30 мин</td></tr>
+      <tr><td><a href="#l5">5. Жетілдіру және қауіпсіздік</a></td><td>Бір нақты өзгеріс сұрау</td><td>Деректі жасыратын, ыңғайлы 2-нұсқа</td><td class="num">20–30 мин</td></tr>
+      <tr><td><a href="#l6">6. Бөлісу</a></td><td>Әріптеске беру және пікір жинау</td><td>Нұсқаулық және 3 пікір</td><td class="num">20–30 мин</td></tr>
+    </tbody>
+  </table></div>
+  <h2>Құралдың жұмыс схемасы</h2>
+  <div class="flow"><span>Оқытушы критерийлерді енгізеді</span><b>→</b><span>Студент жауабы (аты жасырылған)</span><b>→</b><span>AI алдын ала балл мен пікір ұсынады</span><b>→</b><span class="end">Оқытушы тексеріп, бағаны бекітеді</span></div>
+  <p>Соңғы шешім әрқашан адамда. AI — көмекші, бағалаушы емес.</p>
+  <h2>Келесі жобаларға идея</h2>
+  <p>Бірінші құралды жасап болған соң, дәл осы алты қадаммен басқа шағын құралдар жасай аласыз:</p>
+  <div class="grid">
+    <div class="card"><span class="tag">Оқыту</span><h3>Силлабустың бастапқы нұсқасы</h3><p>Пән мақсаты мен оқу нәтижелерінен құрылым жасау.</p></div>
+    <div class="card"><span class="tag">Оқыту</span><h3>Дәріске дайындық</h3><p>Жоспар, слайд құрылымы, талқылау сұрақтары.</p></div>
+    <div class="card"><span class="tag">Оқыту</span><h3>Материалды бейімдеу</h3><p>Күрделі мәтінді конспектке немесе тестке айналдыру.</p></div>
+    <div class="card"><span class="tag">Мемлекеттік қызмет</span><h3>Ресми хаттың жобасы</h3><p>Хаттың бастапқы нұсқасы мен құрылымы.</p></div>
+    <div class="card"><span class="tag">Мемлекеттік қызмет</span><h3>Азаматқа түсінікті тіл</h3><p>Ресми мәтінді қарапайым тілге көшіру.</p></div>
+    <div class="card"><span class="tag">Зерттеу</span><h3>Сауалнама және талдау</h3><p>Сұрақтар әзірлеу, жауаптарды тақырыпқа бөлу.</p></div>
+  </div>
+  <footer class="chapter-footer"><label><input type="checkbox" data-done="map"> Бұл бөлім меңгерілді</label><div class="chapter-next"></div></footer>
+</article>
+
+<!-- ============ СӨЗДІК ============ -->
+<article id="words" class="chapter" data-title="Қарапайым сөздік" data-group="Бастау">
+  <header class="chapter-heading"><div><span class="eyebrow">Бастау · анықтама</span><h1>Қарапайым сөздік</h1><p class="lead">Курста кездесетін сөздер. Алдымен мағынасы, содан кейін термин.</p></div><button class="bookmark" data-bookmark="words" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+  <dl class="gloss">
+    <dt>Вайб-кодинг</dt><dd>Бағдарламаны өзіңіз жазбай, AI-ға қарапайым тілмен түсіндіріп, оған жаздыру. Сіз — тапсырыс беруші және тексеруші.</dd>
+    <dt>AI чат</dt><dd>Сұрақ жазып, жауап алатын сайт: Claude, ChatGPT, Gemini. Ішіндегі «ми» — <strong>тілдік модель</strong>.</dd>
+    <dt>Промпт</dt><dd>AI-ға беретін тапсырма мәтіні. Неғұрлым нақты болса, нәтиже соғұрлым жақсы.</dd>
+    <dt>Сипаттама</dt><dd>Құрал кімге, не үшін керек, не енгізіледі, не шығатынын жазған бір беттік мәтін. Бағдарламашылар оны <strong>техникалық тапсырма</strong> немесе <strong>спецификация</strong> дейді.</dd>
+    <dt>Веб-бет, HTML</dt><dd>Браузерде ашылатын бет. Оның «қаңқасы» <strong>HTML</strong> деген тілде жазылады. Файлдың соңы <code>.html</code> болады.</dd>
+    <dt>Прототип</dt><dd>Құралдың алғашқы, қарапайым, бірақ жұмыс істейтін нұсқасы. Оны тексеріп, кейін жетілдіреді.</dd>
+    <dt>Артефакт, Canvas</dt><dd>AI чатының ішіндегі бөлек терезе. Онда AI жасаған бет бірден көрінеді. Claude-та «Artifact», ChatGPT мен Gemini-де «Canvas» деп аталады.</dd>
+    <dt>Критерий, рубрика</dt><dd>Жұмысты бағалайтын белгілер. Критерийлер жиынтығы кестеге салынса, оны <strong>рубрика</strong> дейді.</dd>
+    <dt>Сынақ жағдайы</dt><dd>Құралды тексеруге арналған дайын мысал: «мына жауапқа шамамен 85 балл шығуы керек». Ағылшынша <strong>test case</strong>.</dd>
+    <dt>Қате, баг</dt><dd>Құрал күткендей жұмыс істемеген жағдай. Бағдарламашылар оны <strong>баг</strong> дейді.</dd>
+    <dt>Анонимдеу</dt><dd>Мәтіндегі адамды танытатын деректерді (аты, ЖСН, телефон) белгімен ауыстыру. Мысалы, «Айгүл Сәрсенова» → [СТУДЕНТ].</dd>
+    <dt>API, API кілті</dt><dd>Бір бағдарламаның екіншісімен сөйлесу жолы. <strong>API кілті</strong> — құпиясөз сияқты. Оны файлға жазуға, біреуге жіберуге болмайды. Бұл курста API қажет емес.</dd>
+    <dt>Жариялау</dt><dd>Бетті интернетке шығарып, сілтеме арқылы басқаларға ашу.</dd>
+  </dl>
+  <footer class="chapter-footer"><label><input type="checkbox" data-done="words"> Бұл бөлім меңгерілді</label><div class="chapter-next"></div></footer>
+</article>
+
+<!-- ============ 1-САБАҚ ============ -->
+<article id="l1" class="chapter" data-title="Құралдың сипаттамасы" data-group="Сабақтар" data-num="1">
+  <header class="chapter-heading"><div><span class="eyebrow">1-сабақ · 20–30 минут · код жоқ</span><h1>Құралдың сипаттамасын жазу</h1><p class="lead">AI-ға «не жасау керегін» түсінікті етіп айтуды үйренеміз.</p></div><button class="bookmark" data-bookmark="l1" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+
+  <div class="part"><div class="part-no">1</div><div class="part-body"><span class="eyebrow">Сабақ тақырыбы</span><h2>AI-ға арналған бір беттік сипаттама</h2></div></div>
+
+  <div class="part"><div class="part-no">2</div><div class="part-body"><span class="eyebrow">Сабақ соңында не істей аламын?</span>
+    <ul class="outcomes">
+      <li>Болашақ құралдың кімге, не үшін керегін 6 сұрақпен жаза аламын.</li>
+      <li>AI-мен сұхбат құрып, ойымды нақтылай аламын.</li>
+      <li>Өз пәнім бойынша 3–5 бағалау критерийін дайындаймын.</li>
+    </ul></div></div>
+
+  <div class="part"><div class="part-no">3</div><div class="part-body"><span class="eyebrow">Қысқа түсініктеме</span>
+    <p>Мемлекеттік органда техникалық тапсырма жазғанды елестетіңіз. Мердігерге «жақсы жүйе жасаңыз» десеңіз, нәтиже күткеніңізден алыс болады. Ал «кім қолданады, не енгізеді, не шығады, неге тыйым салынады» деп жазсаңыз, нәтиже дәл шығады. AI да дәл солай жұмыс істейді.</p>
+    <p>Осы қысқа жазбаны біз <strong>құрал сипаттамасы</strong> деп атаймыз. Бағдарламашылар оны «техникалық тапсырма» немесе «спецификация» дейді. Жақсы сипаттама 6 сұраққа жауап береді:</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>№</th><th>Сұрақ</th><th>Біздің жобадағы мысал</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1</td><td>Кім қолданады?</td><td>Магистратура пәнінің оқытушысы</td></tr>
+        <tr><td class="num">2</td><td>Қандай мәселені шешеді?</td><td>40 эссені тексеру 2 күн алады, пікірлер біркелкі болмайды</td></tr>
+        <tr><td class="num">3</td><td>Не енгізіледі?</td><td>Критерийлер, балдар, студент жауабының мәтіні</td></tr>
+        <tr><td class="num">4</td><td>Не шығады?</td><td>Әр критерий бойынша алдын ала балл, түсіндірме, студентке сыпайы пікір</td></tr>
+        <tr><td class="num">5</td><td>Нені істемейді?</td><td>Соңғы бағаны қоймайды, деректі сақтамайды, студент атын сұрамайды</td></tr>
+        <tr><td class="num">6</td><td>Сәтті нәтиже қандай?</td><td>Оқытушы бір жауапқа 2–3 минут жұмсайды және бағаны өзі бекітеді</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><strong>Қауіпсіздік.</strong> AI-ға студенттің аты-жөнін, ЖСН-ін, бағалар журналын немесе қызметтік құжатты енгізбеңіз. Мысал ретінде ойдан шығарылған жауапты алыңыз.</div>
+  </div></div>
+
+  <div class="part"><div class="part-no">4</div><div class="part-body"><span class="eyebrow">Қадамдық нұсқаулық</span>
+    <ol class="steps">
+      <li>Кез келген AI чатын ашыңыз: Claude, ChatGPT немесе Gemini. Тіркелу сұралуы мүмкін.</li>
+      <li>Жаңа чат бастаңыз. Әдетте сол жақ жоғарыда «New chat» батырмасы болады. Атауы сізде басқаша көрінуі мүмкін.</li>
+      <li>Төмендегі промптты «Көшіру» батырмасымен көшіріп, чат жолына қойып, жіберіңіз.</li>
+      <li>AI сұрақтарды бір-бірден қояды. Қысқа, өз сөзіңізбен жауап беріңіз. Білмесеңіз: «білмеймін, ұсыныс бер».</li>
+      <li>Сұрақтар біткенде AI бір беттік сипаттама жазады. Оқып шығыңыз.</li>
+      <li>Дұрыс емес жер болса, түзетуді жазыңыз. Мысалы: «4-тармақта пікір 3 сөйлемнен аспасын».</li>
+      <li>Соңғы нұсқаны осы беттегі «Нәтижем» өрісіне немесе Word құжатына сақтаңыз.</li>
+    </ol></div></div>
+
+  <div class="part"><div class="part-no">5</div><div class="part-body"><span class="eyebrow">Көшіріп қолданатын AI промпты</span>
+    <div class="prompt" data-title="1-сабақ: AI-мен сипаттама сұхбаты"><div class="prompt-top"><strong>Сипаттама сұхбаты</strong><button data-copy>Көшіру</button></div><pre>Сен — тәжірибелі бизнес-талдаушысың. Мен бағдарламашы емеспін.
+Мен университет оқытушысымын және шағын веб-құрал жасағым келеді:
+ол үй тапсырмасына алдын ала баға мен кері байланыс ұсынады.
+Соңғы бағаны әрқашан оқытушы өзі қояды.
+
+Маған бір-бірден сұрақ қой (бір хабарламада бір ғана сұрақ),
+мына 6 тақырып бойынша:
+1) кім қолданады, 2) қандай мәселені шешеді, 3) не енгізіледі,
+4) не шығады, 5) құрал нені ІСТЕМЕЙДІ, 6) сәтті нәтиже қандай.
+
+Әр сұраққа қысқа мысал ұсын, мен таңдай алайын.
+Барлық сұрақ біткен соң, бір беттік «Құрал сипаттамасын»
+қазақ тілінде, қарапайым сөзбен, 6 бөлім бойынша жаз.
+Бағдарламалау терминдерін қолданба. Әзірге код жазба.
+Жеке деректі сұрама.</pre></div>
+    <p>Чатқа кіргіңіз келмесе, төмендегі формамен де сипаттама құрастыра аласыз. Жауаптарыңыз тек осы браузерде сақталады.</p>
+    <div class="demo form-grid" id="passport-form">
+      <h3 class="wide">Сипаттама құрастырғыш <span class="example-badge">ҮЛГІ ТОЛТЫРЫЛҒАН</span></h3>
+      <label class="field">1. Кім қолданады?<input id="pp-who" data-note="pp-who" value="Магистратура пәнінің оқытушысы"></label>
+      <label class="field">2. Қандай мәселені шешеді?<input id="pp-problem" data-note="pp-problem" value="Эсселерді тексеру ұзақ, пікірлер біркелкі емес"></label>
+      <label class="field wide">3. Не енгізіледі?<input id="pp-input" data-note="pp-input" value="Тапсырма мәтіні, 3–5 критерий және балы, студент жауабы (аты жасырылған)"></label>
+      <label class="field wide">4. Не шығады?<input id="pp-output" data-note="pp-output" value="Әр критерий бойынша балл мен дәлел, жалпы балл, студентке 3–4 сөйлемдік пікір"></label>
+      <label class="field">5. Нені істемейді?<input id="pp-not" data-note="pp-not" value="Соңғы бағаны қоймайды, деректі сақтамайды"></label>
+      <label class="field">6. Сәтті нәтиже қандай?<input id="pp-success" data-note="pp-success" value="Бір жауапқа 2–3 минут, бағаны оқытушы бекітеді"></label>
+      <div class="actions wide"><button class="primary" id="pp-make">Сипаттаманы құрастыру</button><button id="pp-copy">Көшіру</button><button id="pp-download">.md ретінде жүктеу</button></div>
+      <pre id="pp-output-box" class="wide result" tabindex="0">Өрістерді толтырып, «Сипаттаманы құрастыру» батырмасын басыңыз.</pre>
+    </div>
+  </div></div>
+
+  <div class="part"><div class="part-no">6</div><div class="part-body"><span class="eyebrow">Күтілетін нәтиже</span>
+    <p>Экранда AI-дың бірінші сұрағы шығады. Мысалы: «Құралды кім қолданады? а) бір пәннің оқытушысы, ә) кафедра…». Сұхбат соңында 6 бөлімнен тұратын, бір экранға сыятын «Құрал сипаттамасы» пайда болады.</p></div></div>
+
+  <div class="part"><div class="part-no">7</div><div class="part-body"><span class="eyebrow">Өздігінен орындайтын шағын тапсырма</span>
+    <p>Өз пәніңіздің <strong>бір нақты</strong> үй тапсырмасын алыңыз. Мысалы, «Мемлекеттік саясатты талдау» пәніндегі 1 беттік эссе. Сипаттамаға <strong>3–5 бағалау критерийін</strong> балдарымен қосыңыз. Барлығы 100 балл болсын.</p></div></div>
+
+  <div class="part"><div class="part-no">8</div><div class="part-body"><span class="eyebrow">Тапсырманың орындалу нұсқаулығы</span>
+    <ol class="steps">
+      <li>Тапсырманың мәтінін және қазіргі критерийлеріңізді алдыңызға қойыңыз.</li>
+      <li>Сипаттама сұхбаты өткен чатта төмендегі промптты жіберіңіз. Жақшадағы жерлерді өзіңіздікімен ауыстырыңыз.</li>
+      <li>Критерийлер түсінікті әрі әділ ме, оқып шығыңыз. Қажет болса түзетуді сұраңыз.</li>
+      <li>Нәтижені сақтаңыз. Ол 3-сабақта керек болады.</li>
+    </ol>
+    <div class="prompt" data-title="1-сабақ: критерийлерді қосу"><div class="prompt-top"><strong>Критерийлерді қосу</strong><button data-copy>Көшіру</button></div><pre>Сипаттамаға «Бағалау критерийлері» деген 7-бөлім қос.
+Тапсырма: [тапсырманың қысқа мәтіні].
+Менің критерийлерім: [критерийлер мен балдар].
+Әр критерийге 1 сөйлемдік түсінік жаз: қандай жауап толық балл алады,
+қандай жауап жартылай балл алады. Барлығы 100 балл болсын.</pre></div>
+  </div></div>
+
+  <div class="part"><div class="part-no">9</div><div class="part-body"><span class="eyebrow">Тексеру тізімі</span>
+    <div class="checklist">
+      <label><input type="checkbox" data-check="l1-1"> Сипаттамада 6 бөлімнің бәрі бар.</label>
+      <label><input type="checkbox" data-check="l1-2"> «Нені істемейді» бөлімінде «соңғы бағаны оқытушы қояды» деп жазылған.</label>
+      <label><input type="checkbox" data-check="l1-3"> 3–5 критерий бар, балдардың қосындысы 100.</label>
+      <label><input type="checkbox" data-check="l1-4"> Әр критерийде «толық балл» мен «жартылай балл» түсінігі бар.</label>
+      <label><input type="checkbox" data-check="l1-5"> Ішінде нақты студенттің аты немесе жеке дерегі жоқ.</label>
+    </div></div></div>
+
+  <div class="part"><div class="part-no">10</div><div class="part-body"><span class="eyebrow">Жиі кездесетін қате және шешімі</span>
+    <dl class="err"><dt>Сипаттама тым жалпы: «Құрал эссені тексеріп, баға қояды».</dt><dd>AI бос орындарды өзі толтырады, нәтиже сіз ойлағандай болмайды.</dd><dd><strong>Шешімі:</strong> «Сипаттамадағы бұлыңғыр жерлерді тауып, әрқайсысы бойынша маған 1 нақтылау сұрағын қой» деп жазыңыз.</dd></dl>
+    <dl class="err"><dt>AI бірден бағдарлама кодын жаза бастады.</dt><dd><strong>Шешімі:</strong> Ештеңе етпейді. «Әзірге код жазба, тек сипаттаманы мәтінмен жаз» деп жазыңыз.</dd></dl>
+  </div></div>
+
+  <div class="part"><div class="part-no">11</div><div class="part-body"><span class="eyebrow">Қысқаша қорытынды</span>
+    <p>Вайб-кодингтің жартысы — дұрыс сипаттама. Сіз бүгін мердігерге техникалық тапсырма бергендей, AI-ға бір беттік сипаттама дайындадыңыз. Келесі сабақта осы сипаттамадан құралдың алғашқы нұсқасын жасатамыз.</p></div></div>
+
+  <div class="part"><div class="part-no">12</div><div class="part-body"><span class="eyebrow">Білімді тексеретін сұрақтар</span><div class="quiz" data-quiz="l1"></div></div></div>
+
+  <section class="submission"><h2>Нәтижем</h2>
+    <label class="field">Тапсырманы орындадыңыз ба? Сипаттамаңызды немесе қай қадамда қиналғаныңызды жазыңыз.<textarea data-note="result-l1" placeholder="Мысалы: 6 бөлім дайын, 4 критерий қостым. 5-бөлімді нақтылау керек."></textarea></label>
+  </section>
+  <div class="mentor"><strong>Қиын болды ма?</strong> AI чатына жазыңыз: «Маған "құрал сипаттамасы" деген ұғымды мемлекеттік қызметтегі мысалмен қарапайым түсіндір де, бір ғана сұрақ қой». Келесі сабаққа асықпаңыз.</div>
+  <footer class="chapter-footer"><label><input type="checkbox" data-done="l1"> Бұл сабақ меңгерілді</label><div class="chapter-next"></div></footer>
+</article>
+
+<!-- ============ 2-САБАҚ ============ -->
+<article id="l2" class="chapter" data-title="Алғашқы нұсқа" data-group="Сабақтар" data-num="2">
+  <header class="chapter-heading"><div><span class="eyebrow">2-сабақ · 25–30 минут</span><h1>Алғашқы нұсқа: AI-ға бет жасату</h1><p class="lead">Сипаттамадан браузерде ашылатын қарапайым форма жасаймыз.</p></div><button class="bookmark" data-bookmark="l2" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+
+  <div class="part"><div class="part-no">1</div><div class="part-body"><span class="eyebrow">Сабақ тақырыбы</span><h2>Сипаттамадан жұмыс істейтін бетке</h2></div></div>
+
+  <div class="part"><div class="part-no">2</div><div class="part-body"><span class="eyebrow">Сабақ соңында не істей аламын?</span>
+    <ul class="outcomes">
+      <li>AI-дан бір файлдан тұратын веб-бет сұрай аламын.</li>
+      <li>Бетті чат ішінде немесе өз компьютерімде аша аламын.</li>
+      <li>Бетке бір кішкене өзгеріс енгізуді сұрай аламын.</li>
+    </ul></div></div>
+
+  <div class="part"><div class="part-no">3</div><div class="part-body"><span class="eyebrow">Қысқа түсініктеме</span>
+    <p>Браузерде ашылатын кез келген бет мәтіндік файлдан тұрады. Бұл файл <strong>HTML</strong> деп аталатын тілде жазылады, соңы <code>.html</code> болады. Оны оқудың да, жазудың да қажеті жоқ. Оны AI жазады.</p>
+    <p>Бүгінгі нәтиже — <strong>прототип</strong>, яғни алғашқы қарапайым нұсқа. Ғимараттың макеті сияқты: бөлмелердің орны көрінеді, бірақ әлі жиһаз жоқ. Бүгін батырма әлі бағаламайды. Бұл қалыпты, оны 3-сабақта қосамыз.</p>
+    <p>AI чаттарында жасалған бетті бірден көрсететін бөлек терезе бар. Claude-та ол <strong>Artifact</strong>, ChatGPT мен Gemini-де <strong>Canvas</strong> деп аталады.</p>
+  </div></div>
+
+  <div class="part"><div class="part-no">4</div><div class="part-body"><span class="eyebrow">Қадамдық нұсқаулық</span>
+    <ol class="steps">
+      <li>1-сабақтағы сипаттама жазылған чатты ашыңыз. Жаңа чат болса, сипаттаманы бірінші хабарламаға қойыңыз.</li>
+      <li>Төмендегі промптты көшіріп, жіберіңіз.</li>
+      <li>AI код жазады. Код ұзын болуы мүмкін, оны оқымасаңыз да болады.</li>
+      <li>Нәтижені көріңіз. Claude-та бет оң жақта бірден ашылады. ChatGPT-де «Canvas», «Preview» немесе «Run» батырмасын іздеңіз. Батырма атаулары өзгеруі мүмкін.</li>
+      <li>Терезе ашылмаса, балама жол: кодты көшіріңіз. Компьютерде мәтіндік файл ашыңыз (Windows: Блокнот; Mac: TextEdit, «Формат → Простой текст»). Кодты қойып, <code>bagalau.html</code> деп сақтаңыз. Файлды екі рет басыңыз, ол браузерде ашылады.</li>
+      <li>Бетте барлық өріс бар ма, тексеріңіз.</li>
+    </ol></div></div>
+
+  <div class="part"><div class="part-no">5</div><div class="part-body"><span class="eyebrow">Көшіріп қолданатын AI промпты</span>
+    <div class="prompt" data-title="2-сабақ: алғашқы нұсқаны жасату"><div class="prompt-top"><strong>Алғашқы нұсқа</strong><button data-copy>Көшіру</button></div><pre>Жоғарыдағы сипаттама бойынша бір HTML файлдан тұратын веб-бет жаса.
+Мен бағдарламашы емеспін, сондықтан барлығы бір файлда болсын.
+
+Бетте мыналар болсын:
+1) Тақырып: «Үй тапсырмасына алдын ала баға».
+2) «Тапсырма мәтіні» деген өріс.
+3) Критерийлер кестесі: атауы, ең жоғары балл, түсінігі.
+   Бастапқыда 3 бос жол және «Критерий қосу» батырмасы.
+4) «Студент жауабы» деген үлкен мәтін өрісі.
+5) «Бағалау» батырмасы (әзірге ештеңе істемесе де болады).
+6) Беттің төменінде ескерту: «Студенттің аты-жөнін енгізбеңіз.
+   Соңғы бағаны оқытушы қояды».
+
+Талаптар: интерфейс қазақ тілінде; телефонда да ыңғайлы;
+сыртқы сервис, тіркелу және деректі сақтау жоқ.
+Соңында бетті қалай ашуға болатынын маған 3 қадаммен түсіндір.</pre></div></div></div>
+
+  <div class="part"><div class="part-no">6</div><div class="part-body"><span class="eyebrow">Күтілетін нәтиже</span>
+    <p>Экранда тақырыбы, тапсырма өрісі, критерийлер кестесі, жауап өрісі және «Бағалау» батырмасы бар бет көрінеді. Өрістерге мәтін жазуға болады. «Критерий қосу» басылғанда жаңа жол қосылады. «Бағалау» батырмасы әлі ештеңе істемеуі мүмкін.</p></div></div>
+
+  <div class="part"><div class="part-no">7</div><div class="part-body"><span class="eyebrow">Өздігінен орындайтын шағын тапсырма</span>
+    <p>Бетке екі өзгеріс енгізуді AI-дан сұраңыз: (1) академияның түсіне жақын көк түсті батырма; (2) «Пән атауы» деген жаңа өріс. Содан кейін өз пәніңіздің критерийлерін кестеге енгізіп көріңіз.</p></div></div>
+
+  <div class="part"><div class="part-no">8</div><div class="part-body"><span class="eyebrow">Тапсырманың орындалу нұсқаулығы</span>
+    <ol class="steps">
+      <li>Сол чатта бір хабарламада бір ғана өзгеріс сұраңыз. Сонда не өзгергенін оңай көресіз.</li>
+      <li>Бірінші өзгерісті тексерген соң, екіншісін сұраңыз.</li>
+      <li>Өзгерістен кейін бұрынғы өрістер орнында ма, тексеріңіз.</li>
+    </ol>
+    <div class="prompt" data-title="2-сабақ: бір өзгеріс сұрау"><div class="prompt-top"><strong>Бір өзгеріс сұрау</strong><button data-copy>Көшіру</button></div><pre>Бетке тек бір өзгеріс енгіз: [мысалы, «Студент жауабы» өрісінің үстіне
+«Пән атауы» деген өріс қос]. Қалған бөліктерді өзгертпе.
+Өзгерген файлды толық бер және не өзгергенін 1 сөйлеммен айт.</pre></div></div></div>
+
+  <div class="part"><div class="part-no">9</div><div class="part-body"><span class="eyebrow">Тексеру тізімі</span>
+    <div class="checklist">
+      <label><input type="checkbox" data-check="l2-1"> Бет браузерде немесе чат терезесінде ашылады.</label>
+      <label><input type="checkbox" data-check="l2-2"> Барлық жазу қазақ тілінде.</label>
+      <label><input type="checkbox" data-check="l2-3"> «Критерий қосу» жаңа жол қосады.</label>
+      <label><input type="checkbox" data-check="l2-4"> Беттің төменінде жеке дерек туралы ескерту бар.</label>
+      <label><input type="checkbox" data-check="l2-5"> «Пән атауы» өрісі қосылды, ал бұрынғы өрістер орнында.</label>
+    </div></div></div>
+
+  <div class="part"><div class="part-no">10</div><div class="part-body"><span class="eyebrow">Жиі кездесетін қате және шешімі</span>
+    <dl class="err"><dt>Файлды ашқанда бет емес, код мәтіні көрінеді.</dt><dd>Файл <code>.txt</code> болып сақталған немесе TextEdit «форматталған мәтін» режимінде тұр.</dd><dd><strong>Шешімі:</strong> Файл атауының соңы <code>.html</code> екенін тексеріңіз. Mac-та TextEdit-ті «Простой текст» режиміне ауыстырып, қайта сақтаңыз.</dd></dl>
+    <dl class="err"><dt>AI файлдың бір бөлігін ғана берді, бет бұзылды.</dt><dd><strong>Шешімі:</strong> «Файлды басынан аяғына дейін толық бер» деп жазыңыз.</dd></dl>
+  </div></div>
+
+  <div class="part"><div class="part-no">11</div><div class="part-body"><span class="eyebrow">Қысқаша қорытынды</span>
+    <p>Сіз сипаттамадан жұмыс істейтін прототип жасадыңыз және оған бір-бірден өзгеріс енгізуді үйрендіңіз. Келесі сабақта «Бағалау» батырмасына мағына береміз: ол AI-ға арналған бағалау тапсырмасын құрастырады.</p></div></div>
+
+  <div class="part"><div class="part-no">12</div><div class="part-body"><span class="eyebrow">Білімді тексеретін сұрақтар</span><div class="quiz" data-quiz="l2"></div></div></div>
+
+  <section class="submission"><h2>Нәтижем</h2>
+    <label class="field">Бет ашылды ма? Не көрдіңіз? Қате шықса, оның мәтінін осында көшіріп қойыңыз.<textarea data-note="result-l2" placeholder="Мысалы: Claude-та бет ашылды, «Пән атауы» қосылды, батырма әлі жұмыс істемейді."></textarea></label>
+  </section>
+  <div class="mentor"><strong>Бет ашылмай жатыр ма?</strong> Жеңілдетілген жол: кодты көшірудің орнына AI-ға «Бетті Artifact / Canvas терезесінде көрсет» деп жазыңыз. Немесе қате мәтінін AI-ға жіберіп, «Мен бағдарламашы емеспін, мұны қарапайым түсіндіріп, түзет» деп сұраңыз.</div>
+  <footer class="chapter-footer"><label><input type="checkbox" data-done="l2"> Бұл сабақ меңгерілді</label><div class="chapter-next"></div></footer>
+</article>
+
+<!-- ============ 3-САБАҚ ============ -->
+<article id="l3" class="chapter" data-title="AI бағалауы" data-group="Сабақтар" data-num="3">
+  <header class="chapter-heading"><div><span class="eyebrow">3-сабақ · 25–30 минут</span><h1>AI бағалауын қосу</h1><p class="lead">«Бағалау» батырмасы AI-ға арналған дайын тапсырманы құрастыратын болады.</p></div><button class="bookmark" data-bookmark="l3" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+
+  <div class="part"><div class="part-no">1</div><div class="part-body"><span class="eyebrow">Сабақ тақырыбы</span><h2>Бағалау промптын құрастыру</h2></div></div>
+
+  <div class="part"><div class="part-no">2</div><div class="part-body"><span class="eyebrow">Сабақ соңында не істей аламын?</span>
+    <ul class="outcomes">
+      <li>Жақсы бағалау промптының 4 бөлігін атай аламын.</li>
+      <li>Құралыма «Бағалау промптын жасау» және «Көшіру» батырмаларын қостыра аламын.</li>
+      <li>AI-дан критерий бойынша балл, дәлел және сыпайы пікір ала аламын.</li>
+    </ul></div></div>
+
+  <div class="part"><div class="part-no">3</div><div class="part-body"><span class="eyebrow">Қысқа түсініктеме</span>
+    <p>Құралға AI-ды қосудың екі жолы бар.</p>
+    <div class="grid">
+      <div class="card"><span class="tag">А жолы · бүгін</span><h3>Құрал промпт құрастырады</h3><p>Бет критерийлер мен жауапты бір дайын тапсырмаға жинайды. Сіз оны көшіріп, өзіңіз қолданатын AI чатына қоясыз. Кілт, тіркелу, ақы жоқ.</p></div>
+      <div class="card"><span class="tag">Ә жолы · кейін</span><h3>Құрал AI-мен өзі сөйлеседі</h3><p>Ол үшін <strong>API кілті</strong> керек. Бұл — құпиясөз сияқты. Оны файлға жазып, біреуге жіберуге болмайды. Сондықтан бастауыш курста бұл жолды қолданбаймыз.</p></div>
+    </div>
+    <p>Жақсы бағалау промпты 4 бөліктен тұрады: <strong>рөл</strong> (сен — оқытушының көмекшісісің), <strong>деректер</strong> (тапсырма, критерийлер, жауап), <strong>нәтиже пішімі</strong> (кесте, жалпы балл, пікір) және <strong>ережелер</strong> (ойдан шығарма, дәлел келтір, балл шегінен асырма).</p>
+  </div></div>
+
+  <div class="part"><div class="part-no">4</div><div class="part-body"><span class="eyebrow">Қадамдық нұсқаулық</span>
+    <ol class="steps">
+      <li>Алдымен дайын үлгіні көріңіз: <a href="#grader">«Бағалау промпты» құралын</a> ашып, «Промпт құрастыру» батырмасын басыңыз.</li>
+      <li>Шыққан мәтінді «Көшіру» арқылы алып, AI чатына қойыңыз. AI кесте мен пікір береді.</li>
+      <li>Енді өз құралыңызға оралыңыз. 2-сабақтың чатында төмендегі промптты жіберіңіз.</li>
+      <li>Жаңартылған бетті ашып, өз критерийлеріңіз бен ойдан шығарылған жауапты енгізіңіз.</li>
+      <li>«Бағалау промптын жасау» батырмасын басыңыз, мәтінді көшіріп, жаңа чатқа қойыңыз.</li>
+      <li>AI берген баллды өз пікіріңізбен салыстырыңыз.</li>
+    </ol></div></div>
+
+  <div class="part"><div class="part-no">5</div><div class="part-body"><span class="eyebrow">Көшіріп қолданатын AI промпты</span>
+    <div class="prompt" data-title="3-сабақ: құралға бағалау промптын қосу"><div class="prompt-top"><strong>Құралға бағалау промптын қосу</strong><button data-copy>Көшіру</button></div><pre>Бетке бір мүмкіндік қос. «Бағалау» батырмасының атауын
+«Бағалау промптын жасау» деп өзгерт. Батырма басылғанда бет
+төмендегі үлгі бойынша мәтін құрастырып, оны үлкен өріске шығарсын.
+Қасына «Көшіру» батырмасын қос. Қалған бөліктерді өзгертпе.
+
+Үлгі:
+---
+Сен — университет оқытушысының көмекшісісің. Студент жауабын
+берілген критерийлер бойынша АЛДЫН АЛА бағала. Соңғы бағаны оқытушы қояды.
+Пән: [пән атауы]
+Тапсырма: [тапсырма мәтіні]
+Критерийлер (барлығы [қосынды] балл):
+[әр критерий: атауы — ең жоғары балл — түсінігі]
+Студент жауабы:
+"""[жауап]"""
+Нәтижені былай бер:
+1) Кесте: Критерий | Балл | Жауаптан нақты дәйексөз | Қалай жақсартуға болады
+2) Жалпы балл: X / [қосынды]
+3) Студентке пікір: сыпайы, 3–4 сөйлем, алдымен күшті жағы, сосын бір нақты ұсыныс
+4) Оқытушыға ескерту: күмәнді тұстар
+Ережелер: жауапта жоқ нәрсені ойдан шығарма; дәлел таппасаң
+«дәлел жоқ» деп жаз; критерий балынан асырма.
+---</pre></div></div></div>
+
+  <div class="part"><div class="part-no">6</div><div class="part-body"><span class="eyebrow">Күтілетін нәтиже</span>
+    <p>Батырманы басқанда төменде дайын мәтін пайда болады, ішінде сіздің критерийлеріңіз бен жауап тұр. AI чатына қойғанда, ол 4 бөлімді жауап береді: кесте, жалпы балл, студентке пікір және оқытушыға ескерту.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Критерий</th><th>Балл</th><th>Дәлел</th><th>Қалай жақсартуға болады</th></tr></thead>
+      <tbody><tr><td>Дәлелдер мен деректер <span class="example-badge">ҮЛГІ</span></td><td class="num">15 / 25</td><td>«Тұрғындардың көбі қатыспайды»</td><td>Нақты дерек немесе зерттеу көзін келтіру</td></tr></tbody>
+    </table></div></div></div>
+
+  <div class="part"><div class="part-no">7</div><div class="part-body"><span class="eyebrow">Өздігінен орындайтын шағын тапсырма</span>
+    <p>Құралға «Пікір үні» деген таңдау өрісін қостырыңыз: <em>жұмсақ</em>, <em>бейтарап</em>, <em>талапшыл</em>. Таңдалған үн промпттағы «Студентке пікір» жолына қосылсын. Бір жауапты екі түрлі үнмен бағалатып, айырмашылығын байқаңыз.</p></div></div>
+
+  <div class="part"><div class="part-no">8</div><div class="part-body"><span class="eyebrow">Тапсырманың орындалу нұсқаулығы</span>
+    <ol class="steps"><li>Төмендегі промптты құрал чатына жіберіңіз.</li><li>Бетті ашып, «жұмсақ» үнді таңдап, промпт жасаңыз. Чатқа қойыңыз.</li><li>«Талапшыл» үнмен қайталаңыз. Балл өзгермеуі, тек пікір сөздері өзгеруі керек.</li></ol>
+    <div class="prompt" data-title="3-сабақ: пікір үнін қосу"><div class="prompt-top"><strong>Пікір үнін қосу</strong><button data-copy>Көшіру</button></div><pre>Бетке «Пікір үні» деген таңдау өрісін қос: жұмсақ, бейтарап, талапшыл.
+Таңдалған үн құрастырылатын промпттағы «Студентке пікір» жолына
+«[үн] үнмен» деп қосылсын. Үн балға әсер етпеуі керек деп
+промптқа бір ереже қос. Қалған бөліктерді өзгертпе.</pre></div></div></div>
+
+  <div class="part"><div class="part-no">9</div><div class="part-body"><span class="eyebrow">Тексеру тізімі</span>
+    <div class="checklist">
+      <label><input type="checkbox" data-check="l3-1"> Батырма басылғанда промпт мәтіні шығады.</label>
+      <label><input type="checkbox" data-check="l3-2"> Промптта барлық критерий мен балдардың қосындысы бар.</label>
+      <label><input type="checkbox" data-check="l3-3"> «Көшіру» батырмасы жұмыс істейді.</label>
+      <label><input type="checkbox" data-check="l3-4"> AI жауабында әр критерийге дәйексөз бар.</label>
+      <label><input type="checkbox" data-check="l3-5"> Пікір үні балды өзгертпейді.</label>
+    </div></div></div>
+
+  <div class="part"><div class="part-no">10</div><div class="part-body"><span class="eyebrow">Жиі кездесетін қате және шешімі</span>
+    <dl class="err"><dt>AI жауапта жоқ дәйексөзді «келтірді».</dt><dd>Тілдік модель сенімді естілетін, бірақ ойдан шығарылған мәтін жаза алады. Мұны <strong>галлюцинация</strong> дейді.</dd><dd><strong>Шешімі:</strong> Әр дәйексөзді жауаптан іздеп тексеріңіз. Промптқа «дәйексөзді жауаптан сөзбе-сөз ал» деген ереже қосыңыз.</dd></dl>
+    <dl class="err"><dt>«Көшіру» батырмасы ештеңе істемейді.</dt><dd>Кейбір браузерлер файлдан ашылған беттегі көшіруге тыйым салады.</dd><dd><strong>Шешімі:</strong> Мәтінді тінтуірмен белгілеп, Ctrl+C (Mac: Cmd+C) басыңыз. Немесе AI-ға: «Көшіру жұмыс істемесе, мәтінді автоматты белгілейтін етіп түзет».</dd></dl>
+  </div></div>
+
+  <div class="part"><div class="part-no">11</div><div class="part-body"><span class="eyebrow">Қысқаша қорытынды</span>
+    <p>Енді сіздің құралыңыз пайдалы жұмыс істейді: критерийлер мен жауапты сапалы бағалау тапсырмасына айналдырады. Келесі сабақта AI бағасына қаншалықты сенуге болатынын тексереміз.</p></div></div>
+
+  <div class="part"><div class="part-no">12</div><div class="part-body"><span class="eyebrow">Білімді тексеретін сұрақтар</span><div class="quiz" data-quiz="l3"></div></div></div>
+
+  <section class="submission"><h2>Нәтижем</h2>
+    <label class="field">AI қандай балл берді? Сіздің бағаңызбен сәйкес келді ме?<textarea data-note="result-l3" placeholder="Мысалы: AI 72 балл берді, мен 68 қояр едім. 2-критерий бойынша дәйексөз дұрыс."></textarea></label>
+  </section>
+  <div class="mentor"><strong>Құралға қосу қиын болды ма?</strong> Жеңілдетілген нұсқа: әзірге дайын <a href="#grader">«Бағалау промпты»</a> құралын қолданыңыз. Ол дәл осы жұмысты істейді. Өз құралыңызға кейін ораласыз.</div>
+  <footer class="chapter-footer"><label><input type="checkbox" data-done="l3"> Бұл сабақ меңгерілді</label><div class="chapter-next"></div></footer>
+</article>
+
+<!-- ============ 4-САБАҚ ============ -->
+<article id="l4" class="chapter" data-title="Тексеру" data-group="Сабақтар" data-num="4">
+  <header class="chapter-heading"><div><span class="eyebrow">4-сабақ · 20–30 минут</span><h1>Тексеру: AI бағасына сенуге бола ма?</h1><p class="lead">Құралды үш сынақ жауабымен тексеріп, критерийлерді нақтылаймыз.</p></div><button class="bookmark" data-bookmark="l4" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+
+  <div class="part"><div class="part-no">1</div><div class="part-body"><span class="eyebrow">Сабақ тақырыбы</span><h2>Сынақ жауаптарымен тексеру</h2></div></div>
+
+  <div class="part"><div class="part-no">2</div><div class="part-body"><span class="eyebrow">Сабақ соңында не істей аламын?</span>
+    <ul class="outcomes">
+      <li>Күшті, орташа және әлсіз сынақ жауаптарын AI арқылы дайындаймын.</li>
+      <li>AI бағасын өз бағаммен кестеде салыстырамын.</li>
+      <li>Айырмашылық үлкен болса, критерийді нақтылаймын.</li>
+    </ul></div></div>
+
+  <div class="part"><div class="part-no">3</div><div class="part-body"><span class="eyebrow">Қысқа түсініктеме</span>
+    <p>Жаңа нұсқаулықты бекітер алдында оны бірнеше жағдайда сынап көресіз ғой. Құралды да солай тексереміз. Нәтижесі алдын ала белгілі мысалды <strong>сынақ жағдайы</strong> дейміз (ағылшынша <em>test case</em>).</p>
+    <p>Үш нәрсені тексереміз:</p>
+    <ul class="plain">
+      <li><strong>Дәлдік:</strong> AI балы сіздің балыңызға жақын ба? 10 балдан аз айырма — жақсы белгі.</li>
+      <li><strong>Тұрақтылық:</strong> бір жауапты екі рет бағалатсаңыз, балл қатты өзгермей ме?</li>
+      <li><strong>Әділдік:</strong> жауаптың ұзындығы немесе әдемі сөздері балды негізсіз көтермей ме?</li>
+    </ul></div></div>
+
+  <div class="part"><div class="part-no">4</div><div class="part-body"><span class="eyebrow">Қадамдық нұсқаулық</span>
+    <ol class="steps">
+      <li>Жаңа чатта төмендегі промптпен үш сынақ жауабын жасатыңыз. Олар ойдан шығарылған, сондықтан қауіпсіз.</li>
+      <li>Әр жауапты алдымен <strong>өзіңіз</strong> бағалаңыз. Балды кестеге жазыңыз.</li>
+      <li>Әр жауапты құралыңыз арқылы бағалатып, AI балын кестеге жазыңыз.</li>
+      <li>Кесте айырманы өзі есептейді. Қызыл белгі шыққан жерді қараңыз.</li>
+      <li>Бір жауапты екінші рет жаңа чатта бағалатып, тұрақтылықты тексеріңіз.</li>
+    </ol></div></div>
+
+  <div class="part"><div class="part-no">5</div><div class="part-body"><span class="eyebrow">Көшіріп қолданатын AI промпты</span>
+    <div class="prompt" data-title="4-сабақ: сынақ жауаптарын жасау"><div class="prompt-top"><strong>Сынақ жауаптарын жасау</strong><button data-copy>Көшіру</button></div><pre>Мен бағалау құралын тексеріп жатырмын.
+Тапсырма: [тапсырма мәтіні].
+Критерийлер: [критерийлер мен балдар].
+
+Ойдан шығарылған студенттің үш жауабын жаз (әрқайсысы 150–200 сөз):
+А — күшті жауап (шамамен 85–95 балл),
+Ә — орташа жауап (шамамен 60–70 балл),
+Б — әлсіз жауап (шамамен 30–45 балл).
+Нақты адамдардың аты-жөнін қолданба.
+Әр жауаптан кейін балл қандай болуы керегін ӘЗІРГЕ жазба.</pre></div></div></div>
+
+  <div class="part"><div class="part-no">6</div><div class="part-body"><span class="eyebrow">Күтілетін нәтиже</span>
+    <p>Төмендегі кесте толтырылады. Жақсы құралда барлық жолда жасыл немесе сары белгі тұрады. <span class="example-badge">ҮЛГІ МӘНДЕР</span></p>
+    <div class="table-wrap"><table id="test-table">
+      <thead><tr><th>Сынақ жауабы</th><th>Менің балым</th><th>AI балы</th><th>Айырма</th><th>Қорытынды</th></tr></thead>
+      <tbody>
+        <tr data-row="a"><td>А — күшті</td><td><input type="number" min="0" max="100" id="t-a-me" data-note="t-a-me" value="88" aria-label="А: менің балым"></td><td><input type="number" min="0" max="100" id="t-a-ai" data-note="t-a-ai" value="91" aria-label="А: AI балы"></td><td class="num diff"></td><td class="verdict"></td></tr>
+        <tr data-row="b"><td>Ә — орташа</td><td><input type="number" min="0" max="100" id="t-b-me" data-note="t-b-me" value="64" aria-label="Ә: менің балым"></td><td><input type="number" min="0" max="100" id="t-b-ai" data-note="t-b-ai" value="72" aria-label="Ә: AI балы"></td><td class="num diff"></td><td class="verdict"></td></tr>
+        <tr data-row="c"><td>Б — әлсіз</td><td><input type="number" min="0" max="100" id="t-c-me" data-note="t-c-me" value="38" aria-label="Б: менің балым"></td><td><input type="number" min="0" max="100" id="t-c-ai" data-note="t-c-ai" value="55" aria-label="Б: AI балы"></td><td class="num diff"></td><td class="verdict"></td></tr>
+      </tbody>
+    </table></div>
+    <div class="result" id="test-summary" aria-live="polite"></div></div></div>
+
+  <div class="part"><div class="part-no">7</div><div class="part-body"><span class="eyebrow">Өздігінен орындайтын шағын тапсырма</span>
+    <p>Айырмасы ең үлкен жауапты алыңыз. AI-дан неге осындай балл қойғанын сұраңыз. Содан кейін бір критерийдің түсінігін нақтылап, қайта бағалатыңыз. Айырма азайды ма?</p></div></div>
+
+  <div class="part"><div class="part-no">8</div><div class="part-body"><span class="eyebrow">Тапсырманың орындалу нұсқаулығы</span>
+    <ol class="steps"><li>AI бағалаған чатта төмендегі промптты жіберіңіз.</li><li>AI ұсынған жаңа түсінікті құралыңыздағы критерийге қойыңыз.</li><li>Сол жауапты жаңа чатта қайта бағалатып, кестеге жаңа AI балын жазыңыз.</li></ol>
+    <div class="prompt" data-title="4-сабақ: айырманың себебін сұрау"><div class="prompt-top"><strong>Айырманың себебін сұрау</strong><button data-copy>Көшіру</button></div><pre>Сен бұл жауапқа [AI балы] балл қойдың, ал мен [менің балым] балл қояр едім.
+«[критерий атауы]» критерийі бойынша неге осындай балл қойдың?
+Жауаптан нақты дәйексөз келтір.
+Содан кейін бұл критерийдің түсінігін бір сөйлеммен нақтыла:
+толық, жартылай және нөл балл қандай жауапқа берілетінін көрсет.</pre></div></div></div>
+
+  <div class="part"><div class="part-no">9</div><div class="part-body"><span class="eyebrow">Тексеру тізімі</span>
+    <div class="checklist">
+      <label><input type="checkbox" data-check="l4-1"> Үш сынақ жауабы бар, ішінде нақты адам аты жоқ.</label>
+      <label><input type="checkbox" data-check="l4-2"> Әр жауапты алдымен өзім бағаладым.</label>
+      <label><input type="checkbox" data-check="l4-3"> Кесте толтырылды, айырма есептелді.</label>
+      <label><input type="checkbox" data-check="l4-4"> Кем дегенде бір критерий нақтыланды.</label>
+      <label><input type="checkbox" data-check="l4-5"> Бір жауапты екі рет бағалатып, тұрақтылықты көрдім.</label>
+    </div></div></div>
+
+  <div class="part"><div class="part-no">10</div><div class="part-body"><span class="eyebrow">Жиі кездесетін қате және шешімі</span>
+    <dl class="err"><dt>AI барлық жауапқа жоғары балл қояды.</dt><dd>Тілдік модельдер көбіне жұмсақ бағалауға бейім.</dd><dd><strong>Шешімі:</strong> Промптқа қосыңыз: «Дәлел таба алмасаң, балды төмен қой және себебін жаз. Орташа жауап үшін әдетте 55–70 балл қойылады».</dd></dl>
+    <dl class="err"><dt>Бір жауапқа әр жолы әртүрлі балл шығады.</dt><dd><strong>Шешімі:</strong> Критерий түсінігін нақтылаңыз және әр балл деңгейіне мысал беріңіз. Балл 5–7-ден көп ауытқыса, оқытушының тексеруі міндетті екенін есте сақтаңыз.</dd></dl>
+  </div></div>
+
+  <div class="part"><div class="part-no">11</div><div class="part-body"><span class="eyebrow">Қысқаша қорытынды</span>
+    <p>Сіз құралды кәсіби түрде тексердіңіз: сынақ жауаптары, салыстыру кестесі және критерийді нақтылау. Енді AI бағасына қай жерде сенуге болатынын және қай жерде мұқият қарау керегін білесіз.</p></div></div>
+
+  <div class="part"><div class="part-no">12</div><div class="part-body"><span class="eyebrow">Білімді тексеретін сұрақтар</span><div class="quiz" data-quiz="l4"></div></div></div>
+
+  <section class="submission"><h2>Нәтижем</h2>
+    <label class="field">Ең үлкен айырма қай жауапта болды? Қай критерийді нақтыладыңыз?<textarea data-note="result-l4" placeholder="Мысалы: Б жауабында 17 балл айырма. «Дәлелдер» критерийін нақтыладым, айырма 6-ға түсті."></textarea></label>
+  </section>
+  <div class="mentor"><strong>Қай жерге сенуге болатынын білмей тұрсыз ба?</strong> AI-ға жазыңыз: «Менің кестем: [кестені қойыңыз]. Мен бағдарламашы емеспін. Бұл нәтижелер бойынша құралға қаншалықты сенуге болады? Қысқа және қарапайым түсіндір».</div>
+  <footer class="chapter-footer"><label><input type="checkbox" data-done="l4"> Бұл сабақ меңгерілді</label><div class="chapter-next"></div></footer>
+</article>
+
+<!-- ============ 5-САБАҚ ============ -->
+<article id="l5" class="chapter" data-title="Жетілдіру және қауіпсіздік" data-group="Сабақтар" data-num="5">
+  <header class="chapter-heading"><div><span class="eyebrow">5-сабақ · 20–30 минут</span><h1>Жетілдіру және қауіпсіздік</h1><p class="lead">Құралға деректі жасыратын батырма қосып, қатені дұрыс сипаттауды үйренеміз.</p></div><button class="bookmark" data-bookmark="l5" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+
+  <div class="part"><div class="part-no">1</div><div class="part-body"><span class="eyebrow">Сабақ тақырыбы</span><h2>Бір нақты өзгеріс және деректі жасыру</h2></div></div>
+
+  <div class="part"><div class="part-no">2</div><div class="part-body"><span class="eyebrow">Сабақ соңында не істей аламын?</span>
+    <ul class="outcomes">
+      <li>Құралға аты-жөн, ЖСН, телефон мен поштаны жасыратын батырма қостырамын.</li>
+      <li>Қатені «не істедім, не күттім, не болды» формуласымен сипаттай аламын.</li>
+      <li>Құралдың нұсқаларын сақтап, бұзылса алдыңғысына орала аламын.</li>
+    </ul></div></div>
+
+  <div class="part"><div class="part-no">3</div><div class="part-body"><span class="eyebrow">Қысқа түсініктеме</span>
+    <p>Оқытушы асығыс кезде студент жауабын аты-жөнімен бірге көшіріп жіберуі мүмкін. Сондықтан құралдың өзі сақтандыруы керек. Мәтіндегі адамды танытатын деректерді белгімен ауыстыруды <strong>анонимдеу</strong> дейміз. Мысалы: «Айгүл Сәрсенова, 990101400123» → «[СТУДЕНТ], [ЖСН]».</p>
+    <p>Жетілдірудің басты ережесі: <strong>бір хабарламада бір өзгеріс</strong>. Бірден бес нәрсе сұрасаңыз, бір жері бұзылғанда себебін табу қиын.</p>
+    <p>Қатені хабарлаудың формуласы:</p>
+    <div class="flow"><span>Не істедім</span><b>→</b><span>Не күттім</span><b>→</b><span>Не болды</span><b>→</b><span class="end">Қате мәтіні</span></div>
+    <p>Әр сәтті өзгерістен кейін файлдың көшірмесін сақтаңыз: <code>bagalau-v1.html</code>, <code>bagalau-v2.html</code>. Бұл — құжаттың редакцияларын сақтағанмен бірдей.</p>
+  </div></div>
+
+  <div class="part"><div class="part-no">4</div><div class="part-body"><span class="eyebrow">Қадамдық нұсқаулық</span>
+    <ol class="steps">
+      <li>Қазіргі файлды <code>bagalau-v1.html</code> деп сақтаңыз.</li>
+      <li>Құрал чатында төмендегі промптты жіберіңіз.</li>
+      <li>Жаңа файлды <code>bagalau-v2.html</code> деп сақтап, ашыңыз.</li>
+      <li>Жауап өрісіне ойдан шығарылған аты-жөн, 12 таңбалы сан және телефон жазып, «Деректерді жасыру» батырмасын басыңыз.</li>
+      <li>Барлығы ауыстырылғанын тексеріңіз. Қате болса, 10-бөлімдегі формуламен хабарлаңыз.</li>
+    </ol>
+    <p>Бұл кітапта дайын <a href="#anon">«Деректерді жасыру»</a> құралы бар. Нәтижені онымен салыстыра аласыз.</p></div></div>
+
+  <div class="part"><div class="part-no">5</div><div class="part-body"><span class="eyebrow">Көшіріп қолданатын AI промпты</span>
+    <div class="prompt" data-title="5-сабақ: деректерді жасыру батырмасы"><div class="prompt-top"><strong>Деректерді жасыру батырмасы</strong><button data-copy>Көшіру</button></div><pre>Бетке тек бір мүмкіндік қос: «Студент жауабы» өрісінің астына
+«Деректерді жасыру» батырмасы. Басқанда мәтінде мыналар ауыстырылсын:
+- 12 таңбалы сандар → [ЖСН]
+- телефон нөмірлері (+7 немесе 8-ден басталатын) → [ТЕЛЕФОН]
+- электрондық пошта → [ПОШТА]
+- «Аты-жөндер» деген қосымша өріске үтір арқылы жазылған
+  есімдер → [СТУДЕНТ]
+Батырманың қасында қанша дерек ауыстырылғаны шықсын.
+Барлық өңдеу тек браузерде болсын, мәтін ешқайда жіберілмесін.
+Қалған бөліктерді өзгертпе. Файлды толық бер.</pre></div></div></div>
+
+  <div class="part"><div class="part-no">6</div><div class="part-body"><span class="eyebrow">Күтілетін нәтиже</span>
+    <p>Батырманы басқаннан кейін мәтін былай өзгереді:</p>
+    <div class="result"><strong>Бұрын:</strong> Мен, Айгүл Сәрсенова (990101400123, +7 701 123 45 67), былай ойлаймын…
+<strong>Кейін:</strong> Мен, [СТУДЕНТ] ([ЖСН], [ТЕЛЕФОН]), былай ойлаймын…
+<strong>Ауыстырылды:</strong> 3 дерек</div></div></div>
+
+  <div class="part"><div class="part-no">7</div><div class="part-body"><span class="eyebrow">Өздігінен орындайтын шағын тапсырма</span>
+    <p>Құралды өзіңіз қолданып, ыңғайсыз бір нәрсені табыңыз. Мысалы: «Тазалау» батырмасы жоқ, телефонда кесте сыймайды, промпт тым ұзын. Сол бір нәрсені формула бойынша сипаттап, түзеттіріңіз.</p></div></div>
+
+  <div class="part"><div class="part-no">8</div><div class="part-body"><span class="eyebrow">Тапсырманың орындалу нұсқаулығы</span>
+    <ol class="steps"><li>Ыңғайсыз жерді бір сөйлеммен жазыңыз.</li><li>Төмендегі үлгімен AI-ға хабарлаңыз.</li><li>Жаңа нұсқаны <code>v3</code> деп сақтап, алдыңғы бөліктер бұзылмағанын тексеріңіз.</li></ol>
+    <div class="prompt" data-title="5-сабақ: қатені нақты хабарлау"><div class="prompt-top"><strong>Қатені нақты хабарлау</strong><button data-copy>Көшіру</button></div><pre>Құралда бір мәселе бар.
+Не істедім: [мысалы, телефоннан бетті аштым және кестеге критерий жаздым].
+Не күттім: [кесте экранға сыяды].
+Не болды: [кесте оң жаққа шығып кетеді, айналдыру керек].
+Қате мәтіні (бар болса): [құпиясөзсіз, жеке деректерсіз].
+Себебін қарапайым тілмен түсіндір, ең кішкене түзету енгіз,
+қалған бөліктерді өзгертпе. Файлды толық бер.</pre></div></div></div>
+
+  <div class="part"><div class="part-no">9</div><div class="part-body"><span class="eyebrow">Тексеру тізімі</span>
+    <div class="checklist">
+      <label><input type="checkbox" data-check="l5-1"> v1 және v2 файлдары бөлек сақталған.</label>
+      <label><input type="checkbox" data-check="l5-2"> ЖСН, телефон, пошта және есімдер ауыстырылады.</label>
+      <label><input type="checkbox" data-check="l5-3"> Қанша дерек ауыстырылғаны көрсетіледі.</label>
+      <label><input type="checkbox" data-check="l5-4"> Бір ыңғайсыздық формула бойынша түзетілді.</label>
+      <label><input type="checkbox" data-check="l5-5"> Бұрынғы мүмкіндіктер (промпт, көшіру) әлі жұмыс істейді.</label>
+    </div></div></div>
+
+  <div class="part"><div class="part-no">10</div><div class="part-body"><span class="eyebrow">Жиі кездесетін қате және шешімі</span>
+    <dl class="err"><dt>Жаңа мүмкіндік қосылды, бірақ ескісі бұзылды.</dt><dd>AI файлды қайта жазғанда бір бөлікті өзгертіп жіберген.</dd><dd><strong>Шешімі:</strong> Алдыңғы нұсқаны (<code>v1</code>) ашып, оны чатқа қайта беріңіз: «Мына нұсқадан баста, тек [өзгеріс] қос, қалғанына тиіспе».</dd></dl>
+    <dl class="err"><dt>Анонимдеу кейбір есімдерді таппады.</dt><dd>Есімдер септелген: «Айгүлдің», «Айгүлге».</dd><dd><strong>Шешімі:</strong> AI-ға: «Есімнің септік жалғаулы түрлерін де ауыстыр». Бәрібір қорытынды мәтінді көзбен тексеріңіз.</dd></dl>
+  </div></div>
+
+  <div class="part"><div class="part-no">11</div><div class="part-body"><span class="eyebrow">Қысқаша қорытынды</span>
+    <p>Құралыңыз енді қауіпсіздеу және ыңғайлырақ. Сіз бір өзгерісті бір хабарламамен сұрауды, қатені нақты сипаттауды және нұсқаларды сақтауды үйрендіңіз. Бұл — кез келген цифрлық жобада керек дағды.</p></div></div>
+
+  <div class="part"><div class="part-no">12</div><div class="part-body"><span class="eyebrow">Білімді тексеретін сұрақтар</span><div class="quiz" data-quiz="l5"></div></div></div>
+
+  <section class="submission"><h2>Нәтижем</h2>
+    <label class="field">Қандай мүмкіндік қостыңыз? Қандай ыңғайсыздықты түзеттіңіз?<textarea data-note="result-l5" placeholder="Мысалы: «Деректерді жасыру» қосылды, 4 дерек ауыстырылды. «Тазалау» батырмасын қостым."></textarea></label>
+  </section>
+  <div class="mentor"><strong>Бәрі бұзылып кетті ме?</strong> Қорықпаңыз. Соңғы жұмыс істеген нұсқаны ашып, сол жерден қайта бастаңыз. Нұсқалар дәл осы үшін керек.</div>
+  <footer class="chapter-footer"><label><input type="checkbox" data-done="l5"> Бұл сабақ меңгерілді</label><div class="chapter-next"></div></footer>
+</article>
+
+<!-- ============ 6-САБАҚ ============ -->
+<article id="l6" class="chapter" data-title="Бөлісу" data-group="Сабақтар" data-num="6">
+  <header class="chapter-heading"><div><span class="eyebrow">6-сабақ · 20–30 минут</span><h1>Әріптестермен бөлісу</h1><p class="lead">Құралды әріптеске беріп, оның пікірін жинаймыз.</p></div><button class="bookmark" data-bookmark="l6" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+
+  <div class="part"><div class="part-no">1</div><div class="part-body"><span class="eyebrow">Сабақ тақырыбы</span><h2>Құралды басқаларға беру және пікір жинау</h2></div></div>
+
+  <div class="part"><div class="part-no">2</div><div class="part-body"><span class="eyebrow">Сабақ соңында не істей аламын?</span>
+    <ul class="outcomes">
+      <li>Құралды файл немесе сілтеме арқылы бере аламын.</li>
+      <li>AI көмегімен бір беттік пайдалану нұсқаулығын жасаймын.</li>
+      <li>Әріптестен 3 нақты пікір жинап, келесі жақсартуды таңдаймын.</li>
+    </ul></div></div>
+
+  <div class="part"><div class="part-no">3</div><div class="part-body"><span class="eyebrow">Қысқа түсініктеме</span>
+    <p>Құралды бөлісудің үш жолы бар. Ең қарапайымынан бастаңыз.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Жол</th><th>Қалай</th><th>Қашан ыңғайлы</th></tr></thead>
+      <tbody>
+        <tr><td>1. Файл жіберу</td><td><code>.html</code> файлды поштамен немесе мессенджермен жіберу. Әріптес екі рет басып ашады.</td><td>Бір-екі әріптеске. Интернетке ештеңе шықпайды.</td></tr>
+        <tr><td>2. AI чатының сілтемесі</td><td>Claude-та артефакттың, ChatGPT-де Canvas-тың «Share / Publish» батырмасы.</td><td>Тез көрсету үшін. Атаулары өзгеруі мүмкін.</td></tr>
+        <tr><td>3. Тегін хостинг</td><td>Мысалы, Netlify Drop (app.netlify.com/drop) бетіне файлды сүйреп апару. Тіркелу сұралуы мүмкін.</td><td>Тұрақты сілтеме керек болғанда.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><strong>Ескерту.</strong> Құралды ұйымда ресми қолданар алдында ақпараттық қауіпсіздік бөлімімен немесе IT бөлімімен ақылдасыңыз. Құралдың өзі деректі сақтамаса да, оқытушы промптты қай AI чатына қоятыны маңызды.</div>
+    <p><strong>Пайдаланушы пікірі</strong> — құралды алғаш көрген адамның әсері. Ол сіз байқамаған кедергіні көрсетеді.</p>
+  </div></div>
+
+  <div class="part"><div class="part-no">4</div><div class="part-body"><span class="eyebrow">Қадамдық нұсқаулық</span>
+    <ol class="steps">
+      <li>Соңғы жұмыс істейтін нұсқаны <code>bagalau.html</code> деп атаңыз.</li>
+      <li>Төмендегі промптпен бір беттік нұсқаулық жасатыңыз.</li>
+      <li>Файл мен нұсқаулықты бір әріптеске жіберіңіз.</li>
+      <li>Әріптестен құралды өз бетінше, сіздің көмегіңізсіз қолданып көруін сұраңыз.</li>
+      <li>Үш сұрақ қойыңыз: не түсінікті болды? қай жерде тоқтап қалдыңыз? не қосар едіңіз?</li>
+      <li>Пікірлерді төмендегі өріске жазыңыз.</li>
+    </ol></div></div>
+
+  <div class="part"><div class="part-no">5</div><div class="part-body"><span class="eyebrow">Көшіріп қолданатын AI промпты</span>
+    <div class="prompt" data-title="6-сабақ: пайдалану нұсқаулығы"><div class="prompt-top"><strong>Пайдалану нұсқаулығы</strong><button data-copy>Көшіру</button></div><pre>Осы құралға әріптес-оқытушыларға арналған бір беттік пайдалану
+нұсқаулығын жаз. Оқырман бағдарламашы емес.
+Құрылымы:
+1) Құрал не үшін керек (2 сөйлем).
+2) Қалай ашу керек (2–3 қадам).
+3) Қалай қолдану керек (5–6 нөмірленген қадам).
+4) Қауіпсіздік: қандай деректі енгізбеу керек.
+5) Маңызды ескерту: соңғы бағаны оқытушы қояды.
+6) Сұрақ туындаса кімге хабарласу керек: [аты-жөніңіз немесе кафедра].
+Қазақ тілінде, қысқа сөйлемдермен жаз.</pre></div></div></div>
+
+  <div class="part"><div class="part-no">6</div><div class="part-body"><span class="eyebrow">Күтілетін нәтиже</span>
+    <p>Сізде екі файл болады: құралдың өзі және бір беттік нұсқаулық. Әріптес құралды сізсіз ашып, бір жауапты бағалатып шығады. Сіздің қолыңызда 3 нақты пікір болады.</p></div></div>
+
+  <div class="part"><div class="part-no">7</div><div class="part-body"><span class="eyebrow">Өздігінен орындайтын шағын тапсырма</span>
+    <p>Жиналған пікірлердің ішінен ең маңызды біреуін таңдаңыз да, 5-сабақтағы формуламен құралды тағы бір рет жетілдіріңіз. Жаңа нұсқаны әріптеске қайта жіберіңіз.</p></div></div>
+
+  <div class="part"><div class="part-no">8</div><div class="part-body"><span class="eyebrow">Тапсырманың орындалу нұсқаулығы</span>
+    <ol class="steps"><li>Пікірлерді төмендегі промптқа қойып, AI-дан басымдық бойынша реттеуді сұраңыз.</li><li>Бірінші орындағы ұсынысты ғана іске асырыңыз.</li><li>Әріптеске «не өзгерді» деп бір сөйлеммен жазыңыз.</li></ol>
+    <div class="prompt" data-title="6-сабақ: пікірлерді реттеу"><div class="prompt-top"><strong>Пікірлерді реттеу</strong><button data-copy>Көшіру</button></div><pre>Әріптестерім құрал туралы мынадай пікір берді:
+[пікірлерді қойыңыз, аты-жөнсіз].
+Оларды пайдаланушыға пайдасы мен орындау оңайлығы бойынша
+кестеге сал: Пікір | Пайдасы (жоғары/орта/төмен) | Қиындығы | Ұсыныс.
+Ең бірінші не істеу керегін бір сөйлеммен айт.</pre></div></div></div>
+
+  <div class="part"><div class="part-no">9</div><div class="part-body"><span class="eyebrow">Тексеру тізімі</span>
+    <div class="checklist">
+      <label><input type="checkbox" data-check="l6-1"> Бір беттік нұсқаулық дайын.</label>
+      <label><input type="checkbox" data-check="l6-2"> Кем дегенде бір әріптес құралды өз бетінше ашты.</label>
+      <label><input type="checkbox" data-check="l6-3"> 3 пікір жиналды.</label>
+      <label><input type="checkbox" data-check="l6-4"> Бір пікір бойынша құрал жетілдірілді.</label>
+      <label><input type="checkbox" data-check="l6-5"> Ресми қолданар алдында кіммен ақылдасу керегін білемін.</label>
+    </div></div></div>
+
+  <div class="part"><div class="part-no">10</div><div class="part-body"><span class="eyebrow">Жиі кездесетін қате және шешімі</span>
+    <dl class="err"><dt>Әріптес файлды ашқанда бет емес, код көрінеді немесе файл ашылмайды.</dt><dd>Пошта бағдарламасы файлды бұғаттауы немесе атауын өзгертуі мүмкін.</dd><dd><strong>Шешімі:</strong> Файлды ZIP-архивке салып жіберіңіз немесе сілтеме жолын қолданыңыз. Әріптеске «файлды жүктеп алып, браузерде ашыңыз» деп жазыңыз.</dd></dl>
+    <dl class="err"><dt>Пікір тым жалпы: «Жақсы екен».</dt><dd><strong>Шешімі:</strong> Нақты сұрақ қойыңыз: «Қай қадамда ойланып қалдыңыз?», «Қай батырманың мағынасы түсініксіз болды?».</dd></dl>
+  </div></div>
+
+  <div class="part"><div class="part-no">11</div><div class="part-body"><span class="eyebrow">Қысқаша қорытынды</span>
+    <p>Құтты болсын! Сіз толық циклдан өттіңіз: сипаттама, прототип, AI бағалауы, тексеру, жетілдіру және бөлісу. Осы алты қадам кез келген шағын цифрлық құралға жарайды. Келесі жоба үшін <a href="#map">курс картасындағы</a> идеялардың бірін таңдаңыз.</p></div></div>
+
+  <div class="part"><div class="part-no">12</div><div class="part-body"><span class="eyebrow">Білімді тексеретін сұрақтар</span><div class="quiz" data-quiz="l6"></div></div></div>
+
+  <section class="submission"><h2>Нәтижем</h2>
+    <label class="field">Әріптестеріңіз қандай пікір берді? Келесі жобаңыз қандай болады?<textarea data-note="result-l6" placeholder="Мысалы: 1) промпт тым ұзын; 2) «Көшіру» батырмасы ыңғайлы; 3) критерийлерді сақтау керек. Келесі жоба: силлабус құрастырғыш."></textarea></label>
+  </section>
+  <footer class="chapter-footer"><label><input type="checkbox" data-done="l6"> Бұл сабақ меңгерілді</label><div class="chapter-next"></div></footer>
+</article>
+
+<!-- ============ ҚҰРАЛ: БАҒАЛАУ ПРОМПТЫ ============ -->
+<article id="grader" class="chapter" data-title="Бағалау промпты" data-group="Құралдар">
+  <header class="chapter-heading"><div><span class="eyebrow">Дайын құрал · 3-сабаққа үлгі</span><h1>Бағалау промптын құрастырғыш</h1><p class="lead">Курста жасайтын құралдың жұмыс істейтін үлгісі. Критерийлер мен жауапты енгізіп, AI чатына арналған дайын тапсырманы алыңыз.</p></div><button class="bookmark" data-bookmark="grader" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+  <div class="callout warn"><strong>Енгізбеңіз:</strong> студенттің аты-жөнін, ЖСН-ін, телефонын. Алдымен <a href="#anon">«Деректерді жасыру»</a> құралын қолданыңыз. Бұл бет ешқандай деректі ешқайда жібермейді.</div>
+  <div class="demo">
+    <h3>1. Тапсырма <span class="example-badge">ҮЛГІ ТОЛТЫРЫЛҒАН</span></h3>
+    <div class="form-grid">
+      <label class="field">Пән атауы<input id="g-course" data-note="g-course" value="Мемлекеттік саясатты талдау"></label>
+      <label class="field">Пікір үні<select id="g-tone" data-note="g-tone"><option>жұмсақ</option><option selected>бейтарап</option><option>талапшыл</option></select></label>
+      <label class="field wide">Тапсырма мәтіні<textarea id="g-task" data-note="g-task">Жергілікті өзін-өзі басқаруға азаматтардың қатысуын арттыру бойынша 1 беттік саясат ұсынысын жазыңыз.</textarea></label>
+    </div>
+    <h3>2. Критерийлер</h3>
+    <div id="g-crits" aria-live="polite"></div>
+    <div class="actions"><button id="g-add">+ Критерий қосу</button><span class="result" id="g-sum" style="margin:0;padding:8px 12px"></span></div>
+    <h3>3. Студент жауабы (аты жасырылған)</h3>
+    <label class="field"><span>Жауап мәтіні</span><textarea id="g-answer" data-note="g-answer" style="min-height:150px">Қазір ауылдарда тұрғындардың көбі жергілікті жиналыстарға қатыспайды. Себебі адамдар жиналыстың уақытын білмейді және өз пікірі ескерілетініне сенбейді. Ұсынысым: әкімдік жиналыс күнін бір ай бұрын eGov және WhatsApp топтары арқылы хабарласын. Сонымен қатар әр жиналыстан кейін қабылданған шешімдер туралы қысқа есеп жариялансын. Бұл адамдардың сенімін арттырады.</textarea></label>
+    <div class="actions"><button class="primary" id="g-make">Промпт құрастыру</button><button id="g-copy">Көшіру</button><button id="g-clear" class="danger">Жауапты тазалау</button></div>
+    <pre id="g-output" class="result" tabindex="0">«Промпт құрастыру» батырмасын басыңыз.</pre>
+    <small style="color:var(--muted)">Келесі қадам: мәтінді көшіріп, Claude, ChatGPT немесе Gemini чатына қойыңыз. Жауапты оқып, бағаны өзіңіз бекітіңіз.</small>
+  </div>
+  <footer class="chapter-footer"><label><input type="checkbox" data-done="grader"> Құралды қолданып көрдім</label><div class="chapter-next"></div></footer>
+</article>
+
+<!-- ============ ҚҰРАЛ: ДЕРЕКТЕРДІ ЖАСЫРУ ============ -->
+<article id="anon" class="chapter" data-title="Деректерді жасыру" data-group="Құралдар">
+  <header class="chapter-heading"><div><span class="eyebrow">Дайын құрал · 5-сабаққа үлгі</span><h1>Деректерді жасыру</h1><p class="lead">Мәтінді AI-ға жібермес бұрын ЖСН, телефон, пошта мен есімдерді белгімен ауыстырыңыз. Өңдеу тек осы браузерде жүреді.</p></div><button class="bookmark" data-bookmark="anon" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+  <div class="demo">
+    <label class="field">Жасыратын есімдер (үтір арқылы)<input id="an-names" data-note="an-names" value="Айгүл Сәрсенова, Сәрсенова, Айгүл"></label>
+    <label class="field">Бастапқы мәтін <span class="example-badge">ҮЛГІ</span><textarea id="an-in" data-note="an-in" style="min-height:130px">Мен, Айгүл Сәрсенова (ЖСН 990101400123), 2-курс магистрантымын. Байланыс: +7 701 123 45 67, aigul.s@example.kz. Айгүлдің пікірінше, жергілікті бюджетті талқылау ашық болуы керек.</textarea></label>
+    <div class="actions"><button class="primary" id="an-run">Деректерді жасыру</button><button id="an-copy">Нәтижені көшіру</button></div>
+    <pre id="an-out" class="result" tabindex="0">Нәтиже осында шығады.</pre>
+    <div id="an-count" class="result" aria-live="polite"></div>
+    <small style="color:var(--muted)">Құрал көмекші ғана. Нәтижені әрқашан көзбен тексеріңіз: мекенжай, жұмыс орны немесе сирек есім сияқты деректер қалып қоюы мүмкін.</small>
+  </div>
+  <footer class="chapter-footer"><label><input type="checkbox" data-done="anon"> Құралды қолданып көрдім</label><div class="chapter-next"></div></footer>
+</article>
+
+<!-- ============ ПРОМПТ КІТАПХАНАСЫ ============ -->
+<article id="prompts" class="chapter" data-title="Промпт кітапханасы" data-group="Құралдар">
+  <header class="chapter-heading"><div><span class="eyebrow">Анықтама</span><h1>Промпт кітапханасы</h1><p class="lead">Курстағы барлық дайын промпт бір жерде. Жақшадағы жерлерді өзіңіздікімен ауыстырыңыз.</p></div><button class="bookmark" data-bookmark="prompts" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+  <div class="prompt" data-title="Жалпы: қарапайым түсіндіру"><div class="prompt-top"><strong>Кез келген ұғымды қарапайым түсіндіру</strong><button data-copy>Көшіру</button></div><pre>Мен бағдарламашы емеспін, мемлекеттік басқару саласының маманымын.
+«[ұғым]» деген не? Мемлекеттік қызметтен немесе университеттен
+бір мысалмен, 5 сөйлеммен түсіндір. Соңында түсінгенімді тексеретін
+бір сұрақ қой.</pre></div>
+  <div class="prompt" data-title="Жалпы: қате хабарламасын түсіндіру"><div class="prompt-top"><strong>Қате хабарламасын түсіндіру</strong><button data-copy>Көшіру</button></div><pre>Құралды ашқанда мынадай хабарлама шықты:
+"[қате мәтіні — құпиясөзсіз, жеке деректерсіз]"
+Мен бағдарламашы емеспін. Бұл нені білдіреді? Қарапайым тілмен
+түсіндір, сосын түзету үшін маған нақты 3 қадам бер.</pre></div>
+  <div id="prompt-library"></div>
+  <footer class="chapter-footer"><label><input type="checkbox" data-done="prompts"> Бұл бөлім меңгерілді</label><div class="chapter-next"></div></footer>
+</article>
+
+<!-- ============ ҚАУІПСІЗДІК ============ -->
+<article id="safety" class="chapter" data-title="Қауіпсіздік ережелері" data-group="Құралдар">
+  <header class="chapter-heading"><div><span class="eyebrow">Анықтама · әр сабақта қолданылады</span><h1>Қауіпсіздік ережелері</h1><p class="lead">AI-мен жұмыс істегенде әрдайым есте сақтайтын он ереже.</p></div><button class="bookmark" data-bookmark="safety" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+  <div class="checklist">
+    <label><input type="checkbox" data-check="s-1"> <span><strong>Жеке дерек жоқ.</strong> Аты-жөн, ЖСН, телефон, мекенжай, денсаулық туралы мәлімет ашық AI чатына енгізілмейді.</span></label>
+    <label><input type="checkbox" data-check="s-2"> <span><strong>Қызметтік ақпарат жоқ.</strong> «Қызмет бабында пайдалану үшін» белгісі бар немесе жарияланбаған құжаттар енгізілмейді.</span></label>
+    <label><input type="checkbox" data-check="s-3"> <span><strong>Құпиясөз жоқ.</strong> Құпиясөз, API кілті, ЭЦП файлы ешқашан чатқа немесе құрал файлына жазылмайды.</span></label>
+    <label><input type="checkbox" data-check="s-4"> <span><strong>Алдымен жасыру.</strong> Нақты жұмыс мәтінін <a href="#anon">анонимдеп</a>, содан кейін ғана қолданамыз.</span></label>
+    <label><input type="checkbox" data-check="s-5"> <span><strong>Шешімді адам қабылдайды.</strong> Баға, құжат, хат — соңғы нұсқаны маман тексеріп, бекітеді.</span></label>
+    <label><input type="checkbox" data-check="s-6"> <span><strong>Дәлелді тексеру.</strong> AI келтірген дәйексөз, сан, заң нормасы түпнұсқамен салыстырылады.</span></label>
+    <label><input type="checkbox" data-check="s-7"> <span><strong>Ашықтық.</strong> Студенттерге AI алдын ала бағалау үшін қолданылатынын, бірақ бағаны оқытушы қоятынын айтамыз.</span></label>
+    <label><input type="checkbox" data-check="s-8"> <span><strong>Ұйым ережесі.</strong> Құралды ресми қолданар алдында ақпараттық қауіпсіздік немесе IT бөлімімен ақылдасамыз.</span></label>
+    <label><input type="checkbox" data-check="s-9"> <span><strong>Заң талаптары.</strong> ҚР «Дербес деректер және оларды қорғау туралы» Заңы мен ұйымның ішкі ережелері сақталады.</span></label>
+    <label><input type="checkbox" data-check="s-10"> <span><strong>Бір құралға тәуелді болмау.</strong> Бір сервис жұмыс істемесе, дәл сол промпт басқа AI чатында да жұмыс істейді.</span></label>
+  </div>
+  <footer class="chapter-footer"><label><input type="checkbox" data-done="safety"> Бұл бөлім меңгерілді</label><div class="chapter-next"></div></footer>
+</article>
+
+<!-- ============ МЕНІҢ ПРОГРЕСІМ ============ -->
+<article id="my" class="chapter" data-title="Менің прогресім" data-group="Нәтижелер">
+  <header class="chapter-heading"><div><span class="eyebrow">Менің нәтижелерім</span><h1>Менің прогресім және жазбаларым</h1><p class="lead">Сіздің жұмыс дәптеріңіз. Барлығы тек осы браузерде сақталады.</p></div><button class="bookmark" data-bookmark="my" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+  <div class="stats" id="my-stats"></div>
+  <h2>Сабақтар бойынша</h2>
+  <div class="table-wrap"><table><thead><tr><th>Сабақ</th><th>Тексеру тізімі</th><th>Тест</th><th>Белгі</th></tr></thead><tbody id="my-lessons"></tbody></table></div>
+  <h2>Таңдаулы бөлімдер</h2>
+  <div id="my-bookmarks"></div>
+  <h2>Менің жазбаларым</h2>
+  <div id="my-notes"></div>
+  <label class="field">Еркін жазба<textarea data-note="free-notes" placeholder="Пайдалы сілтеме, сұрақ, келесі жобаға идея…"></textarea></label>
+  <h2>Сақтау және көшіру</h2>
+  <p>Жазбалар мен прогресс басқа құрылғыда өздігінен көрінбейді. Файлға жүктеп алып, басқа компьютерде «Импорт» арқылы жүктеңіз. Жеке браузер режимінде деректер жабылғанда өшуі мүмкін.</p>
+  <div class="actions"><button class="primary" id="export-progress">Прогресті жүктеу (.json)</button><label class="button" for="import-progress">Прогресті жүктеп салу</label><input id="import-progress" type="file" accept="application/json,.json" hidden><button id="export-notes">Жазбаларды жүктеу (.md)</button><button id="copy-notes">Жазбаларды көшіру</button></div>
+  <div class="actions"><button id="reset-progress" class="danger">Прогресті өшіру</button><span id="reset-confirm" class="confirm-row" hidden>Барлық белгі мен жазба өшеді. Сенімдісіз бе? <button id="reset-yes" class="danger">Иә, өшіру</button><button id="reset-no">Жоқ</button></span></div>
+  <div id="storage-status" class="result" aria-live="polite" hidden></div>
+  <footer class="chapter-footer"><span></span><div class="chapter-next"></div></footer>
+</article>
+
+</main>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+<script>
+(function(){
+'use strict';
+var KEY='vibe-kz-fieldbook-v1';
+var S={done:{},checks:{},notes:{},bookmarks:{},quiz:{},crits:null,theme:null,large:false};
+var storageOk=true;
+try{var raw=localStorage.getItem(KEY);if(raw){var o=JSON.parse(raw);for(var k in o)S[k]=o[k];}}catch(e){storageOk=false;}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){storageOk=false;}}
+function $(s,r){return (r||document).querySelector(s);}
+function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));}
+function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+var toastT;
+function toast(msg){var t=$('#toast');t.textContent=msg;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(function(){t.hidden=true;},2600);}
+function copyText(text,el){
+  function fallback(){
+    if(el){var r=document.createRange();r.selectNodeContents(el);var s=getSelection();s.removeAllRanges();s.addRange(r);}
+    toast('Мәтін белгіленді. Ctrl+C (Mac: Cmd+C) басыңыз.');
+  }
+  try{navigator.clipboard.writeText(text).then(function(){toast('Көшірілді');},fallback);}catch(e){fallback();}
+}
+function download(name,text,type){
+  try{var b=new Blob([text],{type:type||'text/plain;charset=utf-8'});var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);
+  toast('Жүктеу басталды. Басталмаса, «Көшіру» батырмасын қолданыңыз.');}catch(e){toast('Жүктеу мүмкін болмады. «Көшіру» батырмасын қолданыңыз.');}
+}
+
+/* ---------- theme & font ---------- */
+var root=document.documentElement;
+function applyTheme(){if(S.theme)root.setAttribute('data-theme',S.theme);else root.removeAttribute('data-theme');root.classList.toggle('large',!!S.large);}
+applyTheme();
+$('#theme-toggle').addEventListener('click',function(){
+  var dark=S.theme?S.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
+  S.theme=dark?'light':'dark';applyTheme();save();
+});
+$('#font-toggle').addEventListener('click',function(){S.large=!S.large;applyTheme();save();toast(S.large?'Қаріп үлкейтілді':'Қаріп қалыпты');});
+
+/* ---------- chapters & nav ---------- */
+var chapters=$$('.chapter');
+var ids=chapters.map(function(c){return c.id;});
+function titleOf(id){var c=document.getElementById(id);return c?c.getAttribute('data-title'):id;}
+function buildNav(){
+  var nav=$('#nav'),html='',g=null;
+  chapters.forEach(function(c){
+    var grp=c.getAttribute('data-group');
+    if(grp!==g){html+='<div class="nav-group">'+esc(grp)+'</div>';g=grp;}
+    var n=c.getAttribute('data-num');
+    html+='<a href="#'+c.id+'" data-nav="'+c.id+'"><span class="nav-num">'+(n?n:'·')+'</span><span>'+esc(c.getAttribute('data-title'))+'</span><span class="nav-check">'+(S.done[c.id]?'✓':'')+'</span></a>';
+  });
+  nav.innerHTML=html;
+}
+function updateProgress(){
+  var countable=ids.filter(function(i){return i!=='my';});
+  var d=countable.filter(function(i){return S.done[i];}).length;
+  $('#progress-fill').style.width=(countable.length?Math.round(d/countable.length*100):0)+'%';
+  $('#progress-label').textContent=d+' / '+countable.length+' бөлім меңгерілді';
+  $$('#nav a').forEach(function(a){a.querySelector('.nav-check').textContent=S.done[a.getAttribute('data-nav')]?'✓':'';});
+}
+function buildFooters(){
+  chapters.forEach(function(c,i){
+    var box=c.querySelector('.chapter-next');if(!box)return;var h='';
+    if(i>0)h+='<button data-go="'+ids[i-1]+'">← '+esc(titleOf(ids[i-1]))+'</button>';
+    if(i<ids.length-1)h+='<button class="primary" data-go="'+ids[i+1]+'">'+esc(titleOf(ids[i+1]))+' →</button>';
+    box.innerHTML=h;
+  });
+}
+function show(id){
+  if(ids.indexOf(id)<0)id='start';
+  chapters.forEach(function(c){c.classList.toggle('current',c.id===id);});
+  $$('#nav a').forEach(function(a){a.classList.toggle('active',a.getAttribute('data-nav')===id);});
+  document.body.classList.remove('menu-open');$('#menu-toggle').setAttribute('aria-expanded','false');
+  if(id==='my')renderMy();
+  window.scrollTo(0,0);
+}
+function route(){var h=decodeURIComponent((location.hash||'').slice(1));
+  if(h&&ids.indexOf(h)<0){var el=document.getElementById(h);if(el){var ch=el.closest('.chapter');if(ch){show(ch.id);setTimeout(function(){el.scrollIntoView();},30);return;}}}
+  show(h||'start');}
+window.addEventListener('hashchange',route);
+document.addEventListener('click',function(e){
+  var g=e.target.closest('[data-go]');
+  if(g){e.preventDefault();var id=g.getAttribute('data-go');if(location.hash==='#'+id)show(id);else location.hash=id;}
+});
+$('#menu-toggle').addEventListener('click',function(){var o=document.body.classList.toggle('menu-open');this.setAttribute('aria-expanded',o?'true':'false');});
+
+/* ---------- done / checks / notes / bookmarks ---------- */
+$$('[data-done]').forEach(function(cb){var id=cb.getAttribute('data-done');cb.checked=!!S.done[id];
+  cb.addEventListener('change',function(){S.done[id]=cb.checked;if(!cb.checked)delete S.done[id];save();updateProgress();if(cb.checked)toast('Белгіленді: '+titleOf(id));});});
+$$('[data-check]').forEach(function(cb){var id=cb.getAttribute('data-check');cb.checked=!!S.checks[id];
+  cb.addEventListener('change',function(){if(cb.checked)S.checks[id]=true;else delete S.checks[id];save();});});
+$$('[data-note]').forEach(function(f){var id=f.getAttribute('data-note');
+  if(S.notes[id]!==undefined)f.value=S.notes[id];
+  f.addEventListener('input',function(){S.notes[id]=f.value;save();});
+  f.addEventListener('change',function(){S.notes[id]=f.value;save();});});
+$$('[data-bookmark]').forEach(function(b){var id=b.getAttribute('data-bookmark');
+  function paint(){var on=!!S.bookmarks[id];b.setAttribute('aria-pressed',on?'true':'false');b.textContent=on?'★':'☆';}
+  paint();b.addEventListener('click',function(){if(S.bookmarks[id])delete S.bookmarks[id];else S.bookmarks[id]=true;save();paint();toast(S.bookmarks[id]?'Таңдаулыға қосылды':'Таңдаулыдан алынды');});});
+
+/* ---------- prompts: copy + library ---------- */
+document.addEventListener('click',function(e){var b=e.target.closest('[data-copy]');if(!b)return;var pre=b.closest('.prompt').querySelector('pre');copyText(pre.textContent,pre);});
+(function(){var lib=$('#prompt-library');if(!lib)return;var h='';
+  $$('.chapter:not(#prompts) .prompt[data-title]').forEach(function(p){h+='<div class="prompt"><div class="prompt-top"><strong>'+esc(p.getAttribute('data-title'))+'</strong><button data-copy>Көшіру</button></div><pre>'+esc(p.querySelector('pre').textContent)+'</pre></div>';});
+  lib.innerHTML=h;})();
+
+/* ---------- quizzes ---------- */
+var QUIZ={
+ l1:[
+  {q:'Құрал сипаттамасы неге керек?',o:['AI бос орындарды өз қалауымен толтырмауы үшін','Код жазуды жаттау үшін','Құралды тезірек жариялау үшін'],a:0,e:'Нақты сипаттама AI-ға не керегін көрсетеді, сонда нәтиже күткенге жақын болады.'},
+  {q:'«Нені істемейді» бөліміне қай жол ең маңызды?',o:['Құрал әдемі болмайды','Соңғы бағаны оқытушы қояды','Құрал телефонда ашылмайды'],a:1,e:'Шешімді адам қабылдайды. Бұл шекара сипаттамада анық жазылуы керек.'},
+  {q:'Сипаттама жазғанда AI-ға қандай мәтін беруге болады?',o:['Студенттің аты-жөні бар нақты эссе','Бағалар журналының көшірмесі','Ойдан шығарылған немесе аты жасырылған мысал'],a:2,e:'Ашық AI құралдарына жеке деректер енгізілмейді.'}],
+ l2:[
+  {q:'Прототип дегеніміз не?',o:['Құралдың алғашқы қарапайым, бірақ ашылатын нұсқасы','Толық біткен, жарияланған өнім','Құралдың техникалық сипаттамасы'],a:0,e:'Прототип — макет сияқты: құрылымы көрінеді, кейін жетілдіріледі.'},
+  {q:'Неліктен бір хабарламада бір ғана өзгеріс сұраған дұрыс?',o:['AI ұзын мәтінді оқи алмайды','Не өзгергенін және не бұзылғанын оңай көру үшін','Тегін нұсқада тек бір сұраққа рұқсат бар'],a:1,e:'Бір өзгеріс — бір тексеру. Қате шықса, себебі бірден белгілі.'},
+  {q:'Файлды ашқанда бет емес, код көрінді. Ең ықтимал себебі?',o:['Компьютер бұзылған','AI қате код жазды','Файл .txt болып немесе форматталған мәтін ретінде сақталған'],a:2,e:'Файл атауы .html болуы және қарапайым мәтін ретінде сақталуы керек.'}],
+ l3:[
+  {q:'Неліктен бұл курста құрал AI-мен өзі сөйлеспейді?',o:['Ол үшін API кілті керек, ал кілт құпиясөз сияқты қорғалуы тиіс','AI мұндай жұмысты істей алмайды','Бұл заңмен тыйым салынған'],a:0,e:'А жолы қауіпсіз әрі тегін: құрал промпт құрастырады, оны сіз чатқа қоясыз.'},
+  {q:'Бағалау промптының 4 бөлігі қандай?',o:['Сәлемдесу, сұрақ, алғыс, қолтаңба','Рөл, деректер, нәтиже пішімі, ережелер','Тақырып, сурет, кесте, сілтеме'],a:1,e:'Рөл, деректер, нәтиже пішімі және ережелер AI жауабын тұрақты етеді.'},
+  {q:'AI жауапта жоқ дәйексөз келтірсе, не істейміз?',o:['Балды сол күйі қабылдаймыз','Студентке хабарлаймыз','Жауаптан іздеп тексереміз және «сөзбе-сөз ал» ережесін қосамыз'],a:2,e:'Бұл — галлюцинация. Дәйексөзді әрқашан түпнұсқамен салыстырамыз.'}],
+ l4:[
+  {q:'Сынақ жағдайы (test case) дегеніміз не?',o:['Нәтижесі алдын ала шамамен белгілі тексеру мысалы','Студенттің нақты емтихан жұмысы','Құралдағы қате'],a:0,e:'Сынақ жауаптары ойдан шығарылады және күтілетін балы белгілі болады.'},
+  {q:'AI балы мен сіздің балыңыздың айырмасы 17. Не істейсіз?',o:['AI балын қабылдаймын','Критерий түсінігін нақтылап, қайта тексеремін','Құралды пайдаланбаймын'],a:1,e:'Үлкен айырма — критерийді нақтылау керек деген белгі.'},
+  {q:'Тұрақтылықты қалай тексереміз?',o:['Жауапты қысқартамыз','Басқа тілге аударамыз','Бір жауапты бірнеше рет бағалатып, балды салыстырамыз'],a:2,e:'Балл қатты ауытқыса, критерийлер жеткіліксіз нақты.'}],
+ l5:[
+  {q:'Анонимдеу дегеніміз не?',o:['Адамды танытатын деректерді белгімен ауыстыру','Мәтінді басқа тілге аудару','Файлды құпиясөзбен жабу'],a:0,e:'Мысалы, аты-жөн → [СТУДЕНТ], ЖСН → [ЖСН].'},
+  {q:'Қатені хабарлау формуласы қандай?',o:['«Ештеңе жұмыс істемейді»','Не істедім → не күттім → не болды → қате мәтіні','Тек скриншот жіберу'],a:1,e:'Нақты сценарий AI-ға себепті тез табуға көмектеседі.'},
+  {q:'Жаңа өзгерістен кейін құрал бұзылды. Ең жақсы әрекет?',o:['Барлығын басынан жасау','Курсты тастау','Соңғы жұмыс істеген нұсқаны ашып, сол жерден қайта сұрау'],a:2,e:'Нұсқаларды (v1, v2) сақтау дәл осы жағдай үшін керек.'}],
+ l6:[
+  {q:'Құралды бөлісудің ең қарапайым әрі жабық жолы?',o:['.html файлды әріптеске жіберу','Әлеуметтік желіде жариялау','Кодты қағазға басып шығару'],a:0,e:'Файл интернетке шықпайды, әріптес оны браузерде ашады.'},
+  {q:'Құралды ұйымда ресми қолданар алдында не істеу керек?',o:['Ештеңе, құрал дайын','Ақпараттық қауіпсіздік немесе IT бөлімімен ақылдасу','Студенттерден рұқсат сұрау ғана'],a:1,e:'Ұйымның ішкі ережелері мен деректерді қорғау талаптары сақталуы тиіс.'},
+  {q:'Әріптестен пайдалы пікірді қалай алуға болады?',o:['«Ұнады ма?» деп сұрау','Құралды өзіңіз көрсетіп беру','Өз бетінше қолдануын сұрап, нақты сұрақтар қою'],a:2,e:'«Қай жерде тоқтап қалдыңыз?» деген сұрақ нақты кедергіні көрсетеді.'}]
+};
+function renderQuiz(box){
+  var id=box.getAttribute('data-quiz'),qs=QUIZ[id];if(!qs)return;S.quiz[id]=S.quiz[id]||{};
+  box.innerHTML=qs.map(function(q,i){return '<div class="q" data-qi="'+i+'"><p>'+(i+1)+'. '+esc(q.q)+'</p>'+q.o.map(function(o,j){return '<label><input type="radio" name="q-'+id+'-'+i+'" value="'+j+'"'+(S.quiz[id][i]===j?' checked':'')+'> <span>'+esc(o)+'</span></label>';}).join('')+'<div class="fb" hidden></div></div>';}).join('')+'<div class="result" data-qscore hidden></div>';
+  function paint(){var ok=0,ans=0;
+    $$('.q',box).forEach(function(qd,i){var fb=$('.fb',qd),c=S.quiz[id][i];
+      if(c===undefined){fb.hidden=true;return;}ans++;var right=c===qs[i].a;if(right)ok++;
+      fb.hidden=false;fb.className='fb '+(right?'ok':'no');fb.textContent=(right?'Дұрыс. ':'Тағы ойланып көріңіз. ')+(right?qs[i].e:'');});
+    var sc=$('[data-qscore]',box);if(ans===qs.length){sc.hidden=false;sc.textContent='Нәтиже: '+ok+' / '+qs.length+(ok===qs.length?'. Келесі сабаққа дайынсыз!':'. Сабақтың «Қысқа түсініктеме» бөлімін қайта қарап шығыңыз.');}else sc.hidden=true;}
+  box.addEventListener('change',function(e){var r=e.target;if(r.type!=='radio')return;var i=+r.closest('.q').getAttribute('data-qi');S.quiz[id][i]=+r.value;save();paint();});
+  paint();
+}
+$$('[data-quiz]').forEach(renderQuiz);
+
+/* ---------- passport (l1) ---------- */
+function passportText(){
+  var v=function(id){return ($('#'+id).value||'').trim()||'[толтырылмаған]';};
+  return '# Құрал сипаттамасы\n\n'+
+  '1. Кім қолданады: '+v('pp-who')+'\n'+
+  '2. Қандай мәселені шешеді: '+v('pp-problem')+'\n'+
+  '3. Не енгізіледі: '+v('pp-input')+'\n'+
+  '4. Не шығады: '+v('pp-output')+'\n'+
+  '5. Нені істемейді: '+v('pp-not')+'\n'+
+  '6. Сәтті нәтиже: '+v('pp-success')+'\n\n'+
+  '---\nAI-ға тапсырма: Мен бағдарламашы емеспін. Жоғарыдағы сипаттаманы оқы. Бұлыңғыр тұстар болса, маған бір-бірден нақтылау сұрағын қой. Әзірге код жазба.';
+}
+$('#pp-make').addEventListener('click',function(){$('#pp-output-box').textContent=passportText();toast('Сипаттама құрастырылды');});
+$('#pp-copy').addEventListener('click',function(){var t=passportText();$('#pp-output-box').textContent=t;copyText(t,$('#pp-output-box'));});
+$('#pp-download').addEventListener('click',function(){download('kural-sipattamasy.md',passportText(),'text/markdown;charset=utf-8');});
+
+/* ---------- grader ---------- */
+var DEF_CRITS=[
+ {n:'Мәселені анықтау',p:25,d:'Мәселе нақты, себептері аталған'},
+ {n:'Дәлелдер мен деректер',p:25,d:'Дерек, зерттеу немесе нақты мысал келтірілген'},
+ {n:'Ұсыныстың нақтылығы',p:30,d:'Кім, не істейді, қашан — анық жазылған'},
+ {n:'Құрылым және тіл',p:20,d:'Логикалық құрылым, сауатты ресми тіл'}];
+if(!S.crits)S.crits=DEF_CRITS.map(function(c){return {n:c.n,p:c.p,d:c.d};});
+function renderCrits(){
+  var box=$('#g-crits');
+  box.innerHTML=S.crits.map(function(c,i){return '<div class="crit-row" data-ci="'+i+'"><input aria-label="Критерий атауы" id="gc-n-'+i+'" data-f="n" value="'+esc(c.n)+'" placeholder="Критерий атауы"><input aria-label="Ең жоғары балл" id="gc-p-'+i+'" data-f="p" type="number" min="0" value="'+esc(c.p)+'"><input class="crit-desc" aria-label="Толық балл қандай жауапқа беріледі" id="gc-d-'+i+'" data-f="d" value="'+esc(c.d)+'" placeholder="Толық балл қандай жауапқа беріледі"><button aria-label="Критерийді өшіру" data-del="'+i+'">✕</button></div>';}).join('');
+  sumCrits();
+}
+function sumCrits(){var s=S.crits.reduce(function(a,c){return a+(+c.p||0);},0);var el=$('#g-sum');el.textContent='Барлығы: '+s+' балл'+(s===100?' ✓':' (ұсынылатыны 100)');return s;}
+$('#g-crits').addEventListener('input',function(e){var r=e.target.closest('.crit-row');if(!r)return;var i=+r.getAttribute('data-ci'),f=e.target.getAttribute('data-f');S.crits[i][f]=f==='p'?(+e.target.value||0):e.target.value;save();sumCrits();});
+$('#g-crits').addEventListener('click',function(e){var b=e.target.closest('[data-del]');if(!b)return;S.crits.splice(+b.getAttribute('data-del'),1);save();renderCrits();});
+$('#g-add').addEventListener('click',function(){S.crits.push({n:'',p:10,d:''});save();renderCrits();var last=$$('#g-crits .crit-row input');if(last.length)last[last.length-3].focus();});
+function graderPrompt(){
+  var total=sumCrits(),tone=$('#g-tone').value;
+  var crits=S.crits.filter(function(c){return (c.n||'').trim();}).map(function(c,i){return (i+1)+'. '+c.n.trim()+' — ең жоғары '+(+c.p||0)+' балл. Толық балл: '+((c.d||'').trim()||'түсінік берілмеген');}).join('\n');
+  return 'Сен — университет оқытушысының көмекшісісің. Студент жауабын берілген критерийлер бойынша АЛДЫН АЛА бағала. Соңғы бағаны оқытушы қояды.\n\n'+
+  'Пән: '+($('#g-course').value.trim()||'[пән атауы]')+'\n'+
+  'Тапсырма: '+($('#g-task').value.trim()||'[тапсырма мәтіні]')+'\n\n'+
+  'Критерийлер (барлығы '+total+' балл):\n'+(crits||'[критерийлер]')+'\n\n'+
+  'Студент жауабы (аты-жөні жасырылған):\n"""\n'+($('#g-answer').value.trim()||'[жауап]')+'\n"""\n\n'+
+  'Нәтижені былай бер:\n'+
+  '1) Кесте: Критерий | Балл | Жауаптан нақты дәйексөз | Қалай жақсартуға болады\n'+
+  '2) Жалпы балл: X / '+total+'\n'+
+  '3) Студентке пікір: '+tone+' үнмен, 3–4 сөйлем, алдымен күшті жағы, сосын бір нақты ұсыныс\n'+
+  '4) Оқытушыға ескерту: күмәнді тұстар\n\n'+
+  'Ережелер: дәйексөзді жауаптан сөзбе-сөз ал; жауапта жоқ нәрсені ойдан шығарма; дәлел таппасаң «дәлел жоқ» деп жаз; критерий балынан асырма; пікір үні балға әсер етпейді.';
+}
+renderCrits();
+$('#g-make').addEventListener('click',function(){$('#g-output').textContent=graderPrompt();toast('Промпт дайын. Енді көшіріңіз.');});
+$('#g-copy').addEventListener('click',function(){var t=graderPrompt();$('#g-output').textContent=t;copyText(t,$('#g-output'));});
+$('#g-clear').addEventListener('click',function(){$('#g-answer').value='';S.notes['g-answer']='';save();toast('Жауап өрісі тазаланды');});
+
+/* ---------- anonymizer ---------- */
+function anonymize(text,names){
+  var count=0;
+  function rep(re,tag){text=text.replace(re,function(){count++;return tag;});}
+  rep(/[\w.+-]+@[\w-]+(?:\.[\w-]+)+/g,'[ПОШТА]');
+  rep(/(?:\+7|\b8)[\s\-(]*\d{3}[\s\-)]*\d{3}[\s-]*\d{2}[\s-]*\d{2}\b/g,'[ТЕЛЕФОН]');
+  rep(/\b\d{12}\b/g,'[ЖСН]');
+  names.split(',').map(function(n){return n.trim();}).filter(Boolean).sort(function(a,b){return b.length-a.length;}).forEach(function(n){
+    var safe=n.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    rep(new RegExp(safe+'[а-яәғқңөұүһіa-z]*','gi'),'[СТУДЕНТ]');
+  });
+  text=text.replace(/(\[СТУДЕНТ\])(\s+\[СТУДЕНТ\])+/g,function(m,a){return a;});
+  return {text:text,count:count};
+}
+function runAnon(){var r=anonymize($('#an-in').value,$('#an-names').value);$('#an-out').textContent=r.text;$('#an-count').textContent='Ауыстырылды: '+r.count+' дерек. Нәтижені көзбен тексеріңіз.';return r;}
+$('#an-run').addEventListener('click',function(){runAnon();toast('Деректер жасырылды');});
+$('#an-copy').addEventListener('click',function(){var r=runAnon();copyText(r.text,$('#an-out'));});
+
+/* ---------- test table (l4) ---------- */
+function paintTests(){
+  var rows=$$('#test-table tbody tr'),diffs=[];
+  rows.forEach(function(tr){var me=tr.querySelector('input[id$="-me"]').value,ai=tr.querySelector('input[id$="-ai"]').value;
+    var d=tr.querySelector('.diff'),v=tr.querySelector('.verdict');
+    if(me===''||ai===''){d.textContent='—';v.innerHTML='';return;}
+    var x=Math.abs(+ai-(+me));diffs.push(x);d.textContent=(+ai>=+me?'+':'−')+x;
+    v.innerHTML=x<=5?'<span class="chip ok">Сәйкес</span>':x<=10?'<span class="chip warn">Жақын</span>':'<span class="chip bad">Критерийді нақтылаңыз</span>';});
+  var s=$('#test-summary');
+  if(!diffs.length){s.textContent='Балдарды енгізіңіз.';return;}
+  var avg=diffs.reduce(function(a,b){return a+b;},0)/diffs.length,bad=diffs.filter(function(x){return x>10;}).length;
+  s.textContent='Орташа айырма: '+avg.toFixed(1)+' балл. '+(bad?bad+' жауапта айырма 10 балдан көп: сол жауаптың критерийлерін нақтылаңыз.':'Барлық айырма 10 балл шегінде. Құралға алдын ала бағалау үшін сенуге болады, бірақ бағаны бәрібір өзіңіз бекітесіз.');
+}
+$('#test-table').addEventListener('input',paintTests);paintTests();
+
+/* ---------- my progress ---------- */
+var LESSONS=['l1','l2','l3','l4','l5','l6'];
+function noteLabel(id){var f=$('[data-note="'+id+'"]');if(!f)return id;var l=f.closest('label');var ch=f.closest('.chapter');
+  var t=l?(l.childNodes[0].textContent||'').trim():id;return (ch?ch.getAttribute('data-title')+': ':'')+t;}
+function renderMy(){
+  var countable=ids.filter(function(i){return i!=='my';});
+  var done=countable.filter(function(i){return S.done[i];}).length;
+  var qOk=0,qAll=0;LESSONS.forEach(function(l){var qs=QUIZ[l];qAll+=qs.length;var a=S.quiz[l]||{};qs.forEach(function(q,i){if(a[i]===q.a)qOk++;});});
+  var lessonsDone=LESSONS.filter(function(l){return S.done[l];}).length;
+  $('#my-stats').innerHTML='<div><strong>'+lessonsDone+' / 6</strong><span>сабақ меңгерілді</span></div><div><strong>'+qOk+' / '+qAll+'</strong><span>тест сұрағына дұрыс жауап</span></div><div><strong>'+done+' / '+countable.length+'</strong><span>бөлім белгіленді</span></div>';
+  $('#my-lessons').innerHTML=LESSONS.map(function(l){var c=$$('[data-check^="'+l+'-"]');var cd=c.filter(function(x){return S.checks[x.getAttribute('data-check')];}).length;var a=S.quiz[l]||{};var ok=QUIZ[l].filter(function(q,i){return a[i]===q.a;}).length;
+    return '<tr><td><a href="#'+l+'">'+l.slice(1)+'. '+esc(titleOf(l))+'</a></td><td class="num">'+cd+' / '+c.length+'</td><td class="num">'+ok+' / '+QUIZ[l].length+'</td><td>'+(S.done[l]?'<span class="chip ok">Меңгерілді</span>':'<span class="chip warn">Жалғасуда</span>')+'</td></tr>';}).join('');
+  var bm=Object.keys(S.bookmarks).filter(function(k){return ids.indexOf(k)>=0;});
+  $('#my-bookmarks').innerHTML=bm.length?'<div class="actions">'+bm.map(function(k){return '<a class="button" href="#'+k+'">★ '+esc(titleOf(k))+'</a>';}).join('')+'</div>':'<p class="lead">Әзірге жоқ. Бөлім тақырыбының жанындағы ☆ белгісін басыңыз.</p>';
+  var notes=['result-l1','result-l2','result-l3','result-l4','result-l5','result-l6'].filter(function(k){return (S.notes[k]||'').trim();});
+  $('#my-notes').innerHTML=notes.length?notes.map(function(k){return '<div class="card" style="margin:8px 0"><h3>'+esc(titleOf(k.replace('result-','')))+'</h3><p style="white-space:pre-line;color:var(--ink)">'+esc(S.notes[k])+'</p></div>';}).join(''):'<p class="lead">Сабақ соңындағы «Нәтижем» өрістері осында жиналады.</p>';
+  var st=$('#storage-status');if(!storageOk){st.hidden=false;st.textContent='Бұл браузер деректерді сақтауға рұқсат бермейді. Жазбаларыңызды «Көшіру» арқылы бөлек сақтаңыз.';}
+}
+function notesMd(){
+  var out='# Вайб-кодинг негіздері: менің жазбаларым\n\n';
+  LESSONS.forEach(function(l){out+='## '+l.slice(1)+'. '+titleOf(l)+(S.done[l]?' ✓':'')+'\n\n'+((S.notes['result-'+l]||'').trim()||'—')+'\n\n';});
+  if((S.notes['free-notes']||'').trim())out+='## Еркін жазба\n\n'+S.notes['free-notes'].trim()+'\n';
+  return out;
+}
+$('#export-progress').addEventListener('click',function(){download('vibe-coding-progress.json',JSON.stringify(S,null,2),'application/json');});
+$('#export-notes').addEventListener('click',function(){download('vibe-coding-jazbalar.md',notesMd(),'text/markdown;charset=utf-8');});
+$('#copy-notes').addEventListener('click',function(){copyText(notesMd(),null);});
+$('#import-progress').addEventListener('change',function(){var f=this.files&&this.files[0];if(!f)return;var rd=new FileReader();
+  rd.onload=function(){try{var o=JSON.parse(rd.result);if(typeof o!=='object'||!o.done)throw 0;S=Object.assign(S,o);save();toast('Прогресс жүктелді. Бет жаңартылады…');setTimeout(function(){location.reload();},900);}catch(e){toast('Файл танылмады. Осы кітаптан жүктелген .json файлын таңдаңыз.');}};rd.readAsText(f);});
+$('#reset-progress').addEventListener('click',function(){$('#reset-confirm').hidden=false;});
+$('#reset-no').addEventListener('click',function(){$('#reset-confirm').hidden=true;});
+$('#reset-yes').addEventListener('click',function(){try{localStorage.removeItem(KEY);}catch(e){}toast('Прогресс өшірілді');setTimeout(function(){location.hash='start';location.reload();},700);});
+
+/* ---------- search ---------- */
+var index=chapters.map(function(c){return {id:c.id,title:c.getAttribute('data-title'),text:c.textContent.replace(/\s+/g,' ')};});
+var sIn=$('#search'),sOut=$('#search-results');
+sIn.addEventListener('input',function(){var q=sIn.value.trim().toLowerCase();if(q.length<2){sOut.hidden=true;return;}
+  var res=[];index.forEach(function(it){var t=it.text.toLowerCase(),i=t.indexOf(q);if(i>=0||it.title.toLowerCase().indexOf(q)>=0){var s=Math.max(0,i-40);res.push('<a href="#'+it.id+'">'+esc(it.title)+'<small>…'+esc(it.text.substr(s,110))+'…</small></a>');}});
+  sOut.innerHTML=res.length?res.join(''):'<p style="padding:8px 11px;margin:0;font-size:14px;color:var(--muted)">Ештеңе табылмады.</p>';sOut.hidden=false;});
+sOut.addEventListener('click',function(){sOut.hidden=true;sIn.value='';});
+document.addEventListener('click',function(e){if(!e.target.closest('.search-box'))sOut.hidden=true;});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){sOut.hidden=true;document.body.classList.remove('menu-open');}});
+
+buildNav();buildFooters();updateProgress();route();save();
+})();
+</script>
+</body>
+</html>

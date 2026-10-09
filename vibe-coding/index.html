@@ -9,7 +9,7 @@
 <meta name="description" content="Мемлекеттік басқару академиясының магистранттары, докторанттары мен оқытушыларына арналған вайб-кодинг бойынша автономды интерактивті оқу құралы.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Unbounded:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Montserrat:wght@600;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
 /* Layout: оқу кітабы — сол жақта тұрақты мазмұн, оң жақта бір ғана тарау; әр сабақ 12 нөмірленген бөлімнен тұратын тізбек. */
 :root{
@@ -338,6 +338,94 @@ abbr.term{text-decoration:underline dotted var(--accent);text-underline-offset:3
 @media (max-width:640px){.author-card{grid-template-columns:1fr}.author-qr{justify-self:center}}
 @media print{.author-card{break-inside:avoid}}
 </style>
+<style>
+/* ===== Жаңа тақырып: Академия түстері (көк + алтын) ===== */
+:root{
+  --bg:#f2f6fb; --paper:#ffffff; --ink:#0f2657; --muted:#4e5f78; --line:#d8e1ee;
+  --accent:#1a5178; --accent-ink:#ffffff; --soft:#e7eff8; --gold:#b07d1e; --gold-soft:#f8efdb;
+  --navy:#0f2657; --navy-2:#1a5178; --gold-hi:#e2b65a;
+  --shadow:0 12px 32px rgba(15,38,87,.08); --radius:18px;
+  --f-display:'Montserrat','Golos Text',system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#081226; --paper:#0f1c36; --ink:#e9eff9; --muted:#a2b2ca; --line:#22345a;
+  --accent:#86b9ea; --accent-ink:#081226; --soft:#14284b; --gold:#e2b65a; --gold-soft:#2b2312;
+  --navy:#0a1934; --navy-2:#133a63; --shadow:0 12px 32px rgba(0,0,0,.4) }}
+:root[data-theme="dark"]{
+  --bg:#081226; --paper:#0f1c36; --ink:#e9eff9; --muted:#a2b2ca; --line:#22345a;
+  --accent:#86b9ea; --accent-ink:#081226; --soft:#14284b; --gold:#e2b65a; --gold-soft:#2b2312;
+  --navy:#0a1934; --navy-2:#133a63; --shadow:0 12px 32px rgba(0,0,0,.4) }
+
+body{background:var(--bg)}
+h1,h2,h3,.chapter-heading h1{font-family:var(--f-display);letter-spacing:-.01em}
+h2{font-weight:700}
+
+/* Жоғарғы жолақ */
+.topbar{background:linear-gradient(90deg,var(--navy),var(--navy-2));border-bottom:3px solid var(--gold-hi);color:#fff}
+.brand,.brand-text{color:#fff}
+.brand small{color:#c9d6ea}
+.brand-mark{background:var(--gold-hi);color:#0f2657;border-radius:50%;font-family:var(--f-display);font-weight:800}
+.topbar .search-box input:not([type=checkbox]):not([type=radio]){background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.22);color:#fff}
+.topbar .search-box input::placeholder{color:#c9d6ea}
+.top-actions button,#menu-toggle{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.22);color:#fff}
+.top-actions button:hover,#menu-toggle:hover{background:rgba(255,255,255,.18);border-color:var(--gold-hi)}
+#search-results{color:var(--ink)}
+
+/* Бүйір мәзір */
+.sidebar{background:var(--paper)}
+.side-progress{background:linear-gradient(135deg,var(--navy),var(--navy-2));color:#fff;border-radius:16px}
+.side-progress strong,.side-progress span{color:#fff}
+.progress-track{background:rgba(255,255,255,.2)}
+.progress-fill{background:var(--gold-hi)}
+.nav-group{color:var(--gold);border-top:1px solid var(--line);padding-top:14px}
+.sidebar nav a{border-left:3px solid transparent;border-radius:0 9px 9px 0}
+.sidebar nav a:hover{background:var(--soft)}
+.sidebar nav a.active{background:var(--soft);color:var(--ink);border-left-color:var(--gold-hi);font-weight:700}
+.side-author{border-left:3px solid var(--gold-hi);padding-left:8px}
+
+/* Басты бет: hero */
+.hero{background:radial-gradient(circle at 85% 15%,rgba(226,182,90,.22),transparent 40%),linear-gradient(135deg,#0f2657,#1a5178);color:#fff;border-radius:26px;padding:36px 34px;margin-top:6px;box-shadow:var(--shadow)}
+.hero .eyebrow{color:var(--gold-hi)}
+.hero h1{color:#fff}
+.hero h1 em{color:var(--gold-hi);white-space:nowrap}
+.hero .lead{color:#d7e2f2}
+.hero button{background:transparent;color:#fff;border-color:rgba(255,255,255,.4)}
+.hero button:hover{background:rgba(255,255,255,.12);border-color:#fff}
+.hero button.primary{background:var(--gold-hi)!important;border-color:var(--gold-hi)!important;color:#0f2657!important}
+.hero .mock{box-shadow:0 18px 40px rgba(0,0,0,.3)}
+
+/* Тараулар */
+.chapter-heading{border-bottom:none;position:relative;padding-bottom:18px}
+.chapter-heading::after{content:"";position:absolute;left:0;bottom:0;width:72px;height:4px;border-radius:4px;background:linear-gradient(90deg,var(--gold-hi),var(--accent))}
+.eyebrow{color:var(--gold);letter-spacing:.12em}
+.part-no{background:var(--navy);color:#fff;border-radius:50%;box-shadow:0 0 0 4px var(--soft)}
+.part{border-color:var(--line)}
+button.primary{background:var(--navy);border-color:var(--navy);color:#fff}
+:root[data-theme="dark"] button.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) button.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}}
+.card{transition:transform .15s,box-shadow .15s}
+.card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.prompt{border-left:4px solid var(--gold-hi)}
+.callout{border-left:4px solid var(--accent)}
+.wizard{border-top:4px solid var(--navy-2)}
+.wiz-dots button.on,.wiz-dots .on{background:var(--gold-hi)!important;border-color:var(--gold-hi)!important;color:#0f2657!important}
+
+/* Сабақ карточкалары деңгей бойынша */
+.lc-group{font-family:var(--f-display);font-weight:700;font-size:.95em;margin:16px 0 2px;padding:6px 14px;border-radius:999px;justify-self:start;color:#fff}
+.lc-group.lv1{background:#2f7d5b}
+.lc-group.lv2{background:var(--navy-2)}
+.lc-group.lv3{background:#8a5a12}
+.lesson-card{border-left:5px solid var(--line);transition:transform .15s}
+.lesson-card:hover{transform:translateX(3px)}
+.lesson-card.lv1{border-left-color:#2f7d5b}
+.lesson-card.lv2{border-left-color:var(--navy-2)}
+.lesson-card.lv3{border-left-color:#b07d1e}
+.lesson-card.lv1 .n{color:#2f7d5b}
+.lesson-card.lv3 .n{color:#b07d1e}
+.author-card{border-left-color:var(--gold-hi)}
+:root[data-theme="dark"] .part-no{background:var(--navy-2);color:var(--gold-hi)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .part-no{background:var(--navy-2);color:var(--gold-hi)}}
+</style>
 </head>
 <body>
 <header class="topbar">
@@ -407,7 +495,7 @@ abbr.term{text-decoration:underline dotted var(--accent);text-underline-offset:3
   <p>Бір жерде түсінбесеңіз, сары түсті <strong>«Түсінбедім»</strong> жолын басыңыз. Онда сол қадам одан да қарапайым түсіндірілген. Бірдеңе шықпай жатса, <a href="#help">«Көмек: шықпай жатыр»</a> бөлімін ашыңыз.</p>
 
   <h2>Сабақтар</h2>
-  <p><strong>1–6 сабақ</strong> толығымен браузерде, тегін өтеді. <strong>7–11 сабақ</strong> (2-деңгей) терминал, Claude Code, GitHub, Vercel және Codex құралдарын үйретеді. Онда нағыз жоба жасап, интернетке өзіңіз шығарасыз. Курс соңында <a href="#practicum">практикум</a> бар: веб-парақша, чат-бот және электронды оқулық жасау нұсқаулықтары.</p>
+  <p><strong>1–6 сабақ</strong> толығымен браузерде, тегін өтеді. <strong>7–11 сабақ</strong> (2-деңгей) терминал, Claude Code, GitHub, Vercel және Codex құралдарын үйретеді. Онда нағыз жоба жасап, интернетке өзіңіз шығарасыз. <strong>12–15 сабақ</strong> (3-деңгей) зерттеушілерге арналған: деректерді талдау, сауалнама және дерекқор, көп құжатты AI-мен өңдеу, ғылыми адалдық. Курс соңында <a href="#practicum">практикум</a> бар: веб-парақша, чат-бот және электронды оқулық жасау нұсқаулықтары.</p>
   <div class="lesson-cards" id="lesson-cards"></div>
 
   <div class="callout warn"><strong>Бір ғана маңызды ереже.</strong> AI чатына студенттің аты-жөнін, ЖСН-ін, телефонын, құпиясөзді және қызметтік құжаттарды жазбаңыз. Жаттығуда ойдан шығарылған мысалдарды қолданыңыз.</div>
@@ -798,7 +886,7 @@ abbr.term{text-decoration:underline dotted var(--accent);text-underline-offset:3
   <div class="welcome"><p><strong>Бұл деңгей қиынырақ, бірақ қорқынышты емес.</strong></p><p>Мұнда да кодты өзіңіз жазбайсыз. Жаңалығы мынада: AI енді чатта емес, сіздің компьютеріңізде, өз папкаңызда жұмыс істейді. Ал жасаған жобаңыз интернетте өз сілтемесімен тұрады. Дәл осы оқулық та солай жасалған.</p></div>
 
   <h2>Жол картасы</h2>
-  <div class="flow"><span>7. Терминал</span><b>→</b><span>8. Claude Code</span><b>→</b><span>9. GitHub</span><b>→</b><span>10. Vercel</span><b>→</b><span class="end">11. Codex</span></div>
+  <div class="flow"><span>7. Терминал</span><b>→</b><span>8. Claude Code</span><b>→</b><span>9. GitHub</span><b>→</b><span>10. Vercel</span><b>→</b><span>11. Codex</span><b>→</b><span class="end">3-деңгей: зерттеу</span></div>
 
   <h2>Жаңа бес сөз</h2>
   <div class="kv">
@@ -1152,6 +1240,231 @@ abbr.term{text-decoration:underline dotted var(--accent);text-underline-offset:3
   <footer class="chapter-footer"><label><input type="checkbox" data-done="l11"> Сабақ аяқталды</label><div class="chapter-next"></div></footer>
 </article>
 
+<!-- ================= 3-ДЕҢГЕЙ: КІРІСПЕ ================= -->
+<article id="level3" class="chapter" data-title="3-деңгейге кіріспе" data-group="3-деңгей: зерттеушіге">
+  <header class="chapter-heading"><div><span class="eyebrow">3-деңгей · 5 минут</span><h1>Зерттеушіге арналған вайб-кодинг</h1><p class="lead">Магистрлік және докторлық зерттеуге тікелей пайдалы төрт дағды: деректерді талдау, сауалнама жинау, көп құжатты өңдеу және AI-ды ғылыми адал қолдану.</p></div><button class="bookmark" data-bookmark="level3" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+  <div class="welcome"><p><strong>Бұл деңгей кімге арналған?</strong></p><p>Диссертация, мақала немесе ғылыми жоба жазып жүргендерге. 1–2 деңгейдегі дағдылар керек болады: промпт жазу, агентпен жұмыс, GitHub және Vercel. 12-сабақты тек 1-деңгейді білетін адам да өте алады.</p></div>
+  <div class="flow"><span>12. Деректер мен дашборд</span><b>→</b><span>13. Сауалнама + дерекқор</span><b>→</b><span>14. Көп құжатты өңдеу</span><b>→</b><span class="end">15. Ғылыми адалдық</span></div>
+  <h2>Жаңа төрт сөз</h2>
+  <div class="kv">
+    <div><b>Дашборд</b>Бір беттегі бірнеше диаграмма мен көрсеткіш. Деректің негізгі көрінісін бір қарағанда көрсетеді.</div>
+    <div><b>Дерекқор</b>Жауаптар мен жазбалар сақталатын интернеттегі кесте. Біз тегін Supabase қызметін қолданамыз.</div>
+    <div><b>API</b>Бағдарламаның AI-ға тікелей, чатсыз сұрау жіберу жолы. Жүздеген құжатты өңдеуге керек.</div>
+    <div><b>Қайталанымдылық</b>Басқа зерттеуші сіздің қадамдарыңызды қайталап, дәл сондай нәтиже ала алуы.</div>
+  </div>
+  <div class="callout warn"><strong>Зерттеу этикасы бірінші орында.</strong> Респонденттердің дербес деректері, жарияланбаған құжаттар және этика комиссиясы бекітпеген деректер AI құралдарына жүктелмейді. Күмән болса, ғылыми жетекшіңізбен және этика комиссиясымен ақылдасыңыз.</div>
+  <footer class="chapter-footer"><label><input type="checkbox" data-done="level3"> Оқыдым</label><div class="chapter-next"></div></footer>
+</article>
+
+<!-- ================= 12-САБАҚ ================= -->
+<article id="l12" class="chapter" data-title="Ашық деректер және дашборд" data-group="3-деңгей: зерттеушіге" data-num="12" data-time="35 минут" data-sub="Статистикалық кестеден диаграммалар мен дашборд жасайсыз">
+  <header class="chapter-heading"><div><span class="eyebrow">12-сабақ · 35 минут · 1-деңгей құралдары жеткілікті</span><h1>Ашық деректер және дашборд</h1><p class="lead">Ресми статистика кестесін AI-ға беріп, оны түсінікті диаграммаларға айналдырамыз. Ең маңыздысы: әр санды тексереміз.</p></div><button class="bookmark" data-bookmark="l12" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+  <div class="part"><div class="part-no">1</div><div class="part-body"><span class="eyebrow">Сабақ тақырыбы</span><h2>Кестеден дашбордқа</h2></div></div>
+  <div class="part"><div class="part-no">2</div><div class="part-body"><span class="eyebrow">Сабақ соңында не істей аламын?</span>
+    <ul class="outcomes"><li>Ашық деректер көзінен кесте жүктеп ала аламын.</li><li>AI-мен деректі сипаттап, диаграммалар мен дашборд жасай аламын.</li><li>AI есептеген сандарды түпнұсқамен салыстырып тексере аламын.</li></ul></div></div>
+  <div class="part"><div class="part-no">3</div><div class="part-body"><span class="eyebrow">Қысқа түсініктеме</span>
+    <p>Мемлекеттік басқару зерттеулерінде ресми статистика жиі қолданылады: халық саны, мемлекеттік қызметтер, бюджет. Claude-қа Excel немесе CSV файлын жүктесеңіз, ол кестені оқып, есептеп, диаграмма сызады.</p>
+    <p>Бірақ AI санды қате оқуы, бағандарды шатастыруы немесе «әдемі» болу үшін сандарды дөңгелектеуі мүмкін. Сондықтан бұл сабақтағы ең маңызды қадам — <strong>тексеру</strong>.</p>
+    <details class="simpler"><summary>CSV деген не?</summary><p>Excel кестесінің ең қарапайым түрі: бағандар үтірмен бөлінген мәтін. Excel-де «Сохранить как → CSV» арқылы жасауға болады. AI мұндай файлды жақсы оқиды.</p></details></div></div>
+  <div class="part"><div class="part-no">4</div><div class="part-body"><span class="eyebrow">Қадамдық нұсқаулық</span>
+    <div class="wizard" data-wiz="l12">
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Деректі таңдап, жүктеп алыңыз</h3><p>Ресми көздер: <code>stat.gov.kz</code> (Ұлттық статистика бюросы), <code>data.egov.kz</code> (ашық деректер порталы), халықаралық: World Bank, OECD. Зерттеу сұрағыңызға қатысты бір кестені Excel немесе CSV түрінде жүктеп алыңыз.</p>
+        <details class="simpler"><summary>Қандай кесте алайын?</summary><p>Бастау үшін шағын кесте таңдаңыз: 10–20 жол, 3–6 баған. Мысалы, «Өңірлер бойынша электрондық мемлекеттік қызметтер саны, 2019–2024».</p></details></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">stat.gov.kz</span></div><div class="mock-body"><div class="m-card">Өңір · 2022 · 2023 · 2024</div><div class="m-card">Астана · … · … · …</div><span class="m-btn hl" style="justify-self:start">⬇ Excel</span></div></div></div></div>
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Файлды Claude-қа жүктеңіз</h3><p>Жаңа чат ашып, хабарлама жолының жанындағы <strong>📎 (немесе +)</strong> белгісін басып, файлды таңдаңыз. Сосын 5-бөлімдегі «Деректі сипаттау» промптын жіберіңіз.</p>
+        <details class="simpler"><summary>Неге алдымен сипаттаймыз?</summary><p>AI кестені дұрыс түсінгенін тексеру үшін. Ол бағандарды, өлшем бірліктерін, жылдарды дұрыс атаса ғана диаграммаға көшеміз.</p></details></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">claude.ai/new</span></div><div class="mock-body" style="align-content:end"><div class="m-card">📄 egov-qyzmetter.xlsx</div><div class="m-input"><span class="hl">📎</span> Мына кестені сипатта…<span class="m-send">↑</span></div></div></div></div></div>
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Сипаттамасын тексеріңіз</h3><p>AI кестеде қанша жол, қандай бағандар, қай жылдар бар екенін айтады. Оны Excel-дегі файлмен салыстырыңыз. Қате болса: «3-баған — мың адам емес, пайыз» деп түзетіңіз.</p></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">claude.ai/chat/…</span></div><div class="mock-body"><div class="m-ai">Кестеде 17 өңір, 2019–2024 жылдар. Өлшем бірлігі: мың қызмет…</div><span class="hl-tag">Excel-мен салыстырыңыз</span></div></div></div></div>
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Дашборд жасатыңыз</h3><p>5-бөлімдегі «Дашборд» промптын жіберіңіз. Оң жақта артефакт ретінде 3–4 диаграммасы бар бет ашылады.</p></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Preview</span></div><div class="mock-body"><div class="m-page"><h4>e-Қызметтер дашборды</h4></div><div class="m-card">▁▃▅▇ Жылдар бойынша өсу</div><div class="m-card hl">Ең жоғары: Астана · Ең төмен: …</div></div></div></div></div>
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Үш санды қолмен тексеріңіз</h3><p>Дашбордтан кез келген үш санды алып, Excel-дегі түпнұсқамен салыстырыңыз. Бір сан сәйкес келмесе, AI-ға айтыңыз да, бүкіл дашбордты қайта тексертіңіз. Диаграмма астына дереккөзді (сайт, кесте атауы, жүктеген күн) жаздырыңыз.</p></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Preview</span></div><div class="mock-body"><div class="m-card">Дереккөз: ҚР ҰСБ, stat.gov.kz, 2026-10-09 жүктелді</div><span class="hl-tag">Міндетті жол</span></div></div></div></div>
+    </div></div></div>
+  <div class="part"><div class="part-no">5</div><div class="part-body"><span class="eyebrow">Көшіріп қолданатын AI промпты</span>
+    <div class="prompt" data-title="12-сабақ: деректі сипаттау"><div class="prompt-top"><strong>Деректі сипаттау</strong><button data-copy>Көшіру</button></div><pre>Мен мемлекеттік басқару саласының зерттеушісімін, бағдарламашы емеспін.
+Жүктелген кестені әзірге өзгертпе, тек сипатта:
+- неше жол, қандай бағандар, өлшем бірліктері, қай жылдар;
+- бос ұяшықтар немесе күмәнді мәндер бар ма;
+- зерттеу сұрағым үшін қандай салыстыру мүмкін.
+Зерттеу сұрағым: [сұрақ].</pre></div>
+    <div class="prompt" data-title="12-сабақ: дашборд"><div class="prompt-top"><strong>Дашборд жасау</strong><button data-copy>Көшіру</button></div><pre>Осы кесте бойынша бір беттік дашборд жаса (артефакт ретінде):
+- жоғарыда 3 негізгі көрсеткіш (мысалы, жалпы саны, өсу пайызы, ең жоғары өңір);
+- 3 диаграмма: уақыт бойынша өзгеріс, өңірлерді салыстыру, үлестер;
+- әр диаграмманың астында бір сөйлемдік түсіндірме;
+- ең төменде дереккөз: [сайт, кесте атауы, жүктелген күн];
+- сандарды өзгертпе және ойдан қоспа. Есептеу формулаларын маған бөлек көрсет.
+Қазақ тілінде, басып шығаруға және телефонға ыңғайлы.</pre></div></div></div>
+  <div class="part"><div class="part-no">6</div><div class="part-body"><span class="eyebrow">Күтілетін нәтиже</span><p>3 көрсеткіші, 3 диаграммасы және дереккөзі бар бір беттік дашборд. Ондағы кемінде үш сан түпнұсқамен тексерілген.</p></div></div>
+  <div class="part"><div class="part-no">7</div><div class="part-body"><span class="eyebrow">Өз бетіңізше орындайтын тапсырма</span><p>Өз зерттеу тақырыбыңыз бойынша екі түрлі көзден (мысалы, ұлттық статистика және World Bank) деректер алып, оларды бір дашбордта салыстырыңыз.</p></div></div>
+  <div class="part"><div class="part-no">8</div><div class="part-body"><span class="eyebrow">Тапсырманы қалай орындаймын?</span><ol class="steps"><li>Екі кестені де бір чатқа жүктеңіз.</li><li>«Екі кестенің жылдары мен өлшем бірліктері сәйкес пе?» деп сұраңыз.</li><li>Сәйкестендіргеннен кейін ғана дашборд жасатыңыз.</li><li>Дашбордты Publish немесе GitHub + Vercel арқылы жариялаңыз.</li></ol></div></div>
+  <div class="part"><div class="part-no">9</div><div class="part-body"><span class="eyebrow">Тексеру тізімі</span><div class="checklist"><label><input type="checkbox" data-check="l12-1"> Ресми көзден кесте жүктеп алдым.</label><label><input type="checkbox" data-check="l12-2"> AI сипаттамасын түпнұсқамен салыстырдым.</label><label><input type="checkbox" data-check="l12-3"> Дашбордта 3 диаграмма бар.</label><label><input type="checkbox" data-check="l12-4"> Кемінде 3 санды қолмен тексердім.</label><label><input type="checkbox" data-check="l12-5"> Дереккөз көрсетілген.</label></div></div></div>
+  <div class="part"><div class="part-no">10</div><div class="part-body"><span class="eyebrow">Жиі кездесетін қиындық</span>
+    <dl class="err"><dt>Excel файлы біріктірілген ұяшықтар мен бірнеше тақырып жолынан тұрады, AI шатасады.</dt><dd><strong>Шешімі:</strong> «Алдымен кестені тазала: бір тақырып жолы, бір мән бір ұяшықта. Тазаланған кестені маған көрсет» деп сұраңыз.</dd></dl>
+    <dl class="err"><dt>Диаграммадағы сан түпнұсқадан өзгеше.</dt><dd><strong>Шешімі:</strong> «[Өңір], [жыл] үшін кестеде [сан] тұр, сен [басқа сан] көрсеттің. Барлық сандарды кестемен қайта салыстыр» деп жазыңыз.</dd></dl></div></div>
+  <div class="part"><div class="part-no">11</div><div class="part-body"><span class="eyebrow">Қысқаша қорытынды</span><p>Сіз ресми деректен зерттеуге жарамды дашборд жасадыңыз және оны тексердіңіз. Есіңізде болсын: AI сызады, ал сандарға жауап беретін — зерттеуші.</p></div></div>
+  <div class="part"><div class="part-no">12</div><div class="part-body"><span class="eyebrow">Өзіңізді тексеріңіз</span><div class="quiz" data-quiz="l12"></div></div></div>
+  <section class="submission"><h2>Нәтижем</h2><label class="field">Қандай дерек алдыңыз, қандай қорытынды байқадыңыз?<textarea data-note="result-l12"></textarea></label></section>
+  <footer class="chapter-footer"><label><input type="checkbox" data-done="l12"> Сабақ аяқталды</label><div class="chapter-next"></div></footer>
+</article>
+
+<!-- ================= 13-САБАҚ ================= -->
+<article id="l13" class="chapter" data-title="Зерттеу сауалнамасы және дерекқор" data-group="3-деңгей: зерттеушіге" data-num="13" data-time="45 минут" data-sub="Жауаптары дерекқорда сақталатын анонимді сауалнама">
+  <header class="chapter-heading"><div><span class="eyebrow">13-сабақ · 45 минут · Claude Code + Supabase</span><h1>Зерттеу сауалнамасы және дерекқор</h1><p class="lead">Өз сауалнамаңызды жасап, жауаптарды қауіпсіз дерекқорда жинаймыз.</p></div><button class="bookmark" data-bookmark="l13" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+  <div class="part"><div class="part-no">1</div><div class="part-body"><span class="eyebrow">Сабақ тақырыбы</span><h2>Анонимді сауалнама, Supabase дерекқоры және Vercel</h2></div></div>
+  <div class="part"><div class="part-no">2</div><div class="part-body"><span class="eyebrow">Сабақ соңында не істей аламын?</span>
+    <ul class="outcomes"><li>Сауалнама сұрақтарын AI-мен әдістемелік тұрғыдан тексерте аламын.</li><li>Supabase-те жауаптар кестесін жасап, оны қорғай аламын.</li><li>Жауаптарды CSV етіп жүктеп алып, талдай аламын.</li></ul></div></div>
+  <div class="part"><div class="part-no">3</div><div class="part-body"><span class="eyebrow">Қысқа түсініктеме</span>
+    <p>Бұрынғы құралдарымыз ештеңе сақтамайтын. Сауалнамаға жауап <strong>бір жерде жиналуы</strong> керек. Ол жер — <strong>дерекқор</strong>. Supabase — тегін дерекқор қызметі. Бет жауапты соған жібереді, ал жауаптарды тек сіз көресіз.</p>
+    <p>Бұл жерде қауіпсіздік ережесі қатаң: бет тек <strong>жауап қоса алады</strong>, бірақ басқалардың жауабын <strong>оқи алмайды</strong>. Supabase-те мұны <strong>RLS</strong> (жол деңгейіндегі қорғаныс) ережелері қамтамасыз етеді.</p>
+    <details class="simpler"><summary>Оңай жолы бар ма?</summary><p>Иә: Google Forms немесе Microsoft Forms. Олар да жарайды. Бұл сабақ өз дизайныңыз, өз логикаңыз (мысалы, жауапқа қарай келесі сұрақ) және деректеріңізді толық бақылау керек болғанда пайдалы.</p></details></div></div>
+  <div class="part"><div class="part-no">4</div><div class="part-body"><span class="eyebrow">Қадамдық нұсқаулық</span>
+    <div class="wizard" data-wiz="l13">
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Сұрақтарды әдістемелік тексертіңіз</h3><p>Сұрақтарыңызды Claude чатына беріп, «Сұрақтарды тексеру» промптын жіберіңіз. AI екі мағыналы, бағыттаушы, қос сұрақтарды табады. Соңғы шешім — сіз бен жетекшіңізде.</p></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">claude.ai/chat/…</span></div><div class="mock-body"><div class="m-ai">4-сұрақ қос сұрақ: «жылдам және сапалы ма?» Оны екіге бөлу керек.</div></div></div></div></div>
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Supabase жобасын ашыңыз</h3><p><code>supabase.com</code> → <strong>Start your project</strong> → GitHub арқылы кіріңіз → <strong>New project</strong>. Атауы: <code>zertteu-saualnama</code>. Дерекқор құпиясөзін сақтап қойыңыз. Аймақ ретінде жақын аймақты (мысалы, Frankfurt) таңдаңыз.</p>
+        <details class="simpler"><summary>Құпиясөзді қайда сақтаймын?</summary><p>Құпиясөз менеджерінде немесе қағазда. Чатқа, GitHub-қа, кодқа жазбаңыз. Бұл сабақта ол керек болмайды. Жоба оны тек әкімші ретінде кіру үшін сұрайды.</p></details></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">supabase.com/dashboard</span></div><div class="mock-body"><div class="m-card">Project name: zertteu-saualnama</div><div class="m-card">Region: Central EU (Frankfurt)</div><span class="m-btn dark hl" style="justify-self:start">Create new project</span></div></div></div></div>
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Агентке сауалнаманы жасатыңыз</h3><p>Терминалда жаңа папка ашып, <code>claude</code> іске қосыңыз. 5-бөлімдегі «Сауалнама + Supabase» промптын жіберіңіз. Агент сізге Supabase-тің <strong>SQL Editor</strong> бөлімінде орындайтын SQL мәтінін береді: ол кесте мен қорғаныс ережелерін жасайды.</p>
+        <details class="simpler"><summary>SQL деген не?</summary><p>Дерекқорға берілетін бұйрықтар тілі. Оны жазу қажет емес: агент береді, сіз көшіріп, Supabase-те <strong>Run</strong> басасыз. Алдымен агенттен «бұл не істейді?» деп сұраңыз.</p></details></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Supabase · SQL Editor</span></div><div class="mock-body term"><div>create table responses (…);</div><div>alter table responses enable row level security;</div><div class="y">create policy "insert only" … for insert …</div><div class="hl">▶ Run</div></div></div></div></div>
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Кілттерді дұрыс жерге қойыңыз</h3><p>Supabase-те <strong>Project Settings → API</strong> бөлімінен <strong>Project URL</strong> мен <strong>publishable (anon)</strong> кілтін агентке беріңіз. Бұл кілт бетте көрінуге арналған: RLS қосулы болса, ол тек жауап қосуға рұқсат береді.</p>
+        <div class="callout warn"><strong>Ешқашан бермейсіз:</strong> <code>service_role</code> (secret) кілтін және дерекқор құпиясөзін. Олар толық рұқсат береді.</div></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Settings · API</span></div><div class="mock-body"><div class="m-card hl">Project URL · publishable key ✓</div><div class="m-card" style="text-decoration:line-through">service_role key ✗</div></div></div></div></div>
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Тексеріп, жариялаңыз</h3><p>Бетті ашып, 3 сынақ жауап жіберіңіз. Supabase-тің <strong>Table Editor</strong> бөлімінде олар пайда болды ма? Сосын агентке: «GitHub-қа жүкте» деңіз де, Vercel арқылы жариялаңыз (9–10 сабақ). Деректерді жинап болған соң, Table Editor-да <strong>Export → CSV</strong> басыңыз.</p></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Supabase · Table Editor</span></div><div class="mock-body"><div class="m-card">responses · 3 rows</div><span class="m-btn hl" style="justify-self:start">Export → CSV</span></div></div></div></div>
+    </div></div></div>
+  <div class="part"><div class="part-no">5</div><div class="part-body"><span class="eyebrow">Көшіріп қолданатын AI промпты</span>
+    <div class="prompt" data-title="13-сабақ: сұрақтарды тексеру"><div class="prompt-top"><strong>Сұрақтарды әдістемелік тексеру</strong><button data-copy>Көшіру</button></div><pre>Мен мемлекеттік басқару саласында [тақырып] бойынша зерттеу жүргізіп жатырмын.
+Төмендегі сауалнама сұрақтарын әдістемелік тұрғыдан тексер:
+екі мағыналы, бағыттаушы, қос сұрақтарды, жауап нұсқаларының толықтығын,
+Лайкерт шкаласының дұрыстығын. Әр мәселеге түзетілген нұсқа ұсын.
+Сұрақтар: [тізім]</pre></div>
+    <div class="prompt" data-title="13-сабақ: сауалнама + Supabase"><div class="prompt-top"><strong>Claude Code: сауалнама + Supabase</strong><button data-copy>Көшіру</button></div><pre>Мен бағдарламашы емеспін. Әр қадамды қазақша түсіндір.
+Осы папкада Vercel-ге шығатын анонимді зерттеу сауалнамасын жаса:
+- бірінші бетте ақпараттық келісім мәтіні және «Келісемін» батырмасы;
+- сұрақтар: [тізім, түрлері: таңдау / шкала / ашық жауап];
+- аты-жөні, пошта, телефон, IP мекенжайы сұралмайды және сақталмайды;
+- жауаптар Supabase-тегі responses кестесіне жазылады;
+- маған Supabase SQL Editor-да орындайтын SQL бер: кесте, RLS қосу,
+  тек INSERT рұқсат ететін саясат, SELECT/UPDATE/DELETE жабық;
+- бетте тек Project URL және publishable кілт қолданылады, service_role ешқашан;
+- жіберген соң «Рақмет» беті шығады.
+Supabase мәліметтерін мен кейін беремін.</pre></div></div></div>
+  <div class="part"><div class="part-no">6</div><div class="part-body"><span class="eyebrow">Күтілетін нәтиже</span><p>Vercel-де жарияланған сауалнама. Жауаптар Supabase кестесіне түседі, бірақ оларды бет арқылы ешкім оқи алмайды. Сіз оларды CSV етіп жүктеп аласыз.</p></div></div>
+  <div class="part"><div class="part-no">7</div><div class="part-body"><span class="eyebrow">Өз бетіңізше орындайтын тапсырма</span><p>Жиналған жауаптардың CSV файлын 12-сабақтағы тәсілмен Claude-қа беріп, нәтижелер дашбордын жасаңыз (ашық жауаптарды тақырыптар бойынша топтастырып).</p></div></div>
+  <div class="part"><div class="part-no">8</div><div class="part-body"><span class="eyebrow">Тапсырманы қалай орындаймын?</span><ol class="steps"><li>Table Editor → Export → CSV.</li><li>Файлды ашып, онда жеке дерек жоқ екенін тексеріңіз.</li><li>12-сабақтың «Деректі сипаттау» және «Дашборд» промпттарын қолданыңыз.</li></ol></div></div>
+  <div class="part"><div class="part-no">9</div><div class="part-body"><span class="eyebrow">Тексеру тізімі</span><div class="checklist"><label><input type="checkbox" data-check="l13-1"> Сұрақтар әдістемелік тексерілді.</label><label><input type="checkbox" data-check="l13-2"> Supabase жобасы мен кестесі жасалды, RLS қосулы.</label><label><input type="checkbox" data-check="l13-3"> Бетте тек publishable кілт тұр.</label><label><input type="checkbox" data-check="l13-4"> Сынақ жауаптары кестеге түсті.</label><label><input type="checkbox" data-check="l13-5"> Ақпараттық келісім мәтіні бар, жеке дерек сұралмайды.</label></div></div></div>
+  <div class="part"><div class="part-no">10</div><div class="part-body"><span class="eyebrow">Жиі кездесетін қиындық</span>
+    <dl class="err"><dt>Жауап жібергенде «new row violates row-level security policy» қатесі шығады.</dt><dd>RLS қосылған, бірақ INSERT саясаты жоқ немесе қате.</dd><dd><strong>Шешімі:</strong> Қате мәтінін агентке беріп, «INSERT саясатын түзет, SELECT жабық қалсын» деңіз.</dd></dl>
+    <dl class="err"><dt>Supabase жобасы «Paused» күйінде.</dt><dd>Тегін жобалар ұзақ қолданылмаса, тоқтатылады.</dd><dd><strong>Шешімі:</strong> Dashboard-та <strong>Restore</strong> басыңыз. Сауалнама кезеңінде жобаны жиі тексеріп тұрыңыз.</dd></dl></div></div>
+  <div class="part"><div class="part-no">11</div><div class="part-body"><span class="eyebrow">Қысқаша қорытынды</span><p>Сізде енді деректерді өзі жинайтын нағыз зерттеу құралы бар. Ол анонимді, қорғалған және сіздің бақылауыңызда.</p></div></div>
+  <div class="part"><div class="part-no">12</div><div class="part-body"><span class="eyebrow">Өзіңізді тексеріңіз</span><div class="quiz" data-quiz="l13"></div></div></div>
+  <section class="submission"><h2>Нәтижем</h2><label class="field">Сауалнама сілтемесі және неше жауап жиналды?<textarea data-note="result-l13"></textarea></label></section>
+  <footer class="chapter-footer"><label><input type="checkbox" data-done="l13"> Сабақ аяқталды</label><div class="chapter-next"></div></footer>
+</article>
+
+<!-- ================= 14-САБАҚ ================= -->
+<article id="l14" class="chapter" data-title="Көп құжатты AI-мен өңдеу" data-group="3-деңгей: зерттеушіге" data-num="14" data-time="45 минут" data-sub="Жүздеген мәтінді API арқылы жіктеп, кестеге түсіресіз">
+  <header class="chapter-heading"><div><span class="eyebrow">14-сабақ · 45 минут · Claude Code + API</span><h1>Көп құжатты AI-мен өңдеу</h1><p class="lead">Жүздеген нормативтік акт, өтініш немесе мақала аннотациясын бір рет жазылған нұсқаулықпен жіктейміз.</p></div><button class="bookmark" data-bookmark="l14" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+  <div class="part"><div class="part-no">1</div><div class="part-body"><span class="eyebrow">Сабақ тақырыбы</span><h2>API арқылы мәтіндерді жіктеу (контент-талдау)</h2></div></div>
+  <div class="part"><div class="part-no">2</div><div class="part-body"><span class="eyebrow">Сабақ соңында не істей аламын?</span>
+    <ul class="outcomes"><li>Жіктеу нұсқаулығын (кодтау кітабын) AI-ға түсінікті етіп жаза аламын.</li><li>Агентке мәтіндерді API арқылы өңдейтін скрипт жасата аламын.</li><li>AI нәтижесінің сапасын өз кодтауыммен салыстырып бағалай аламын.</li></ul></div></div>
+  <div class="part"><div class="part-no">3</div><div class="part-body"><span class="eyebrow">Қысқа түсініктеме</span>
+    <p>Чатқа 5–10 құжатты қолмен салуға болады. Ал 300 құжат болса, әрқайсысын қолмен жүктеу мүмкін емес. Бұл жерде <strong>API</strong> көмектеседі: агент жазған шағын бағдарлама (скрипт) әр мәтінді AI-ға жіберіп, жауапты кестеге жазады.</p>
+    <p>Мысалы: 2015–2025 жылдардағы 300 үкімет қаулысын «цифрландыру», «әлеуметтік қорғау», «экономика» санаттарына бөлу. Нәтиже — талдауға дайын CSV кесте.</p>
+    <details class="simpler"><summary>API ақылы ма?</summary><p>Иә, жазылымнан бөлек төленеді: әр мәтін үшін аз ғана ақы алынады. Жүздеген қысқа мәтін әдетте бірнеше долларға дейін тұрады. Алдымен 10 мәтінмен сынап, бағасын көріңіз. console.anthropic.com-да шығынға шек қойыңыз.</p></details></div></div>
+  <div class="part"><div class="part-no">4</div><div class="part-body"><span class="eyebrow">Қадамдық нұсқаулық</span>
+    <div class="wizard" data-wiz="l14">
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Кодтау нұсқаулығын жазыңыз</h3><p>Әр санатқа: атауы, анықтамасы, бір мысал, бір қарсы мысал. Бұл — сіздің ғылыми шешіміңіз. AI тек осы нұсқаулықты орындайды. 13-сабақтағыдай чатта AI-дан нұсқаулықтың анықтығын тексертіңіз.</p></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">kodtau-nusqaulygy.md</span></div><div class="mock-body"><div class="m-card"><strong>A. Цифрландыру</strong>: мемлекеттік қызметті электронды түрге көшіру… Мысал: … Қарсы мысал: …</div></div></div></div></div>
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Мәтіндерді бір папкаға жинаңыз</h3><p>Жаңа папкада <code>matinder</code> деген ішкі папка жасап, әр құжатты жеке <code>.txt</code> файл етіп салыңыз немесе бәрін бір CSV кестеге (id, мәтін) жинаңыз. Тек ашық жарияланған құжаттарды қолданыңыз.</p></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Finder — matinder</span></div><div class="mock-body"><div class="m-card">📄 001.txt  📄 002.txt  📄 003.txt … 📄 300.txt</div></div></div></div></div>
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>API кілтін алыңыз</h3><p><code>console.anthropic.com</code> сайтында тіркеліп, <strong>Billing</strong> бөлімінде аз сома салыңыз және шек қойыңыз. <strong>API Keys → Create Key</strong> басыңыз. Кілтті агентке чат арқылы бермеңіз: агент сізге оны <code>.env</code> файлына қалай қою керегін айтады.</p>
+        <div class="callout warn"><strong>Кілт — құпиясөз.</strong> GitHub-қа, чатқа, скриптің ішіне жазылмайды. <code>.env</code> файлы <code>.gitignore</code>-да болуы керек.</div></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">console.anthropic.com</span></div><div class="mock-body"><div class="m-card">API Keys</div><span class="m-btn dark hl" style="justify-self:start">Create Key</span></div></div></div></div>
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Скриптті жасатып, 10 мәтінмен сынаңыз</h3><p>Папкада <code>claude</code> іске қосып, 5-бөлімдегі промптты жіберіңіз. Агент скрипт жазады. Алдымен тек 10 мәтінге іске қостырыңыз. Нәтижедегі <code>natizhe.csv</code> файлын ашып оқыңыз.</p></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Terminal — claude</span></div><div class="mock-body term"><div>● Bash(python classify.py --limit 10)</div><div class="c">10/10 дайын · шамамен құны: $0.02</div><div class="y hl">✔ natizhe.csv жазылды</div></div></div></div></div>
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Сапасын тексеріп, барлығын өңдеңіз</h3><p>Кездейсоқ 30 мәтінді AI-ға қарамай <strong>өзіңіз</strong> кодтаңыз. Сосын агенттен екі кодтауды салыстырып, сәйкестік пайызын (және Коэн каппасын) есептетіңіз. Сәйкестік жеткілікті болса ғана барлық мәтінді өңдеңіз. Төмен болса, нұсқаулықты нақтылаңыз.</p></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Terminal — claude</span></div><div class="mock-body term"><div>Сәйкестік: 27/30 (90%)</div><div>Cohen's κ = 0.84</div><div class="y hl">Сәйкессіз 3 мәтін: 017, 102, 245</div></div></div></div></div>
+    </div></div></div>
+  <div class="part"><div class="part-no">5</div><div class="part-body"><span class="eyebrow">Көшіріп қолданатын AI промпты</span>
+    <div class="prompt" data-title="14-сабақ: мәтіндерді жіктеу скрипті"><div class="prompt-top"><strong>Claude Code: жіктеу скрипті</strong><button data-copy>Көшіру</button></div><pre>Мен бағдарламашы емеспін, зерттеушімін. Әр қадамды қазақша түсіндір.
+matinder папкасындағы мәтіндерді Anthropic API арқылы жіктейтін скрипт жаса:
+- кодтау нұсқаулығы kodtau-nusqaulygy.md файлында, оны жүйелік нұсқаулық ретінде қолдан;
+- әр мәтінге: санат, сенімділік (жоғары/орта/төмен), бір сөйлемдік негіздеме;
+- нәтиже natizhe.csv: id, санат, сенімділік, негіздеме;
+- API кілті тек .env файлынан оқылсын, .gitignore-ға қос;
+- алдымен --limit 10 режимі, әр іске қосудың шамамен құнын көрсет;
+- қате болса, сол мәтінді өткізіп, журналға жаз, қайта іске қосқанда жалғастыр;
+- қолданылған модель атауын, күнін және нұсқаулықты нәтижемен бірге сақта (қайталанымдылық үшін).
+Кейін менің қолмен кодтауымды (qolmen.csv) AI нәтижесімен салыстыратын,
+сәйкестік пайызы мен Коэн каппасын есептейтін бөлек скрипт жаса.</pre></div></div></div>
+  <div class="part"><div class="part-no">6</div><div class="part-body"><span class="eyebrow">Күтілетін нәтиже</span><p>Барлық мәтін жіктелген <code>natizhe.csv</code> кестесі, сапа көрсеткіші (сәйкестік, каппа) және қайталауға керек мәліметтер: модель, күн, нұсқаулық.</p></div></div>
+  <div class="part"><div class="part-no">7</div><div class="part-body"><span class="eyebrow">Өз бетіңізше орындайтын тапсырма</span><p>Өз зерттеуіңізден 50–100 мәтін алып, кемінде 3 санаты бар кодтау нұсқаулығымен өңдеңіз. Нәтижені 12-сабақтағыдай дашбордқа айналдырыңыз.</p></div></div>
+  <div class="part"><div class="part-no">8</div><div class="part-body"><span class="eyebrow">Тапсырманы қалай орындаймын?</span><ol class="steps"><li>Нұсқаулықты жазып, чатта тексертіңіз.</li><li>10 мәтінмен сынаңыз, нұсқаулықты түзетіңіз.</li><li>30 мәтінді өзіңіз кодтап, сәйкестікті есептетіңіз.</li><li>Барлығын өңдеп, дашборд жасаңыз.</li></ol></div></div>
+  <div class="part"><div class="part-no">9</div><div class="part-body"><span class="eyebrow">Тексеру тізімі</span><div class="checklist"><label><input type="checkbox" data-check="l14-1"> Кодтау нұсқаулығында әр санаттың анықтамасы мен мысалы бар.</label><label><input type="checkbox" data-check="l14-2"> API кілті .env файлында, GitHub-та жоқ.</label><label><input type="checkbox" data-check="l14-3"> 10 мәтінмен сынадым, құнын көрдім.</label><label><input type="checkbox" data-check="l14-4"> Қолмен кодтаумен сәйкестік есептелді.</label><label><input type="checkbox" data-check="l14-5"> Модель, күн, нұсқаулық сақталды.</label></div></div></div>
+  <div class="part"><div class="part-no">10</div><div class="part-body"><span class="eyebrow">Жиі кездесетін қиындық</span>
+    <dl class="err"><dt>«401 authentication error» немесе «invalid x-api-key».</dt><dd><strong>Шешімі:</strong> .env файлындағы кілтті тексеріңіз: бос орын, тырнақша болмасын. Кілт өшірілген болса, жаңасын жасаңыз.</dd></dl>
+    <dl class="err"><dt>«429 rate limit» қатесі.</dt><dd>Тым жиі сұрау жіберілді.</dd><dd><strong>Шешімі:</strong> Агентке «сұраулар арасына үзіліс қос және қатеден кейін қайталау логикасын қос» деңіз. Көп мәтін үшін Anthropic-тің Batch API-ін қолдануды сұраңыз, ол арзанырақ.</dd></dl>
+    <dl class="err"><dt>Сәйкестік төмен (мысалы, 60%).</dt><dd><strong>Шешімі:</strong> Сәйкессіз мәтіндерді қарап, санат анықтамаларын нақтылаңыз. Бұл — зерттеудің қалыпты бөлігі, адамдар арасында да солай болады.</dd></dl></div></div>
+  <div class="part"><div class="part-no">11</div><div class="part-body"><span class="eyebrow">Қысқаша қорытынды</span><p>Сіз апталап қолмен жасалатын контент-талдауды бірнеше сағатқа қысқарттыңыз, бірақ ғылыми бақылауды жоғалтпадыңыз: нұсқаулық та, тексеру де — сіздікі.</p></div></div>
+  <div class="part"><div class="part-no">12</div><div class="part-body"><span class="eyebrow">Өзіңізді тексеріңіз</span><div class="quiz" data-quiz="l14"></div></div></div>
+  <section class="submission"><h2>Нәтижем</h2><label class="field">Неше мәтін өңделді, сәйкестік қандай болды?<textarea data-note="result-l14"></textarea></label></section>
+  <footer class="chapter-footer"><label><input type="checkbox" data-done="l14"> Сабақ аяқталды</label><div class="chapter-next"></div></footer>
+</article>
+
+<!-- ================= 15-САБАҚ ================= -->
+<article id="l15" class="chapter" data-title="Ғылыми адалдық және қайталанымдылық" data-group="3-деңгей: зерттеушіге" data-num="15" data-time="30 минут" data-sub="AI қолданғаныңызды ғылыми жұмыста дұрыс сипаттайсыз">
+  <header class="chapter-heading"><div><span class="eyebrow">15-сабақ · 30 минут · тегін</span><h1>Ғылыми адалдық және қайталанымдылық</h1><p class="lead">AI-мен жасалған нәтижені диссертация мен мақалада ашық, тексерілетін және адал түрде көрсетеміз.</p></div><button class="bookmark" data-bookmark="l15" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+  <div class="part"><div class="part-no">1</div><div class="part-body"><span class="eyebrow">Сабақ тақырыбы</span><h2>AI қолдану туралы мәлімдеме және зерттеу репозиторийі</h2></div></div>
+  <div class="part"><div class="part-no">2</div><div class="part-body"><span class="eyebrow">Сабақ соңында не істей аламын?</span>
+    <ul class="outcomes"><li>AI-ды қай жерде қолдануға болатынын және болмайтынын ажырата аламын.</li><li>Жұмысқа «AI қолдану туралы мәлімдеме» жаза аламын.</li><li>Зерттеу материалдарын басқалар қайталай алатындай етіп GitHub-та жинай аламын.</li></ul></div></div>
+  <div class="part"><div class="part-no">3</div><div class="part-body"><span class="eyebrow">Қысқа түсініктеме</span>
+    <p>Халықаралық журналдар мен университеттердің көбі AI-ды зерттеуде қолдануға рұқсат етеді, бірақ үш шарт қояды: <strong>ашықтық</strong> (не үшін, қай құрал қолданылды), <strong>жауапкершілік</strong> (нәтижеге автор жауап береді, AI автор бола алмайды) және <strong>тексерілімділік</strong> (басқалар қайталай алуы керек).</p>
+    <div class="table-wrap"><table><thead><tr><th>Әдетте рұқсат етіледі</th><th>Абай болу керек</th><th>Рұқсат етілмейді</th></tr></thead><tbody><tr><td>Деректі талдау құралын жасау, кодтау, тілдік түзету, әдебиет іздеуге көмек</td><td>Мәтінді қайта жазу, қорытынды жасау, аударма: міндетті түрде тексеру және көрсету</td><td>Деректі ойдан шығару, тексерілмеген дереккөзге сілтеме, AI-ды автор ретінде көрсету, мәлімдемесіз жасыру</td></tr></tbody></table></div>
+    <p class="lead">Нақты талаптар әр журнал мен университетте әртүрлі. Әрқашан Академияның және журналдың ережесін тексеріңіз.</p></div></div>
+  <div class="part"><div class="part-no">4</div><div class="part-body"><span class="eyebrow">Қадамдық нұсқаулық</span>
+    <div class="wizard" data-wiz="l15">
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>AI журналын жүргізіңіз</h3><p>Зерттеу барысында қарапайым кесте жүргізіңіз: күні, құрал мен модель, не үшін, қандай промпт, нәтижені қалай тексердім. 14-сабақтағы скрипт мұны автоматты сақтайды.</p></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">ai-zhurnal.xlsx</span></div><div class="mock-body"><div class="m-card">2026-10-09 · Claude · дашборд · 3 сан тексерілді ✓</div><div class="m-card">2026-10-12 · Claude Code · жіктеу скрипті · κ = 0.84</div></div></div></div></div>
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Әр сілтемені тексеріңіз</h3><p>AI жиі жоқ мақалаға немесе қате бетке сілтеме береді. Әдебиеттер тізіміндегі әр дереккөзді Google Scholar, Scopus немесе журнал сайтынан тауып, DOI-ін тексеріңіз. Таппасаңыз, алып тастаңыз.</p></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">scholar.google.com</span></div><div class="mock-body"><div class="m-card">Ivanov (2021) Digital government in… <span class="hl">❌ табылмады</span></div><div class="m-card">Bannister &amp; Connolly (2014) … ✓ DOI</div></div></div></div></div>
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Зерттеу репозиторийін жинаңыз</h3><p>GitHub-та жеке репозиторий ашып (9-сабақ), оған саласыз: скрипттер, кодтау нұсқаулығы, промпттар, README (қалай қайталау керегі). Дербес деректер мен шикі сауалнама жауаптары <strong>салынбайды</strong>.</p>
+        <details class="simpler"><summary>Мақалада сілтеме қалай беріледі?</summary><p>Жарияланғанда репозиторийді Zenodo сияқты қызмет арқылы мұрағаттап, тұрақты DOI алуға болады. Мақалада «Деректер мен код қолжетімділігі» бөлімінде сол DOI беріледі.</p></details></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">github.com/…/dissertatsiya-kod</span></div><div class="mock-body"><div class="m-card">📄 README.md · 📄 kodtau-nusqaulygy.md · 📄 classify.py · 📄 prompts.md</div></div></div></div></div>
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>AI қолдану туралы мәлімдеме жазыңыз</h3><p>5-бөлімдегі промптқа AI журналыңызды беріп, мәлімдеме жобасын алыңыз. Оны әдістеме тарауына немесе мақаланың соңына қосасыз. Мәтінді өзіңіз тексеріп, түзетесіз.</p></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Диссертация.docx</span></div><div class="mock-body"><div class="m-card hl"><strong>AI қолдану туралы мәлімдеме.</strong> Зерттеуде Claude (Anthropic) … мақсатында қолданылды. Барлық нәтижені автор тексерді…</div></div></div></div></div>
+    </div></div></div>
+  <div class="part"><div class="part-no">5</div><div class="part-body"><span class="eyebrow">Көшіріп қолданатын AI промпты</span>
+    <div class="prompt" data-title="15-сабақ: AI қолдану мәлімдемесі"><div class="prompt-top"><strong>AI қолдану туралы мәлімдеме</strong><button data-copy>Көшіру</button></div><pre>Мен [диссертация / мақала] жазып жатырмын, тақырыбы: [тақырып].
+Төменде зерттеуде AI-ды қалай қолданғаным туралы журналым бар.
+Соның негізінде қазақ және ағылшын тілдерінде қысқа
+«AI қолдану туралы мәлімдеме» жобасын жаз:
+- қай құралдар, қай мақсатта қолданылды;
+- нәтижелер қалай тексерілді (сәйкестік, қолмен тексеру);
+- AI не істемеді (мысалы, қорытынды жасаған жоқ, деректі өзгерткен жоқ);
+- автор барлық мазмұнға жауапты екені.
+Ойдан ештеңе қоспа, тек журналдағы мәліметтерді қолдан.
+Журнал: [кесте]</pre></div>
+    <div class="prompt" data-title="15-сабақ: README қайталанымдылық үшін"><div class="prompt-top"><strong>Claude Code: зерттеу README</strong><button data-copy>Көшіру</button></div><pre>Осы папкадағы зерттеу материалдарына README.md жаз (қазақша және ағылшынша):
+зерттеу мақсаты, файлдар тізімі және әрқайсысының міндеті,
+нәтижені қайталау қадамдары, қолданылған модель мен күндер,
+деректер неге салынбағаны (этика). Сосын папкада жеке дерек
+немесе кілт қалмағанын тексеріп, маған есеп бер.</pre></div></div></div>
+  <div class="part"><div class="part-no">6</div><div class="part-body"><span class="eyebrow">Күтілетін нәтиже</span><p>AI журналы, тексерілген әдебиеттер тізімі, README-і бар зерттеу репозиторийі және жұмысқа қосуға дайын AI қолдану мәлімдемесі.</p></div></div>
+  <div class="part"><div class="part-no">7</div><div class="part-body"><span class="eyebrow">Өз бетіңізше орындайтын тапсырма</span><p>Өз диссертацияңыздың немесе мақалаңыздың әдістеме бөліміне AI қолдану мәлімдемесін жазып, ғылыми жетекшіңізге көрсетіңіз.</p></div></div>
+  <div class="part"><div class="part-no">8</div><div class="part-body"><span class="eyebrow">Тапсырманы қалай орындаймын?</span><ol class="steps"><li>Мақсатты журналдың AI саясатын оқыңыз (сайтында «AI policy», «Generative AI» деп іздеңіз).</li><li>AI журналыңызды толтырыңыз.</li><li>Мәлімдеме промптын қолданып, мәтінді өзіңіз түзетіңіз.</li></ol></div></div>
+  <div class="part"><div class="part-no">9</div><div class="part-body"><span class="eyebrow">Тексеру тізімі</span><div class="checklist"><label><input type="checkbox" data-check="l15-1"> AI журналын жүргіземін.</label><label><input type="checkbox" data-check="l15-2"> Әдебиеттер тізіміндегі әр дереккөз тексерілді.</label><label><input type="checkbox" data-check="l15-3"> Зерттеу репозиторийінде дербес дерек пен кілт жоқ.</label><label><input type="checkbox" data-check="l15-4"> AI қолдану мәлімдемесі жазылды.</label><label><input type="checkbox" data-check="l15-5"> Журнал мен Академияның ережесімен таныстым.</label></div></div></div>
+  <div class="part"><div class="part-no">10</div><div class="part-body"><span class="eyebrow">Жиі кездесетін қиындық</span>
+    <dl class="err"><dt>«AI қолдансам, жұмысым әлсіз көрінеді» деген қорқыныш.</dt><dd><strong>Шешімі:</strong> Керісінше, ашық сипатталған және тексерілген әдіс жұмысты күшейтеді. Жасырылған AI қолдануы кейін анықталса, әлдеқайда үлкен мәселе болады.</dd></dl>
+    <dl class="err"><dt>Антиплагиат немесе AI-детектор жоғары пайыз көрсетті.</dt><dd><strong>Шешімі:</strong> AI-детекторлар жиі қателеседі. AI журналыңыз бен мәлімдемеңіз — ең жақсы дәлел. Мәтінді өз сөзіңізбен жазуды әдет қылыңыз.</dd></dl></div></div>
+  <div class="part"><div class="part-no">11</div><div class="part-body"><span class="eyebrow">Қысқаша қорытынды</span><p>Құттықтаймыз, сіз үш деңгейден де өттіңіз! Енді сіз AI-мен құрал жасай аласыз, оны интернетке шығара аласыз және зерттеуде ғылыми адал түрде қолдана аласыз.</p></div></div>
+  <div class="part"><div class="part-no">12</div><div class="part-body"><span class="eyebrow">Өзіңізді тексеріңіз</span><div class="quiz" data-quiz="l15"></div></div></div>
+  <section class="submission"><h2>Нәтижем</h2><label class="field">Мәлімдемеңіздің жобасы немесе репозиторий сілтемесі<textarea data-note="result-l15"></textarea></label></section>
+  <footer class="chapter-footer"><label><input type="checkbox" data-done="l15"> Сабақ аяқталды</label><div class="chapter-next"></div></footer>
+</article>
+
 <!-- ================= ПРАКТИКУМ: КІРІСПЕ ================= -->
 <article id="practicum" class="chapter" data-title="Практикумды таңдау" data-group="Практикум: өз жобаңыз">
   <header class="chapter-heading"><div><span class="eyebrow">Курс соңындағы жоба</span><h1>Өз жобаңызды жасаңыз</h1><p class="lead">Курсты аяқтаған соң осы үш жобаның бірін өз пәніңізге немесе жұмысыңызға арнап жасаңыз.</p></div><button class="bookmark" data-bookmark="practicum" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
@@ -1465,9 +1778,11 @@ function buildNav(){
   $('#nav').innerHTML=html;
 }
 function buildLessonCards(){
-  var box=$('#lesson-cards');if(!box)return;
-  box.innerHTML=LESSONS.map(function(l){var c=document.getElementById(l);
-    return '<a class="lesson-card'+(S.done[l]?' done':'')+'" href="#'+l+'"><span class="n">'+(S.done[l]?'✓':c.getAttribute('data-num'))+'</span><span><strong>'+esc(c.getAttribute('data-title'))+'</strong><small>'+esc(c.getAttribute('data-sub')||'')+'</small></span><span class="time">'+esc(c.getAttribute('data-time')||'')+'</span></a>';}).join('');
+  var box=$('#lesson-cards');if(!box)return;var g=null,lv=0,html='';
+  LESSONS.forEach(function(l){var c=document.getElementById(l),grp=c.getAttribute('data-group');
+    if(grp!==g){g=grp;lv++;html+='<div class="lc-group lv'+lv+'">'+esc(grp==='Сабақтар'?'1-деңгей: браузерде, тегін':grp)+'</div>';}
+    html+='<a class="lesson-card lv'+lv+(S.done[l]?' done':'')+'" href="#'+l+'"><span class="n">'+(S.done[l]?'✓':c.getAttribute('data-num'))+'</span><span><strong>'+esc(c.getAttribute('data-title'))+'</strong><small>'+esc(c.getAttribute('data-sub')||'')+'</small></span><span class="time">'+esc(c.getAttribute('data-time')||'')+'</span></a>';});
+  box.innerHTML=html;
 }
 function updateProgress(){
   var d=LESSONS.filter(function(i){return S.done[i];}).length;
@@ -1575,7 +1890,19 @@ var QUIZ={
      {q:'Сайт «404» көрсетсе, нені тексереміз?',o:['Басты файлдың аты index.html ма','Интернет жылдамдығын','Құпиясөзді'],a:0,e:'Vercel басты бет ретінде index.html іздейді.'}],
  l11:[{q:'Codex кімнің агенті?',o:['Anthropic','OpenAI','Google'],a:1,e:'Codex — ChatGPT жасаушылары OpenAI-дың агенті.'},
      {q:'Агенттердің ортақ қағидасы қандай?',o:['Папка → тапсырма → рұқсат → тексеру → GitHub','Тек ағылшынша жазу','Бәрін автоматты режимде қосу'],a:0,e:'Біреуін үйренсеңіз, қалғаны оңай.'},
-     {q:'«Full access» режимін қашан қоспаймыз?',o:['Маңызды файлдар бар папкада','Бос тест папкасында','Ешқашан қосуға болмайды'],a:0,e:'Еркін режимде агент рұқсат сұрамай әрекет етеді.'}]
+     {q:'«Full access» режимін қашан қоспаймыз?',o:['Маңызды файлдар бар папкада','Бос тест папкасында','Ешқашан қосуға болмайды'],a:0,e:'Еркін режимде агент рұқсат сұрамай әрекет етеді.'}],
+ l12:[{q:'AI жасаған дашбордта ең маңызды қадам қайсы?',o:['Түсін әдемі ету','Сандарды түпнұсқамен салыстырып тексеру','Диаграмма санын көбейту'],a:1,e:'AI санды қате оқуы мүмкін, жауапкершілік зерттеушіде.'},
+     {q:'Неге алдымен деректі тек сипаттатамыз?',o:['AI кестені дұрыс түсінгенін тексеру үшін','Уақыт үнемдеу үшін','Ол міндетті емес'],a:0,e:'Бағандар мен өлшем бірліктері дұрыс болса ғана диаграммаға көшеміз.'},
+     {q:'Дашбордта міндетті түрде не болуы керек?',o:['Анимация','Дереккөз және жүктелген күн','Автордың суреті'],a:1,e:'Дереккөзсіз диаграмма ғылыми жұмысқа жарамайды.'}],
+ l13:[{q:'Бетте қай Supabase кілтін қолдануға болады?',o:['service_role (secret)','publishable (anon), RLS қосулы болғанда','Дерекқор құпиясөзін'],a:1,e:'service_role толық рұқсат береді, ол бетте болмауы керек.'},
+     {q:'RLS ережесі не істейді?',o:['Бетті әдемілейді','Кім не істей алатынын шектейді: мысалы, тек жауап қосу','Деректерді өшіреді'],a:1,e:'Бет жауап қосады, бірақ басқалардың жауабын оқи алмайды.'},
+     {q:'Анонимді сауалнамада не сұралмайды?',o:['Жас тобы','Аты-жөні, телефон, пошта','Лайкерт шкаласы'],a:1,e:'Жеке деректер жиналмайды, ақпараттық келісім міндетті.'}],
+ l14:[{q:'API кілті қайда сақталады?',o:['Скрипттің ішінде','.env файлында, ол .gitignore-да','GitHub-та'],a:1,e:'Кілт ешқашан кодқа және GitHub-қа түспеуі керек.'},
+     {q:'Барлық мәтінді өңдемес бұрын не істейміз?',o:['10 мәтінмен сынап, 30 мәтінді қолмен кодтап салыстырамыз','Бірден 300 мәтінді жібереміз','Ештеңе'],a:0,e:'Сапа мен құн алдымен шағын үлгіде тексеріледі.'},
+     {q:'Кодтау нұсқаулығын кім жазады?',o:['AI','Зерттеуші','Ешкім'],a:1,e:'Санаттар — ғылыми шешім, AI тек орындайды.'}],
+ l15:[{q:'AI ғылыми жұмыстың авторы бола ала ма?',o:['Иә','Жоқ, нәтижеге автор жауап береді','Тек ағылшын тілінде'],a:1,e:'AI құрал ретінде сипатталады, автор ретінде емес.'},
+     {q:'AI ұсынған әдебиетке не істейміз?',o:['Бірден тізімге қосамыз','Әр дереккөзді тауып, DOI-ін тексереміз','Санын көбейтеміз'],a:1,e:'AI жоқ мақалаға сілтеме беруі мүмкін.'},
+     {q:'Зерттеу репозиторийіне не салынбайды?',o:['Скрипттер','README','Дербес деректер мен шикі жауаптар'],a:2,e:'Этика мен заң талаптары бойынша жеке деректер жарияланбайды.'}]
 };
 function renderQuiz(box){
   var id=box.getAttribute('data-quiz'),qs=QUIZ[id];if(!qs)return;S.quiz[id]=S.quiz[id]||{};

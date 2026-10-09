@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
+<meta name="author" content="Ш.К. Турмаганбетова, PhD, доцент">
 <title>Вайб-кодинг негіздері</title>
 <meta name="description" content="Мемлекеттік басқару академиясының магистранттары, докторанттары мен оқытушыларына арналған вайб-кодинг бойынша автономды интерактивті оқу құралы.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -325,6 +326,18 @@ abbr.term{text-decoration:underline dotted var(--accent);text-underline-offset:3
 .os code{white-space:pre-wrap;word-break:break-word}
 .m-logo.plain::before{content:none;display:none}
 </style>
+<style>
+.author-card{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:center;background:var(--paper);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;padding:18px 20px;margin:18px 0}
+.author-text strong{display:block;font-family:var(--f-display);font-size:1.25em;margin:4px 0}
+.author-text p{margin:0;color:var(--muted);line-height:1.5}
+.author-qr{margin:0;text-align:center}
+.qr-svg{width:150px;height:150px;display:block;border-radius:10px;border:1px solid var(--line)}
+.author-qr figcaption{font-size:.8em;color:var(--muted);margin-top:6px;line-height:1.4}
+.side-author{font-size:.78em;color:var(--muted);line-height:1.4;margin:0 4px 12px}
+.side-author small{font-size:.92em}
+@media (max-width:640px){.author-card{grid-template-columns:1fr}.author-qr{justify-self:center}}
+@media print{.author-card{break-inside:avoid}}
+</style>
 </head>
 <body>
 <header class="topbar">
@@ -338,6 +351,7 @@ abbr.term{text-decoration:underline dotted var(--accent);text-underline-offset:3
 </header>
 <div class="layout">
 <aside class="sidebar" id="sidebar">
+  <div class="side-author">Автор: PhD, доцент Ш.К. Турмаганбетова<br><small>ҚР Президенті жанындағы Мемлекеттік басқару академиясы, Цифрландыру және инновациялар институты</small></div>
   <div class="side-progress"><strong>Менің жолым</strong><div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div><span id="progress-label">0 / 0</span></div>
   <nav id="nav" aria-label="Мазмұны"></nav>
 </aside>
@@ -369,6 +383,16 @@ abbr.term{text-decoration:underline dotted var(--accent);text-underline-offset:3
     </div>
   </section>
 
+
+  <section class="author-card">
+    <div class="author-text">
+      <span class="eyebrow">Оқулық авторы</span>
+      <strong>Ш.К. Турмаганбетова</strong>
+      <p>PhD, доцент<br>Қазақстан Республикасы Президентінің жанындағы Мемлекеттік басқару академиясы<br>Цифрландыру және инновациялар институты</p>
+    </div>
+    <figure class="author-qr"><svg class="qr-svg" viewBox="0 0 33 33" role="img" aria-label="Оқулыққа өтетін QR-код: vibe-coding-kz.vercel.app"><rect width="33" height="33" fill="#fff"/><path d="M2,2H3V3H2zM3,2H4V3H3zM4,2H5V3H4zM5,2H6V3H5zM6,2H7V3H6zM7,2H8V3H7zM8,2H9V3H8zM14,2H15V3H14zM15,2H16V3H15zM16,2H17V3H16zM17,2H18V3H17zM20,2H21V3H20zM22,2H23V3H22zM24,2H25V3H24zM25,2H26V3H25zM26,2H27V3H26zM27,2H28V3H27zM28,2H29V3H28zM29,2H30V3H29zM30,2H31V3H30zM2,3H3V4H2zM8,3H9V4H8zM10,3H11V4H10zM11,3H12V4H11zM12,3H13V4H12zM14,3H15V4H14zM17,3H18V4H17zM19,3H20V4H19zM24,3H25V4H24zM30,3H31V4H30zM2,4H3V5H2zM4,4H5V5H4zM5,4H6V5H5zM6,4H7V5H6zM8,4H9V5H8zM10,4H11V5H10zM11,4H12V5H11zM12,4H13V5H12zM14,4H15V5H14zM16,4H17V5H16zM18,4H19V5H18zM20,4H21V5H20zM21,4H22V5H21zM24,4H25V5H24zM26,4H27V5H26zM27,4H28V5H27zM28,4H29V5H28zM30,4H31V5H30zM2,5H3V6H2zM4,5H5V6H4zM5,5H6V6H5zM6,5H7V6H6zM8,5H9V6H8zM10,5H11V6H10zM11,5H12V6H11zM12,5H13V6H12zM16,5H17V6H16zM17,5H18V6H17zM19,5H20V6H19zM21,5H22V6H21zM24,5H25V6H24zM26,5H27V6H26zM27,5H28V6H27zM28,5H29V6H28zM30,5H31V6H30zM2,6H3V7H2zM4,6H5V7H4zM5,6H6V7H5zM6,6H7V7H6zM8,6H9V7H8zM14,6H15V7H14zM15,6H16V7H15zM16,6H17V7H16zM17,6H18V7H17zM21,6H22V7H21zM22,6H23V7H22zM24,6H25V7H24zM26,6H27V7H26zM27,6H28V7H27zM28,6H29V7H28zM30,6H31V7H30zM2,7H3V8H2zM8,7H9V8H8zM12,7H13V8H12zM14,7H15V8H14zM15,7H16V8H15zM16,7H17V8H16zM18,7H19V8H18zM19,7H20V8H19zM22,7H23V8H22zM24,7H25V8H24zM30,7H31V8H30zM2,8H3V9H2zM3,8H4V9H3zM4,8H5V9H4zM5,8H6V9H5zM6,8H7V9H6zM7,8H8V9H7zM8,8H9V9H8zM10,8H11V9H10zM12,8H13V9H12zM14,8H15V9H14zM16,8H17V9H16zM18,8H19V9H18zM20,8H21V9H20zM22,8H23V9H22zM24,8H25V9H24zM25,8H26V9H25zM26,8H27V9H26zM27,8H28V9H27zM28,8H29V9H28zM29,8H30V9H29zM30,8H31V9H30zM10,9H11V10H10zM15,9H16V10H15zM20,9H21V10H20zM21,9H22V10H21zM2,10H3V11H2zM8,10H9V11H8zM10,10H11V11H10zM11,10H12V11H11zM13,10H14V11H13zM14,10H15V11H14zM16,10H17V11H16zM17,10H18V11H17zM19,10H20V11H19zM21,10H22V11H21zM23,10H24V11H23zM24,10H25V11H24zM27,10H28V11H27zM28,10H29V11H28zM29,10H30V11H29zM3,11H4V12H3zM6,11H7V12H6zM9,11H10V12H9zM12,11H13V12H12zM16,11H17V12H16zM20,11H21V12H20zM21,11H22V12H21zM26,11H27V12H26zM28,11H29V12H28zM29,11H30V12H29zM4,12H5V13H4zM8,12H9V13H8zM9,12H10V13H9zM12,12H13V13H12zM14,12H15V13H14zM22,12H23V13H22zM24,12H25V13H24zM25,12H26V13H25zM26,12H27V13H26zM3,13H4V14H3zM4,13H5V14H4zM5,13H6V14H5zM6,13H7V14H6zM11,13H12V14H11zM12,13H13V14H12zM13,13H14V14H13zM16,13H17V14H16zM17,13H18V14H17zM18,13H19V14H18zM22,13H23V14H22zM23,13H24V14H23zM25,13H26V14H25zM26,13H27V14H26zM27,13H28V14H27zM2,14H3V15H2zM8,14H9V15H8zM11,14H12V15H11zM12,14H13V15H12zM13,14H14V15H13zM14,14H15V15H14zM15,14H16V15H15zM16,14H17V15H16zM18,14H19V15H18zM22,14H23V15H22zM24,14H25V15H24zM25,14H26V15H25zM30,14H31V15H30zM2,15H3V16H2zM3,15H4V16H3zM5,15H6V16H5zM6,15H7V16H6zM7,15H8V16H7zM9,15H10V16H9zM10,15H11V16H10zM11,15H12V16H11zM12,15H13V16H12zM13,15H14V16H13zM15,15H16V16H15zM16,15H17V16H16zM21,15H22V16H21zM24,15H25V16H24zM25,15H26V16H25zM26,15H27V16H26zM29,15H30V16H29zM30,15H31V16H30zM2,16H3V17H2zM3,16H4V17H3zM4,16H5V17H4zM6,16H7V17H6zM8,16H9V17H8zM13,16H14V17H13zM14,16H15V17H14zM15,16H16V17H15zM16,16H17V17H16zM17,16H18V17H17zM19,16H20V17H19zM20,16H21V17H20zM22,16H23V17H22zM23,16H24V17H23zM27,16H28V17H27zM28,16H29V17H28zM2,17H3V18H2zM3,17H4V18H3zM5,17H6V18H5zM7,17H8V18H7zM10,17H11V18H10zM11,17H12V18H11zM15,17H16V18H15zM16,17H17V18H16zM18,17H19V18H18zM20,17H21V18H20zM21,17H22V18H21zM23,17H24V18H23zM26,17H27V18H26zM28,17H29V18H28zM30,17H31V18H30zM3,18H4V19H3zM8,18H9V19H8zM9,18H10V19H9zM14,18H15V19H14zM16,18H17V19H16zM17,18H18V19H17zM18,18H19V19H18zM19,18H20V19H19zM27,18H28V19H27zM28,18H29V19H28zM2,19H3V20H2zM4,19H5V20H4zM5,19H6V20H5zM10,19H11V20H10zM13,19H14V20H13zM17,19H18V20H17zM18,19H19V20H18zM20,19H21V20H20zM21,19H22V20H21zM22,19H23V20H22zM24,19H25V20H24zM25,19H26V20H25zM26,19H27V20H26zM28,19H29V20H28zM29,19H30V20H29zM30,19H31V20H30zM2,20H3V21H2zM3,20H4V21H3zM5,20H6V21H5zM6,20H7V21H6zM8,20H9V21H8zM9,20H10V21H9zM11,20H12V21H11zM12,20H13V21H12zM13,20H14V21H13zM15,20H16V21H15zM16,20H17V21H16zM17,20H18V21H17zM18,20H19V21H18zM20,20H21V21H20zM21,20H22V21H21zM22,20H23V21H22zM26,20H27V21H26zM27,20H28V21H27zM30,20H31V21H30zM2,21H3V22H2zM4,21H5V22H4zM6,21H7V22H6zM9,21H10V22H9zM10,21H11V22H10zM14,21H15V22H14zM16,21H17V22H16zM21,21H22V22H21zM22,21H23V22H22zM23,21H24V22H23zM24,21H25V22H24zM2,22H3V23H2zM4,22H5V23H4zM5,22H6V23H5zM6,22H7V23H6zM8,22H9V23H8zM10,22H11V23H10zM11,22H12V23H11zM12,22H13V23H12zM14,22H15V23H14zM17,22H18V23H17zM18,22H19V23H18zM19,22H20V23H19zM21,22H22V23H21zM22,22H23V23H22zM23,22H24V23H23zM24,22H25V23H24zM25,22H26V23H25zM26,22H27V23H26zM28,22H29V23H28zM29,22H30V23H29zM30,22H31V23H30zM10,23H11V24H10zM11,23H12V24H11zM13,23H14V24H13zM14,23H15V24H14zM15,23H16V24H15zM17,23H18V24H17zM20,23H21V24H20zM22,23H23V24H22zM26,23H27V24H26zM27,23H28V24H27zM2,24H3V25H2zM3,24H4V25H3zM4,24H5V25H4zM5,24H6V25H5zM6,24H7V25H6zM7,24H8V25H7zM8,24H9V25H8zM11,24H12V25H11zM12,24H13V25H12zM13,24H14V25H13zM14,24H15V25H14zM15,24H16V25H15zM16,24H17V25H16zM17,24H18V25H17zM18,24H19V25H18zM21,24H22V25H21zM22,24H23V25H22zM24,24H25V25H24zM26,24H27V25H26zM27,24H28V25H27zM28,24H29V25H28zM2,25H3V26H2zM8,25H9V26H8zM12,25H13V26H12zM13,25H14V26H13zM15,25H16V26H15zM21,25H22V26H21zM22,25H23V26H22zM26,25H27V26H26zM29,25H30V26H29zM2,26H3V27H2zM4,26H5V27H4zM5,26H6V27H5zM6,26H7V27H6zM8,26H9V27H8zM11,26H12V27H11zM15,26H16V27H15zM17,26H18V27H17zM18,26H19V27H18zM21,26H22V27H21zM22,26H23V27H22zM23,26H24V27H23zM24,26H25V27H24zM25,26H26V27H25zM26,26H27V27H26zM27,26H28V27H27zM29,26H30V27H29zM30,26H31V27H30zM2,27H3V28H2zM4,27H5V28H4zM5,27H6V28H5zM6,27H7V28H6zM8,27H9V28H8zM11,27H12V28H11zM12,27H13V28H12zM13,27H14V28H13zM15,27H16V28H15zM17,27H18V28H17zM18,27H19V28H18zM19,27H20V28H19zM20,27H21V28H20zM21,27H22V28H21zM23,27H24V28H23zM27,27H28V28H27zM28,27H29V28H28zM30,27H31V28H30zM2,28H3V29H2zM4,28H5V29H4zM5,28H6V29H5zM6,28H7V29H6zM8,28H9V29H8zM12,28H13V29H12zM13,28H14V29H13zM17,28H18V29H17zM22,28H23V29H22zM23,28H24V29H23zM24,28H25V29H24zM25,28H26V29H25zM26,28H27V29H26zM27,28H28V29H27zM28,28H29V29H28zM29,28H30V29H29zM2,29H3V30H2zM8,29H9V30H8zM14,29H15V30H14zM16,29H17V30H16zM17,29H18V30H17zM20,29H21V30H20zM23,29H24V30H23zM24,29H25V30H24zM27,29H28V30H27zM28,29H29V30H28zM30,29H31V30H30zM2,30H3V31H2zM3,30H4V31H3zM4,30H5V31H4zM5,30H6V31H5zM6,30H7V31H6zM7,30H8V31H7zM8,30H9V31H8zM10,30H11V31H10zM11,30H12V31H11zM12,30H13V31H12zM14,30H15V31H14zM19,30H20V31H19zM20,30H21V31H20zM21,30H22V31H21zM23,30H24V31H23zM25,30H26V31H25zM26,30H27V31H26zM27,30H28V31H27zM28,30H29V31H28z" fill="#0b2a3f"/></svg><figcaption>Оқулыққа өту<br><code>vibe-coding-kz.vercel.app</code></figcaption></figure>
+  </section>
+
   <div class="welcome">
     <p><strong>«Мен бағдарламалауды мүлде білмеймін. Бұл маған ма?»</strong></p>
     <p>Иә, дәл сізге. Мұнда код жаттамайсыз және код жазбайсыз. Сізге үш-ақ нәрсе керек: компьютер, интернет және жұмысыңыздағы бір шағын мәселе.</p>
@@ -383,7 +407,7 @@ abbr.term{text-decoration:underline dotted var(--accent);text-underline-offset:3
   <p>Бір жерде түсінбесеңіз, сары түсті <strong>«Түсінбедім»</strong> жолын басыңыз. Онда сол қадам одан да қарапайым түсіндірілген. Бірдеңе шықпай жатса, <a href="#help">«Көмек: шықпай жатыр»</a> бөлімін ашыңыз.</p>
 
   <h2>Сабақтар</h2>
-  <p><strong>1–6 сабақ</strong> толығымен браузерде, тегін өтеді. <strong>7–11 сабақ</strong> (2-деңгей) терминал, Claude Code, GitHub, Vercel және Codex құралдарын үйретеді. Онда нағыз жоба жасап, интернетке өзіңіз шығарасыз.</p>
+  <p><strong>1–6 сабақ</strong> толығымен браузерде, тегін өтеді. <strong>7–11 сабақ</strong> (2-деңгей) терминал, Claude Code, GitHub, Vercel және Codex құралдарын үйретеді. Онда нағыз жоба жасап, интернетке өзіңіз шығарасыз. Курс соңында <a href="#practicum">практикум</a> бар: веб-парақша, чат-бот және электронды оқулық жасау нұсқаулықтары.</p>
   <div class="lesson-cards" id="lesson-cards"></div>
 
   <div class="callout warn"><strong>Бір ғана маңызды ереже.</strong> AI чатына студенттің аты-жөнін, ЖСН-ін, телефонын, құпиясөзді және қызметтік құжаттарды жазбаңыз. Жаттығуда ойдан шығарылған мысалдарды қолданыңыз.</div>
@@ -1126,6 +1150,193 @@ abbr.term{text-decoration:underline dotted var(--accent);text-underline-offset:3
   <div class="part"><div class="part-no">12</div><div class="part-body"><span class="eyebrow">Өзіңізді тексеріңіз</span><div class="quiz" data-quiz="l11"></div></div></div>
   <section class="submission"><h2>Нәтижем</h2><label class="field">Қай агент ыңғайлы болды және қорытынды жобаңыздың сілтемесі<textarea data-note="result-l11" placeholder="Мысалы: Claude Code түсінікті түсіндірді. Жобам: https://…vercel.app"></textarea></label></section>
   <footer class="chapter-footer"><label><input type="checkbox" data-done="l11"> Сабақ аяқталды</label><div class="chapter-next"></div></footer>
+</article>
+
+<!-- ================= ПРАКТИКУМ: КІРІСПЕ ================= -->
+<article id="practicum" class="chapter" data-title="Практикумды таңдау" data-group="Практикум: өз жобаңыз">
+  <header class="chapter-heading"><div><span class="eyebrow">Курс соңындағы жоба</span><h1>Өз жобаңызды жасаңыз</h1><p class="lead">Курсты аяқтаған соң осы үш жобаның бірін өз пәніңізге немесе жұмысыңызға арнап жасаңыз.</p></div><button class="bookmark" data-bookmark="practicum" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+  <div class="lesson-cards">
+    <a class="lesson-card" href="#p-web"><span class="n">🌐</span><span><strong>Веб-парақша</strong><small>Кафедра, курс, іс-шара немесе ғалымның жеке беті</small></span><span class="time">1–2 сағат</span></a>
+    <a class="lesson-card" href="#p-bot"><span class="n">💬</span><span><strong>Чат-бот</strong><small>Студенттердің жиі сұрақтарына жауап беретін көмекші</small></span><span class="time">1–3 сағат</span></a>
+    <a class="lesson-card" href="#p-ebook"><span class="n">📘</span><span><strong>Электронды оқулық</strong><small>Тараулары, тесттері, прогресі бар оқулық (дәл осы сияқты)</small></span><span class="time">3–6 сағат</span></a>
+  </div>
+  <h2>Әр жобаны екі жолмен жасауға болады</h2>
+  <div class="os"><div><b>1-деңгей жолы · тегін</b>Claude чатында артефакт жасап, Publish арқылы сілтеме аласыз (2–6 сабақ).</div><div><b>2-деңгей жолы · кәсіби</b>Claude Code немесе Codex жоба жасайды, GitHub сақтайды, Vercel интернетке шығарады (7–11 сабақ).</div></div>
+  <h2>Жобаны тапсыру</h2>
+  <ol class="steps"><li>Жобаның сілтемесін жобаның бетіндегі «Нәтижем» өрісіне жазыңыз.</li><li>Кемінде бір әріптеске немесе студентке ашқызып, пікірін жазып алыңыз.</li><li>«Сапаны тексеру» тізіміндегі барлық белгіні қойыңыз.</li></ol>
+  <div class="callout warn"><strong>Барлық жобаға ортақ ереже.</strong> Жобаға студенттердің жеке деректерін, қызметтік құжаттарды, құпиясөз бен кілттерді енгізбейміз. Жарияланған бетті кез келген адам көре алатынын ұмытпаңыз.</div>
+  <footer class="chapter-footer"><label><input type="checkbox" data-done="practicum"> Оқыдым</label><div class="chapter-next"></div></footer>
+</article>
+
+<!-- ================= ВЕБ-ПАРАҚША ================= -->
+<article id="p-web" class="chapter" data-title="Нұсқаулық: веб-парақша" data-group="Практикум: өз жобаңыз">
+  <header class="chapter-heading"><div><span class="eyebrow">Практикум · 1–2 сағат</span><h1>Веб-парақша жасау</h1><p class="lead">Курсқа, кафедраға, іс-шараға немесе өзіңізге арналған шағын сайт.</p></div><button class="bookmark" data-bookmark="p-web" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+  <h2>Қандай парақша жасауға болады?</h2>
+  <div class="grid">
+    <div class="card"><span class="tag">Оқыту</span><h3>Пән беті</h3><p>Силлабус, апталық кесте, оқу материалдары, тапсыру мерзімдері.</p></div>
+    <div class="card"><span class="tag">Ғылым</span><h3>Ғалымның жеке беті</h3><p>Қысқаша өмірбаян, зерттеу бағыттары, жарияланымдар, байланыс.</p></div>
+    <div class="card"><span class="tag">Іс-шара</span><h3>Конференция немесе семинар</h3><p>Бағдарлама, спикерлер, тіркелу сілтемесі, орны.</p></div>
+  </div>
+
+  <h2>Қадамдық нұсқаулық</h2>
+  <div class="wizard" data-wiz="p-web">
+    <div class="wstep"><div><span class="lbl">Қадам</span><h3>Мазмұнды дайындаңыз</h3><p>Word немесе блокнотқа парақшада болатын мәтінді жазыңыз: тақырып, 3–5 бөлім, әр бөлімге 2–4 сөйлем. AI дизайнды жақсы жасайды, ал мазмұнды сіз жақсы білесіз.</p>
+      <details class="simpler"><summary>Мазмұн жоқ, не жазамын?</summary><p>AI-дан сұраңыз: «Пән бетіне қандай бөлімдер керек? Тізім бер». Тізімді алып, әр бөлімге өз мәліметіңізді жазасыз.</p></details></div>
+      <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Мазмұн.docx</span></div><div class="mock-body"><div class="m-card">1. Пән туралы</div><div class="m-card">2. Апталық кесте</div><div class="m-card">3. Бағалау</div><div class="m-card">4. Байланыс</div></div></div></div></div>
+    <div class="wstep"><div><span class="lbl">Қадам</span><h3>Промптқа мазмұн мен стильді жазыңыз</h3><p>Төмендегі «Веб-парақша» промптын көшіріп, жақшаларды толтырыңыз. Мазмұнды промпттың соңына қойыңыз. Түстерді, мысалы Академияның көк түсін, бірден айтыңыз.</p></div>
+      <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">claude.ai/new</span></div><div class="mock-body" style="align-content:end"><div class="m-input hl">Маған пән беті керек. Бөлімдері: …<span class="m-send">↑</span></div></div></div></div></div>
+    <div class="wstep"><div><span class="lbl">Қадам</span><h3>Бір-бірлеп жақсартыңыз</h3><p>Бір хабарламада бір өзгеріс сұраңыз (3-сабақ). Мысалы:</p><div class="say">Кесте бөлімін кесте түрінде көрсет.</div><div class="say">Жоғарғы жаққа мәзір қос, бөлімдерге апарсын.</div><div class="say">Телефонда мәзір бір батырмаға жиналсын.</div></div>
+      <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Preview</span></div><div class="mock-body"><div class="m-page"><h4>Цифрлық мемлекеттік басқару</h4></div><div class="m-card hl">Пән · Кесте · Бағалау · Байланыс</div></div></div></div></div>
+    <div class="wstep"><div><span class="lbl">Қадам</span><h3>Тексеріңіз</h3><p>Барлық сілтеме ашыла ма? Күндер мен аттар дұрыс па? Телефонда қалай көрінеді? Төмендегі «Сапаны тексеру» тізімін пайдаланыңыз.</p></div>
+      <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">📱 390px</span></div><div class="mock-body"><div class="m-card">☰ Мәзір</div><div class="m-card">Пән туралы…</div></div></div></div></div>
+    <div class="wstep"><div><span class="lbl">Қадам</span><h3>Жариялаңыз</h3>
+      <div class="os"><div><b>1-деңгей</b>Артефакт терезесінде <strong>Publish</strong> басып, сілтемені көшіріңіз (6-сабақ).</div><div><b>2-деңгей</b>Claude Code-қа «index.html жаса, GitHub-қа жүкте» деңіз, сосын Vercel-де Import → Deploy жасаңыз (8–10 сабақ).</div></div></div>
+      <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">kafedra-pan.vercel.app</span></div><div class="mock-body"><div class="m-logo plain">🎉 Сайт дайын</div></div></div></div></div>
+  </div>
+
+  <div class="prompt" data-title="Практикум: веб-парақша"><div class="prompt-top"><strong>Веб-парақша жасау</strong><button data-copy>Көшіру</button></div><pre>Маған бір беттік веб-парақша жаса. Мен бағдарламашы емеспін.
+Түрі: [пән беті / ғалымның жеке беті / іс-шара беті].
+Кімге арналған: [магистранттар / әріптестер / қонақтар].
+Бөлімдері: [бөлімдер тізімі].
+Стиль: ресми, таза, Академияның көк түсі (#0f5c8c), ақ фон.
+Талаптар:
+- жоғарыда бөлімдерге апаратын мәзір, телефонда бір батырмаға жиналсын;
+- қазақ тілінде, телефонда ыңғайлы;
+- сыртқы сайттан ештеңе жүктелмесін, бір файл болсын;
+- жеке деректер сұрайтын форма болмасын.
+Мазмұны төменде:
+[мәтін]</pre></div>
+  <div class="prompt" data-title="Практикум: парақшаны тексерту"><div class="prompt-top"><strong>AI-ға парақшаны тексерту</strong><button data-copy>Көшіру</button></div><pre>Жасаған парақшаңды сыни көзбен тексер:
+1) барлық сілтеме мен мәзір жұмыс істей ме;
+2) телефонда (390px) бірдеңе экраннан шығып кетпей ме;
+3) қазақ тіліндегі қателер;
+4) түс контрасты оқуға жеткілікті ме.
+Тапқаныңды тізім етіп айт, сосын түзет.</pre></div>
+
+  <h2>Сапаны тексеру</h2>
+  <div class="checklist"><label><input type="checkbox" data-check="pw-1"> Барлық мәтін менің мәліметім бойынша дұрыс.</label><label><input type="checkbox" data-check="pw-2"> Мәзір мен сілтемелер жұмыс істейді.</label><label><input type="checkbox" data-check="pw-3"> Телефонда ыңғайлы көрінеді.</label><label><input type="checkbox" data-check="pw-4"> Жеке дерек немесе қызметтік ақпарат жоқ.</label><label><input type="checkbox" data-check="pw-5"> Жарияланды, сілтеме басқа адамда ашылады.</label></div>
+  <dl class="err"><dt>Парақша тым ұзын немесе сұрқай шықты.</dt><dd><strong>Шешімі:</strong> «Бөлімдерді карточка түрінде көрсет, әр бөлімге белгіше (иконка) қос, мәтінді қысқарт» деп сұраңыз.</dd></dl>
+  <section class="submission"><h2>Нәтижем</h2><label class="field">Парақшаның сілтемесі және алған пікір<textarea data-note="result-p-web" placeholder="https://…"></textarea></label></section>
+  <footer class="chapter-footer"><label><input type="checkbox" data-done="p-web"> Жоба аяқталды</label><div class="chapter-next"></div></footer>
+</article>
+
+<!-- ================= ЧАТ-БОТ ================= -->
+<article id="p-bot" class="chapter" data-title="Нұсқаулық: чат-бот" data-group="Практикум: өз жобаңыз">
+  <header class="chapter-heading"><div><span class="eyebrow">Практикум · 1–3 сағат</span><h1>Чат-бот жасау</h1><p class="lead">Студенттер мен әріптестердің сұрақтарына жауап беретін көмекші.</p></div><button class="bookmark" data-bookmark="p-bot" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+  <h2>Чат-боттың үш түрі</h2>
+  <p>Алдымен қай түрі керек екенін таңдаңыз. Қарапайымынан бастаған дұрыс.</p>
+  <div class="table-wrap"><table><thead><tr><th>Түрі</th><th>Қалай жұмыс істейді</th><th>Құны</th><th>Қашан таңдаймыз</th></tr></thead><tbody>
+    <tr><td><strong>А. Сұрақ-жауап боты</strong></td><td>Сіз алдын ала жазған 20–50 сұрақ-жауаптан ең жақынын табады. AI қолданбайды.</td><td>Тегін, кез келген жерде жұмыс істейді</td><td>Жауаптар нақты әрі өзгермейтін болса: мерзімдер, ережелер, байланыс</td></tr>
+    <tr><td><strong>Ә. AI көмекші (нұсқаулықпен)</strong></td><td>Claude Project немесе ChatGPT-дегі GPT: оған нұсқаулық пен құжаттар бересіз, ол солар бойынша жауап береді.</td><td>Ақылы жазылым</td><td>Еркін сұрақтар, түсіндіру, кеңес беру керек болса</td></tr>
+    <tr><td><strong>Б. AI чат-бот сайтта</strong></td><td>Өз сайтыңыздағы бот, жауапты AI жазады. API кілті және сервер керек.</td><td>Әр сұраққа аз ақы төленеді</td><td>2-деңгейден кейін, тұрақты қызмет керек болса</td></tr></tbody></table></div>
+
+  <h2>А. Сұрақ-жауап боты (ұсынамыз)</h2>
+  <div class="wizard" data-wiz="p-bot">
+    <div class="wstep"><div><span class="lbl">Қадам</span><h3>Сұрақтар мен жауаптарды жинаңыз</h3><p>Студенттер сізге жиі қоятын 20–30 сұрақты және оның жауабын жазыңыз. Мысалы: «Эссені қашан тапсырамыз?», «Бағалау қалай жүреді?»</p>
+      <details class="simpler"><summary>Сұрақтар есімде жоқ</summary><p>Пошта мен чаттарды қарап шығыңыз немесе силлабусты AI-ға беріп: «Студенттер бұл құжат бойынша қандай 20 сұрақ қоюы мүмкін?» деп сұраңыз. Жауаптарын өзіңіз тексересіз.</p></details></div>
+      <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">suraqtar.docx</span></div><div class="mock-body"><div class="m-card">С: Эссе мерзімі қашан?<br>Ж: 12-аптаның жұмасы, 23:59-ға дейін.</div><div class="m-card">С: Кешіккен жұмыс қабылдана ма?<br>Ж: …</div></div></div></div></div>
+    <div class="wstep"><div><span class="lbl">Қадам</span><h3>Ботты жасатыңыз</h3><p>Төмендегі «Сұрақ-жауап боты» промптын көшіріп, соңына сұрақ-жауаптарыңызды қойыңыз. Claude чат терезесі сияқты бет жасайды.</p></div>
+      <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Preview</span></div><div class="mock-body"><div class="m-ai">Сәлеметсіз бе! Пән бойынша сұрағыңызды жазыңыз.</div><div class="m-user">эссе қашан</div><div class="m-ai hl">Эссе 12-аптаның жұмасы, 23:59-ға дейін тапсырылады.</div></div></div></div></div>
+    <div class="wstep"><div><span class="lbl">Қадам</span><h3>Қатаң тексеріңіз</h3><p>Ботқа әр сұрақты басқа сөзбен, қатемен, орысша қойып көріңіз. Жауабын таппаса, бот «Бұл сұраққа жауап жоқ, оқытушыға жазыңыз: …» деуі керек. Ойдан жауап шығармауы керек.</p></div>
+      <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Preview</span></div><div class="mock-body"><div class="m-user">жатақхана бар ма</div><div class="m-ai hl">Бұл сұраққа менде жауап жоқ. Оқытушыға хабарласыңыз.</div><span class="hl-tag">Дұрыс мінез</span></div></div></div></div>
+    <div class="wstep"><div><span class="lbl">Қадам</span><h3>Жариялап, жаңартып отырыңыз</h3><p>Publish немесе Vercel арқылы жариялаңыз. Жаңа сұрақ пайда болса: «Мына сұрақ-жауапты қос: …» деп жазасыз. Бот кодын қайта жазудың қажеті жоқ.</p></div>
+      <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">pan-bot.vercel.app</span></div><div class="mock-body"><div class="m-input">Сұрағыңызды жазыңыз…<span class="m-send">↑</span></div></div></div></div></div>
+  </div>
+
+  <div class="prompt" data-title="Практикум: сұрақ-жауап боты"><div class="prompt-top"><strong>А. Сұрақ-жауап боты</strong><button data-copy>Көшіру</button></div><pre>Маған чат түріндегі сұрақ-жауап ботын жаса. Мен бағдарламашы емеспін.
+- Сыртқы AI немесе интернет қолданбасын, тек төмендегі тізім бойынша жұмыс істесін.
+- Пайдаланушы сұрағын тізімдегі ең жақын сұрақпен салыстырсын
+  (сөздердің сәйкестігі, қате жазу мен бас/кіші әріпке төзімді).
+- Сәйкес келетін сұрақ табылмаса: «Бұл сұраққа жауап жоқ. Оқытушыға жазыңыз: [байланыс]».
+- Бастапқыда 4 жиі сұрақ батырма болып тұрсын.
+- Қазақ тілінде, чат терезесі сияқты, телефонда ыңғайлы.
+- Тізім кодтың басында бөлек тұрсын, кейін оңай толықтыратындай.
+Сұрақ-жауаптар:
+[С: … | Ж: …]</pre></div>
+
+  <h2>Ә. AI көмекші: Claude Project немесе GPT</h2>
+  <ol class="steps"><li><strong>Claude:</strong> claude.ai → <strong>Projects</strong> → <strong>Create project</strong>. «Instructions» өрісіне төмендегі нұсқаулықты, «Files» бөліміне силлабус пен ережелерді (жеке дерексіз) салыңыз.</li><li><strong>ChatGPT:</strong> <strong>GPTs</strong> → <strong>Create</strong> бөлімінде дәл осылай нұсқаулық пен файлдар беріледі, сосын сілтемемен бөлісуге болады.</li><li>Көмекшіні 10 сұрақпен тексеріңіз: файлда жоқ нәрсені ойдан шығармай ма?</li></ol>
+  <div class="prompt" data-title="Практикум: AI көмекшіге нұсқаулық"><div class="prompt-top"><strong>Ә. AI көмекшінің нұсқаулығы (Instructions)</strong><button data-copy>Көшіру</button></div><pre>Сен «[пән атауы]» пәні бойынша магистранттарға көмекшісің.
+- Тек жүктелген құжаттарға (силлабус, ережелер) сүйеніп жауап бер.
+- Құжатта жауап болмаса, «Бұл туралы ақпарат жоқ, оқытушыдан сұраңыз» де.
+- Үй тапсырмасын студенттің орнына жазба. Оның орнына бағыт бер, сұрақ қой.
+- Баға қойма, бағаны тек оқытушы қояды.
+- Қазақ тілінде, қысқа және сыпайы жауап бер. Студент орысша жазса, орысша жауап бер.
+- Студенттен аты-жөнін, ЖСН-ін, телефонын сұрама.</pre></div>
+
+  <h2>Б. Сайттағы AI чат-бот (2-деңгей)</h2>
+  <p>Бұл жолды 7–11 сабақтан кейін ғана қолға алыңыз. Claude Code-қа төмендегі промптты беріңіз. Ол Vercel-де жұмыс істейтін бот жасайды. AI-ға қосылу үшін <code>console.anthropic.com</code> сайтынан <strong>API кілті</strong> аласыз. Ол ақылы, әр сұраққа аз ғана ақы төленеді.</p>
+  <div class="callout warn"><strong>Кілт — құпиясөз.</strong> API кілтін ешқашан HTML файлына, чатқа немесе GitHub-қа жазбаңыз. Оны тек Vercel-дің <strong>Settings → Environment Variables</strong> бөліміне енгізесіз. Кілт сыртқа шығып кетсе, оны console.anthropic.com сайтында бірден өшіріңіз. Шығынға шек қоюды (spend limit) ұмытпаңыз.</div>
+  <div class="prompt" data-title="Практикум: Vercel-дегі AI чат-бот"><div class="prompt-top"><strong>Б. Claude Code: сайттағы AI чат-бот</strong><button data-copy>Көшіру</button></div><pre>Мен бағдарламашы емеспін. Әр қадамды қазақша түсіндір.
+Осы папкада Vercel-ге шығатын AI чат-бот жоба жаса:
+- index.html: чат терезесі, қазақ тілінде;
+- api/chat серверлік функциясы Anthropic API-ге сұрау жібереді;
+- API кілті тек ANTHROPIC_API_KEY ортасының айнымалысынан (environment variable) оқылсын,
+  кодта, браузерде және GitHub-та ешқашан көрінбесін;
+- ботқа жүйелік нұсқаулық: [Ә бөліміндегі нұсқаулық];
+- бір сұрақтың ұзындығына және жауаптың көлеміне шек қой;
+- .gitignore файлы құпия файлдарды жүктемесін.
+Соңында кілтті Vercel-ге қалай енгізетінімді қадаммен айт.</pre></div>
+
+  <h2>Сапаны тексеру</h2>
+  <div class="checklist"><label><input type="checkbox" data-check="pb-1"> Бот кемінде 20 сұраққа дұрыс жауап береді.</label><label><input type="checkbox" data-check="pb-2"> Білмейтін сұрағына ойдан жауап шығармайды.</label><label><input type="checkbox" data-check="pb-3"> Жеке дерек сұрамайды және сақтамайды.</label><label><input type="checkbox" data-check="pb-4"> API кілті (болса) кодта және GitHub-та жоқ.</label><label><input type="checkbox" data-check="pb-5"> Кемінде 3 студент байқап, пікір берді.</label></div>
+  <dl class="err"><dt>Бот сұрақты басқаша жазғанда таппайды.</dt><dd><strong>Шешімі:</strong> «Әр сұраққа 3–4 балама жазылуын қос (синонимдер)» деп сұраңыз немесе сұрақтардың баламаларын өзіңіз қосыңыз.</dd></dl>
+  <dl class="err"><dt>AI көмекші жауапты ойдан шығарады.</dt><dd><strong>Шешімі:</strong> Нұсқаулыққа «Жауаптың соңында қай құжаттың қай бөліміне сүйенгеніңді көрсет» деп қосыңыз. Сонда тексеру оңай болады.</dd></dl>
+  <section class="submission"><h2>Нәтижем</h2><label class="field">Боттың түрі, сілтемесі және студенттердің пікірі<textarea data-note="result-p-bot" placeholder="Мысалы: А түрі, 25 сұрақ, https://…"></textarea></label></section>
+  <footer class="chapter-footer"><label><input type="checkbox" data-done="p-bot"> Жоба аяқталды</label><div class="chapter-next"></div></footer>
+</article>
+
+<!-- ================= ЭЛЕКТРОНДЫ ОҚУЛЫҚ ================= -->
+<article id="p-ebook" class="chapter" data-title="Нұсқаулық: электронды оқулық" data-group="Практикум: өз жобаңыз">
+  <header class="chapter-heading"><div><span class="eyebrow">Практикум · 3–6 сағат</span><h1>Электронды оқулық жасау</h1><p class="lead">Тараулары, мәзірі, тесттері мен прогресі бар интерактивті оқулық. Сіз қазір оқып отырған оқулық та дәл осылай жасалған.</p></div><button class="bookmark" data-bookmark="p-ebook" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+  <h2>Негізгі қағида: бөліп-бөліп жасау</h2>
+  <p>AI бір хабарламамен бүкіл оқулықты жаза алмайды: жауаптың ұзындығы шектеулі, ал ұзын мәтінде қате көбейеді. Сондықтан оқулықты үй салғандай жасаймыз: алдымен жоспар, сосын қаңқа, содан кейін тарауларды бір-бірлеп толтырамыз.</p>
+  <div class="flow"><span>1. Мазмұн жоспары</span><b>→</b><span>2. Қаңқа</span><b>→</b><span>3. Тараулар</span><b>→</b><span>4. Тесттер</span><b>→</b><span class="end">5. Жариялау</span></div>
+
+  <div class="wizard" data-wiz="p-ebook">
+    <div class="wstep"><div><span class="lbl">Қадам</span><h3>Мазмұн жоспарын құрыңыз</h3><p>«Оқулық жоспары» промптымен AI-дан тараулар тізімін алыңыз. Оны мұқият оқып, өз пәніңізге сай түзетіңіз. Жоспар — сіздің кәсіби шешіміңіз.</p></div>
+      <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">claude.ai/chat/…</span></div><div class="mock-body"><div class="m-ai">1-тарау. Цифрлық мемлекет ұғымы<br>2-тарау. eGov платформасы<br>3-тарау. …</div></div></div></div></div>
+    <div class="wstep"><div><span class="lbl">Қадам</span><h3>Қаңқасын жасатыңыз</h3><p>«Оқулық қаңқасы» промптын жіберіңіз. AI бүйір мәзірі, тараулар, прогресс белгісі бар бос оқулық жасайды. Тараулардың ішінде әзірге тек тақырып тұрады.</p>
+      <details class="simpler"><summary>Қаңқа деген не?</summary><p>Бұл кітаптың мұқабасы мен мазмұны сияқты: беттер бар, бірақ әлі бос. Оны бір рет дұрыс жасасақ, кейін тек мәтін қосамыз.</p></details></div>
+      <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Preview</span></div><div class="mock-body mock-split"><div class="m-card">☰ 1-тарау<br>2-тарау<br>3-тарау</div><div class="m-page"><h4>1-тарау</h4><span class="m-card">(мәтін кейін)</span></div></div></div></div></div>
+    <div class="wstep"><div><span class="lbl">Қадам</span><h3>Тарауларды бір-бірлеп толтырыңыз</h3><p>«Тарауды толтыру» промптымен әр тарауға бөлек хабарлама жіберіңіз. Өз дәріс жазбаларыңызды, мысалдарыңызды беріңіз. AI оларды құрылымға келтіреді.</p>
+      <details class="simpler"><summary>Чат тым ұзарып кетті</summary><p>Чат ұзарса, AI алдыңғы бөлігін ұмыта бастайды. Артефакттың кодын жүктеп алып (Download), жаңа чатта: «Мына оқулықты жалғастырамыз» деп файлды тіркеңіз. 2-деңгей жолында бұл мәселе жоқ: файл папкада тұрады.</p></details></div>
+      <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">claude.ai/chat/…</span></div><div class="mock-body" style="align-content:end"><div class="m-input hl">2-тарауды толтыр. Менің жазбаларым: …<span class="m-send">↑</span></div></div></div></div></div>
+    <div class="wstep"><div><span class="lbl">Қадам</span><h3>Тесттер мен тапсырмалар қосыңыз</h3><p>Әр тараудың соңына 3–5 тест сұрағын және бір практикалық тапсырманы қосыңыз. Дұрыс жауаптарды өзіңіз тексеріңіз: AI қате «дұрыс жауап» белгілеуі мүмкін.</p></div>
+      <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Preview</span></div><div class="mock-body"><div class="m-card">eGov қай жылы іске қосылды?</div><div class="m-card hl">● 2006 ✓ Дұрыс!</div></div></div></div></div>
+    <div class="wstep"><div><span class="lbl">Қадам</span><h3>Тексеріп, жариялаңыз</h3><p>Оқулықты басынан аяғына дейін студент көзімен оқып шығыңыз. Сосын жариялаңыз: 1-деңгей жолында Publish, 2-деңгей жолында GitHub + Vercel. Сілтемеден QR-код жасап, дәріс слайдына қойыңыз.</p></div>
+      <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">menin-oqulygym.vercel.app</span></div><div class="mock-body" style="place-items:center"><span style="font-size:40px">📘</span><span class="m-card">QR → студенттер телефонмен ашады</span></div></div></div></div>
+  </div>
+
+  <div class="prompt" data-title="Практикум: оқулық жоспары"><div class="prompt-top"><strong>1. Оқулық жоспары</strong><button data-copy>Көшіру</button></div><pre>Мен «[пән атауы]» пәні бойынша [магистранттарға / докторанттарға]
+арналған электронды оқулық жасағым келеді. Көлемі: [6–10] тарау.
+Мазмұн жоспарын құр: әр тараудың атауы, 3 оқу нәтижесі
+(«Тарауды оқыған соң студент … алады»), негізгі ұғымдар.
+Қазақстандық мысалдарды ұсын. Әзірге код жазба, тек жоспар.</pre></div>
+  <div class="prompt" data-title="Практикум: оқулық қаңқасы"><div class="prompt-top"><strong>2. Оқулық қаңқасы</strong><button data-copy>Көшіру</button></div><pre>Жоғарыдағы жоспар бойынша бір HTML файлдан тұратын электронды оқулықтың
+қаңқасын жаса. Мен бағдарламашы емеспін.
+- Сол жақта тараулар мәзірі, телефонда ☰ батырмасына жиналсын.
+- Экранда бір уақытта бір тарау көрінсін, «Келесі тарау →» батырмасы болсын.
+- Әр тарауда: тақырып, оқу нәтижелері, мәтін орны, тест орны, «Оқыдым» белгісі.
+- Прогресс жолағы: неше тарау оқылды (браузердің localStorage-інде сақталсын).
+- Ашық және қараңғы тақырып, қаріпті үлкейту батырмасы, басып шығаруға ыңғайлы.
+- Қазақ тілінде, сыртқы сайттардан ештеңе жүктелмесін.
+Әзірге тараулардың ішіне тек тақырып пен «Мәтін кейін қосылады» деп жаз.</pre></div>
+  <div class="prompt" data-title="Практикум: тарауды толтыру"><div class="prompt-top"><strong>3. Тарауды толтыру</strong><button data-copy>Көшіру</button></div><pre>Оқулықтың [N]-тарауын толтыр. Қалған тарауларға тиіспе.
+Менің дәріс жазбаларым төменде. Олардың мағынасын өзгертпе,
+тек құрылымға келтір: қысқа абзацтар, 1 мысал, 1 кесте немесе сызба,
+«Есте сақтаңыз» деген қорытынды қорап.
+Соңына 4 тест сұрағын (3 нұсқа, түсіндірмесімен) және 1 практикалық тапсырма қос.
+Дұрыс жауаптарды маған бөлек тізіммен де жаз, тексеремін.
+Жазбаларым:
+[мәтін]</pre></div>
+
+  <h2>Сапаны тексеру</h2>
+  <div class="checklist"><label><input type="checkbox" data-check="pe-1"> Мазмұн жоспары менің силлабусыма сәйкес.</label><label><input type="checkbox" data-check="pe-2"> Әр тараудағы деректер, күндер мен заң нормалары түпнұсқамен тексерілді.</label><label><input type="checkbox" data-check="pe-3"> Тесттердің дұрыс жауаптарын өзім тексердім.</label><label><input type="checkbox" data-check="pe-4"> Мәзір, «Келесі тарау», прогресс жұмыс істейді.</label><label><input type="checkbox" data-check="pe-5"> Телефонда және басып шығарғанда ыңғайлы.</label><label><input type="checkbox" data-check="pe-6"> Басқа автордың мәтіні мен суреті рұқсатсыз қолданылмады, дереккөздер көрсетілді.</label></div>
+  <dl class="err"><dt>Жаңа тарауды қосқанда бұрынғылары бұзылды немесе жоғалды.</dt><dd><strong>Шешімі:</strong> Нұсқа белгісімен (‹ 2 / 3 ›) алдыңғы нұсқаға оралыңыз. Промптқа әрқашан «Қалған тарауларға тиіспе» деп жазыңыз. 2-деңгей жолында әр тараудан кейін GitHub-қа коммит жасаңыз.</dd></dl>
+  <dl class="err"><dt>Артефакт «тым ұзын» болып, соңы кесіліп қалды.</dt><dd><strong>Шешімі:</strong> Оқулықты екі бөлімге бөліңіз немесе 2-деңгей жолына көшіңіз: Claude Code ұзын файлмен еркін жұмыс істейді.</dd></dl>
+  <section class="submission"><h2>Нәтижем</h2><label class="field">Оқулықтың атауы, сілтемесі және студенттердің пікірі<textarea data-note="result-p-ebook" placeholder="https://…"></textarea></label></section>
+  <footer class="chapter-footer"><label><input type="checkbox" data-done="p-ebook"> Жоба аяқталды</label><div class="chapter-next"></div></footer>
 </article>
 
 <!-- ================= КЕЛЕСІ ҚАДАМ ================= -->

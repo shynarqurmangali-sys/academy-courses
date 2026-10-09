@@ -309,6 +309,22 @@ abbr.term{text-decoration:underline dotted var(--accent);text-underline-offset:3
 </style>
 
 <style>.wizard,.part,.chapter{scroll-margin-top:84px}</style>
+<style>
+.mock-body.term{background:#10161d;color:#d7e3ec;font-family:var(--f-mono);font-size:.82em;line-height:1.55;gap:2px;align-content:start;overflow-x:auto}
+.term .pr{color:#7fd18b}
+.term .c{color:#93a7b8}
+.term .y{color:#f0c36b}
+.term .hl{display:inline-block;padding:0 4px;border-radius:5px}
+.level-banner{background:linear-gradient(135deg,var(--soft),var(--paper));border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:14px;padding:16px 18px;margin:16px 0}
+.level-banner strong{display:block;margin-bottom:4px}
+.need{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.need span{background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:.88em}
+.os{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:10px 0}
+.os>div{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.os b{display:block;font-size:.85em;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.os code{white-space:pre-wrap;word-break:break-word}
+.m-logo.plain::before{content:none;display:none}
+</style>
 </head>
 <body>
 <header class="topbar">
@@ -367,6 +383,7 @@ abbr.term{text-decoration:underline dotted var(--accent);text-underline-offset:3
   <p>Бір жерде түсінбесеңіз, сары түсті <strong>«Түсінбедім»</strong> жолын басыңыз. Онда сол қадам одан да қарапайым түсіндірілген. Бірдеңе шықпай жатса, <a href="#help">«Көмек: шықпай жатыр»</a> бөлімін ашыңыз.</p>
 
   <h2>Сабақтар</h2>
+  <p><strong>1–6 сабақ</strong> толығымен браузерде, тегін өтеді. <strong>7–11 сабақ</strong> (2-деңгей) терминал, Claude Code, GitHub, Vercel және Codex құралдарын үйретеді. Онда нағыз жоба жасап, интернетке өзіңіз шығарасыз.</p>
   <div class="lesson-cards" id="lesson-cards"></div>
 
   <div class="callout warn"><strong>Бір ғана маңызды ереже.</strong> AI чатына студенттің аты-жөнін, ЖСН-ін, телефонын, құпиясөзді және қызметтік құжаттарды жазбаңыз. Жаттығуда ойдан шығарылған мысалдарды қолданыңыз.</div>
@@ -751,9 +768,369 @@ abbr.term{text-decoration:underline dotted var(--accent);text-underline-offset:3
   <footer class="chapter-footer"><label><input type="checkbox" data-done="l6"> Сабақ аяқталды</label><div class="chapter-next"></div></footer>
 </article>
 
+<!-- ================= 2-ДЕҢГЕЙ: КІРІСПЕ ================= -->
+<article id="level2" class="chapter" data-title="2-деңгейге кіріспе" data-group="2-деңгей: нағыз құралдар">
+  <header class="chapter-heading"><div><span class="eyebrow">2-деңгей · 5 минут</span><h1>Нағыз құралдармен жұмыс</h1><p class="lead">1–6 сабақта бәрін браузерде, чаттың ішінде жасадық. Енді кәсіби бағдарламашылар қолданатын құралдарды үйренеміз.</p></div><button class="bookmark" data-bookmark="level2" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+  <div class="welcome"><p><strong>Бұл деңгей қиынырақ, бірақ қорқынышты емес.</strong></p><p>Мұнда да кодты өзіңіз жазбайсыз. Жаңалығы мынада: AI енді чатта емес, сіздің компьютеріңізде, өз папкаңызда жұмыс істейді. Ал жасаған жобаңыз интернетте өз сілтемесімен тұрады. Дәл осы оқулық та солай жасалған.</p></div>
+
+  <h2>Жол картасы</h2>
+  <div class="flow"><span>7. Терминал</span><b>→</b><span>8. Claude Code</span><b>→</b><span>9. GitHub</span><b>→</b><span>10. Vercel</span><b>→</b><span class="end">11. Codex</span></div>
+
+  <h2>Жаңа бес сөз</h2>
+  <div class="kv">
+    <div><b>Терминал</b>Компьютерге батырма басудың орнына жазбаша бұйрық беретін терезе. Ақ немесе қара фонда тек мәтін тұрады.</div>
+    <div><b>Агент</b>Тек жауап жазбайтын, өзі файл жасап, өзгертіп, бағдарлама іске қосатын AI. Мысалы, Claude Code және Codex.</div>
+    <div><b>Репозиторий</b>Жобаның интернеттегі папкасы. Онда барлық файл және әр өзгерістің тарихы сақталады. GitHub-та тұрады.</div>
+    <div><b>Коммит</b>Жобаның бір сақталған нұсқасы. Word-тағы «Сохранить» сияқты, бірақ әр нұсқа жеке есте қалады.</div>
+    <div><b>Деплой</b>Жобаны интернетке шығару. Нәтижесінде кез келген адам аша алатын сілтеме пайда болады.</div>
+  </div>
+
+  <h2>Не керек болады?</h2>
+  <div class="need"><span>💻 Өз компьютеріңіз (Mac немесе Windows)</span><span>🔑 Бағдарлама орнатуға рұқсат</span><span>💳 Claude Pro немесе ChatGPT Plus жазылымы</span><span>🐙 GitHub аккаунты (тегін)</span><span>▲ Vercel аккаунты (тегін)</span></div>
+  <div class="callout warn"><strong>Жұмыс компьютері туралы.</strong> Мекемедегі компьютерге бағдарлама орнатпас бұрын IT бөлімімен келісіңіз. Үйдегі жеке компьютерде жаттығу әлдеқайда оңай.</div>
+  <details class="simpler"><summary>Жазылымым жоқ. Не істеймін?</summary><p>9 және 10-сабақтар (GitHub, Vercel) тегін. Оларды 2-сабақтағы бетпен орындай аласыз: Claude чатында беттің кодын жүктеп алып, GitHub-қа саласыз. 7-сабақ (терминал) да тегін. Ал 8 және 11-сабақтарды әріптесіңізбен жұппен, бір компьютерде орындауға болады.</p></details>
+  <footer class="chapter-footer"><label><input type="checkbox" data-done="level2"> Оқыдым</label><div class="chapter-next"></div></footer>
+</article>
+
+<!-- ================= 7-САБАҚ ================= -->
+<article id="l7" class="chapter" data-title="Терминалға алғашқы қадам" data-group="2-деңгей: нағыз құралдар" data-num="7" data-time="25 минут" data-sub="Терминалды ашып, жоба папкасын жасайсыз">
+  <header class="chapter-heading"><div><span class="eyebrow">7-сабақ · 25 минут · тегін</span><h1>Терминалға алғашқы қадам</h1><p class="lead">Компьютерге жазбаша бұйрық беруді үйренеміз. Бар болғаны бес команда.</p></div><button class="bookmark" data-bookmark="l7" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+
+  <div class="part"><div class="part-no">1</div><div class="part-body"><span class="eyebrow">Сабақ тақырыбы</span><h2>Терминал және бес негізгі команда</h2></div></div>
+  <div class="part"><div class="part-no">2</div><div class="part-body"><span class="eyebrow">Сабақ соңында не істей аламын?</span>
+    <ul class="outcomes"><li>Терминалды аша аламын.</li><li>Қай папкада тұрғанымды біліп, папкалар арасында жүре аламын.</li><li>Жобаға арналған жаңа папка жасай аламын.</li></ul></div></div>
+  <div class="part"><div class="part-no">3</div><div class="part-body"><span class="eyebrow">Қысқа түсініктеме</span>
+    <p>Әдетте біз компьютерде тінтуірмен жұмыс істейміз: папканы ашамыз, файлды басамыз. <strong>Терминал</strong> — дәл осы әрекеттерді сөзбен жасайтын терезе. Сіз бұйрық (команда) жазып, Enter басасыз, компьютер орындайды.</p>
+    <p>Неге керек? Claude Code мен Codex агенттері терминалда жұмыс істейді. Терминалды жақсы білудің қажеті жоқ. Тек ашып, керек папкаға кіре білсеңіз жеткілікті.</p>
+    <div class="kv"><div><b>pwd</b>Мен қай папкадамын?</div><div><b>ls</b>Бұл папкада не бар?</div><div><b>mkdir атау</b>Жаңа папка жаса.</div><div><b>cd атау</b>Папканың ішіне кір. <code>cd ..</code> — бір саты артқа шық.</div><div><b>open . / explorer .</b>Осы папканы кәдімгі терезеде аш (Mac / Windows).</div></div></div></div>
+
+  <div class="part"><div class="part-no">4</div><div class="part-body"><span class="eyebrow">Қадамдық нұсқаулық</span>
+    <div class="wizard" data-wiz="l7">
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Терминалды ашыңыз</h3>
+        <div class="os"><div><b>Mac</b><strong>Cmd + Space</strong> басып, <code>Terminal</code> деп жазып, Enter басыңыз.</div><div><b>Windows</b><strong>Пуск</strong> батырмасын басып, <code>PowerShell</code> деп жазып, оны ашыңыз.</div></div>
+        <details class="simpler"><summary>Түсінбедім</summary><p>Бұл кәдімгі бағдарлама, Word сияқты. Іздеу жолына атын жазып ашасыз. Ашылған терезеде бір жол мәтін және жыпылықтайтын курсор тұрады. Бұл қалыпты жағдай.</p></details></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Terminal</span></div><div class="mock-body term"><div>Last login: Thu Oct 9 09:12</div><div><span class="pr">aigerim@MacBook ~ %</span> <span class="hl">▌</span></div><span class="hl-tag">Осы жерге жазасыз</span></div></div></div></div>
+
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Қай жерде тұрғаныңызды біліңіз</h3><p><code>pwd</code> деп жазып, Enter басыңыз. Терминал қазір қай папкада тұрғаныңызды көрсетеді. Әдетте бұл сіздің үй папкаңыз.</p>
+        <details class="simpler"><summary>Түсінбедім</summary><p>Терминал әрқашан бір папканың «ішінде» тұрады. Компьютердегі ашық папка терезесі сияқты. <code>pwd</code> сол терезенің атын айтады.</p></details></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Terminal</span></div><div class="mock-body term"><div><span class="pr">~ %</span> <span class="hl">pwd</span></div><div class="c">/Users/aigerim</div><div><span class="pr">~ %</span> ▌</div></div></div></div></div>
+
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Ішінде не бар екенін көріңіз</h3><p><code>ls</code> деп жазып, Enter басыңыз. Сіз таныс папкаларды көресіз: Desktop, Documents, Downloads.</p>
+        <details class="simpler"><summary>Түсінбедім</summary><p>Бұл папканы ашып, ішіне қарағанмен бірдей. Тек суреттің орнына атаулар тізімі шығады.</p></details></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Terminal</span></div><div class="mock-body term"><div><span class="pr">~ %</span> <span class="hl">ls</span></div><div class="c">Desktop   Documents   Downloads   Pictures</div><div><span class="pr">~ %</span> ▌</div></div></div></div></div>
+
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Жоба папкасын жасаңыз</h3><p>Кезекпен жазыңыз, әрқайсысынан кейін Enter басыңыз:</p>
+        <div class="say"><code>cd Documents</code></div><div class="say"><code>mkdir vibe-zhoba</code></div><div class="say"><code>cd vibe-zhoba</code></div>
+        <p>Енді сіз жаңа, бос <strong>vibe-zhoba</strong> папкасының ішіндесіз.</p>
+        <details class="simpler"><summary>Түсінбедім</summary><p>Бірінші команда — «Құжаттар папкасына кір». Екіншісі — «vibe-zhoba деген жаңа папка жаса». Үшіншісі — «соның ішіне кір». Папка атында бос орын мен қазақ әріптерін қолданбаған дұрыс, сондықтан сызықша қойдық.</p></details></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Terminal</span></div><div class="mock-body term"><div><span class="pr">~ %</span> cd Documents</div><div><span class="pr">Documents %</span> mkdir vibe-zhoba</div><div><span class="pr">Documents %</span> cd vibe-zhoba</div><div><span class="pr hl">vibe-zhoba %</span> ▌</div><span class="hl-tag">Папка аты осында көрінеді</span></div></div></div></div>
+
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Папканы кәдімгі терезеде ашыңыз</h3>
+        <div class="os"><div><b>Mac</b><code>open .</code></div><div><b>Windows</b><code>explorer .</code></div></div>
+        <p>Нүкте «осы папка» дегенді білдіреді. Экранда бос папка ашылады. Терминал мен кәдімгі терезе — бір компьютердің екі түрлі көрінісі.</p>
+        <p>Келесі жолы терминалды ашқанда осы папкаға оралу үшін: <code>cd Documents/vibe-zhoba</code></p></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Finder — vibe-zhoba</span></div><div class="mock-body" style="place-items:center;min-height:150px"><span style="font-size:42px">📁</span><span class="m-card">Папка бос. Келесі сабақта мұнда AI файл жасайды.</span></div></div></div></div>
+    </div></div></div>
+
+  <div class="part"><div class="part-no">5</div><div class="part-body"><span class="eyebrow">Көшіріп қолданатын AI промпты</span>
+    <p>Терминалда түсініксіз жазу шықса, оны Claude чатына көшіріп, мына промптпен жіберіңіз.</p>
+    <div class="prompt" data-title="7-сабақ: терминалдағы жазуды түсіндіру"><div class="prompt-top"><strong>Терминалдағы жазуды түсіндіру</strong><button data-copy>Көшіру</button></div><pre>Мен терминалды алғаш қолданып отырмын, бағдарламашы емеспін.
+Компьютерім: [Mac / Windows].
+Мен мына команданы жаздым: [команда]
+Терминал мынаны көрсетті:
+[терминалдағы жазу]
+Бұл не дегені? Енді не жазуым керек? Қарапайым тілмен, қадаммен түсіндір.</pre></div></div></div>
+  <div class="part"><div class="part-no">6</div><div class="part-body"><span class="eyebrow">Күтілетін нәтиже</span>
+    <p>Құжаттар (Documents) ішінде <strong>vibe-zhoba</strong> деген бос папка бар. Терминалда жол соңында <code>vibe-zhoba %</code> (Windows-та <code>…\vibe-zhoba&gt;</code>) жазуы тұр.</p></div></div>
+  <div class="part"><div class="part-no">7</div><div class="part-body"><span class="eyebrow">Өз бетіңізше орындайтын тапсырма</span>
+    <p>Терминалды жауып, қайта ашыңыз. Тек командалармен <strong>vibe-zhoba</strong> ішінде <strong>sabaq-7</strong> деген папка жасап, оны кәдімгі терезеде ашыңыз.</p></div></div>
+  <div class="part"><div class="part-no">8</div><div class="part-body"><span class="eyebrow">Тапсырманы қалай орындаймын?</span>
+    <ol class="steps"><li>Терминалды ашыңыз, <code>pwd</code> арқылы қайда тұрғаныңызды тексеріңіз.</li><li><code>cd Documents/vibe-zhoba</code> жазыңыз.</li><li><code>mkdir sabaq-7</code>, содан кейін <code>cd sabaq-7</code>.</li><li><code>open .</code> немесе <code>explorer .</code> жазыңыз.</li></ol></div></div>
+  <div class="part"><div class="part-no">9</div><div class="part-body"><span class="eyebrow">Тексеру тізімі</span>
+    <div class="checklist"><label><input type="checkbox" data-check="l7-1"> Терминалды аштым.</label><label><input type="checkbox" data-check="l7-2"> <code>pwd</code> және <code>ls</code> командаларын орындадым.</label><label><input type="checkbox" data-check="l7-3"> <code>vibe-zhoba</code> папкасын жасадым.</label><label><input type="checkbox" data-check="l7-4"> Папканы кәдімгі терезеде аштым.</label><label><input type="checkbox" data-check="l7-5"> Терминалды қайта ашып, папкаға өзім оралдым.</label></div></div></div>
+  <div class="part"><div class="part-no">10</div><div class="part-body"><span class="eyebrow">Жиі кездесетін қиындық</span>
+    <dl class="err"><dt>«command not found» немесе «не является командой» деген жазу шықты.</dt><dd>Команда қате жазылған. Бос орын, әріп, кириллица/латын әріптері шатасқан болуы мүмкін.</dd><dd><strong>Шешімі:</strong> Пернетақтаны ағылшын тіліне ауыстырып, команданы қайта жазыңыз.</dd></dl>
+    <dl class="err"><dt>«No such file or directory» шықты.</dt><dd>Мұндай папка осы жерде жоқ.</dd><dd><strong>Шешімі:</strong> <code>pwd</code> және <code>ls</code> жазып, қайда тұрғаныңызды және қандай папкалар бар екенін қараңыз.</dd></dl>
+    <div class="callout warn"><strong>Қауіпсіздік.</strong> Интернеттен табылған, мағынасын білмейтін команданы терминалға қоймаңыз. Әсіресе <code>sudo</code>, <code>rm</code>, <code>del</code> сөздері бар командаларды. Олар файлдарды өшіре алады. Алдымен AI-дан «бұл не істейді?» деп сұраңыз.</div></div></div>
+  <div class="part"><div class="part-no">11</div><div class="part-body"><span class="eyebrow">Қысқаша қорытынды</span>
+    <p>Сіз терминалды аштыңыз, папкалар арасында жүрдіңіз және жоба папкасын жасадыңыз. Бар болғаны осы. Келесі сабақта осы папкаға AI агентін шақырамыз.</p></div></div>
+  <div class="part"><div class="part-no">12</div><div class="part-body"><span class="eyebrow">Өзіңізді тексеріңіз</span><div class="quiz" data-quiz="l7"></div></div></div>
+  <section class="submission"><h2>Нәтижем</h2><label class="field">Қандай командалар жұмыс істеді? Қай жерде қиналдыңыз?<textarea data-note="result-l7" placeholder="Мысалы: папка жасадым, бірақ алдымен cd жазуды ұмыттым."></textarea></label></section>
+  <footer class="chapter-footer"><label><input type="checkbox" data-done="l7"> Сабақ аяқталды</label><div class="chapter-next"></div></footer>
+</article>
+
+<!-- ================= 8-САБАҚ ================= -->
+<article id="l8" class="chapter" data-title="Claude Code: агентпен жоба жасау" data-group="2-деңгей: нағыз құралдар" data-num="8" data-time="35 минут" data-sub="AI агенті сіздің папкаңызда файлдар жасайды">
+  <header class="chapter-heading"><div><span class="eyebrow">8-сабақ · 35 минут · ақылы жазылым</span><h1>Claude Code: агентпен жоба жасау</h1><p class="lead">AI енді чатта емес, сіздің компьютеріңізде жұмыс істейді: файл жасайды, өзгертеді, тексереді.</p></div><button class="bookmark" data-bookmark="l8" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+
+  <div class="part"><div class="part-no">1</div><div class="part-body"><span class="eyebrow">Сабақ тақырыбы</span><h2>Claude Code-ты орнатып, бағалау парағын файл ретінде жасату</h2></div></div>
+  <div class="part"><div class="part-no">2</div><div class="part-body"><span class="eyebrow">Сабақ соңында не істей аламын?</span>
+    <ul class="outcomes"><li>Claude Code-ты орнатып, іске қоса аламын.</li><li>Агентке тапсырма беріп, оның рұқсат сұрауларына саналы жауап бере аламын.</li><li>Жасалған бетті браузерде ашып, өзгерту сұрай аламын.</li></ul></div></div>
+  <div class="part"><div class="part-no">3</div><div class="part-body"><span class="eyebrow">Қысқа түсініктеме</span>
+    <p>Чаттағы AI сізге жауап береді, ал файлды сіз өзіңіз сақтайсыз. <strong>Claude Code</strong> — агент: ол сіздің папкаңызда өзі файл жасайды, оны ашып тексереді, қате тапса түзетеді.</p>
+    <p>Агент әр маңызды әрекет алдында <strong>рұқсат сұрайды</strong>: «Осы файлды жасайын ба?», «Осы команданы орындайын ба?». Сіз басшы ретінде оқып, келісім бересіз. Бұл — 2-деңгейдің ең маңызды дағдысы.</p>
+    <details class="simpler"><summary>Терминалсыз жолы бар ма?</summary><p>Иә. Claude-тың компьютерге орнатылатын қосымшасында (Claude desktop) және claude.ai/code сайтында Claude Code терезесі бар. Онда да папка таңдап, дәл осылай тапсырма бересіз. Бұл сабақта терминал жолын көрсетеміз, өйткені ол барлық жерде бірдей жұмыс істейді.</p></details></div></div>
+
+  <div class="part"><div class="part-no">4</div><div class="part-body"><span class="eyebrow">Қадамдық нұсқаулық</span>
+    <div class="wizard" data-wiz="l8">
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Claude Code-ты орнатыңыз</h3><p>Терминалды ашып, компьютеріңізге сәйкес команданы көшіріп қойыңыз да, Enter басыңыз. Орнату 1–2 минут алады.</p>
+        <div class="os"><div><b>Mac</b><code>curl -fsSL https://claude.ai/install.sh | bash</code></div><div><b>Windows (PowerShell)</b><code>irm https://claude.ai/install.ps1 | iex</code></div></div>
+        <p class="lead">Орнату командасы уақыт өте өзгеруі мүмкін. Ең соңғы нұсқасы ресми бетте: <code>code.claude.com/docs</code></p>
+        <details class="simpler"><summary>Түсінбедім</summary><p>Бұл команда интернеттен Claude Code бағдарламасын жүктеп, компьютерге орнатады. Қосымшаны App Store-дан орнатқанмен бірдей, тек батырманың орнына команда. Біз бұл команданың ресми Anthropic сайтынан екенін білеміз, сондықтан оған сенуге болады.</p></details></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Terminal</span></div><div class="mock-body term"><div><span class="pr">~ %</span> curl -fsSL https://claude.ai/install.sh | bash</div><div class="c">Installing Claude Code…</div><div class="y hl">✔ Claude Code successfully installed!</div><span class="hl-tag">Осындай жазу шықса, дайын</span></div></div></div></div>
+
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Жоба папкасына кіріп, claude деп жазыңыз</h3><p>Терминалды жауып, қайта ашыңыз. Содан кейін:</p>
+        <div class="say"><code>cd Documents/vibe-zhoba</code></div><div class="say"><code>claude</code></div>
+        <p>Алғаш іске қосқанда браузер ашылып, Claude аккаунтыңызға кіруді сұрайды. Кіріп, терминалға оралыңыз.</p>
+        <details class="simpler"><summary>Неге алдымен папкаға кіреміз?</summary><p>Агент тек өзі іске қосылған папкада жұмыс істейді. Сондықтан әрқашан алдымен жобаның бос папкасына кіріңіз. Үй папкасында немесе Құжаттардың өзінде іске қоспаңыз.</p></details></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Terminal — claude</span></div><div class="mock-body term"><div><span class="pr">vibe-zhoba %</span> claude</div><div class="y">✻ Welcome to Claude Code!</div><div class="c">cwd: /Users/aigerim/Documents/vibe-zhoba</div><div class="hl">&gt; ▌</div><span class="hl-tag">Тапсырманы осында жазасыз</span></div></div></div></div>
+
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Тапсырманы жіберіңіз</h3><p>Төмендегі 5-бөлімдегі промптты көшіріп, <code>&gt;</code> белгісінің жанына қойыңыз да, Enter басыңыз. Агент жоспар құрып, жұмысқа кіріседі.</p>
+        <details class="simpler"><summary>Түсінбедім</summary><p>Бұл 5-сабақтағы бағалау парағының дәл өзі. Айырмашылығы — енді ол чатта емес, сіздің папкаңызда <code>index.html</code> деген файл болып сақталады.</p></details></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Terminal — claude</span></div><div class="mock-body term"><div>&gt; Маған оқытушының бағалау парағын жаса…</div><div class="c">● Жоспар: index.html файлын жасаймын, 4 критерий…</div><div class="c">● Write(index.html)</div></div></div></div></div>
+
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Рұқсат сұрауын оқып, жауап беріңіз</h3><p>Агент «Do you want to create index.html?» деп сұрайды. Оқыңыз: ол <strong>сіздің жоба папкаңызда</strong> файл жасамақ. Бұл қалыпты, <strong>1. Yes</strong> таңдап, Enter басыңыз.</p>
+        <p>Түсініксіз немесе жоба папкасынан тыс әрекет сұраса (мысалы, файл өшіру), <strong>No</strong> басып, қазақша «Бұл не үшін керек?» деп сұраңыз.</p>
+        <details class="simpler"><summary>Түсінбедім</summary><p>Бұл көмекшіңіздің «Мына хатты жіберейін бе?» деп сұрағаны сияқты. Сіз оқып, «иә» не «жоқ» дейсіз. Оқымай «иә» дей бермеңіз.</p></details></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Terminal — claude</span></div><div class="mock-body term"><div class="y">Do you want to create index.html?</div><div class="hl">❯ 1. Yes</div><div>  2. Yes, and don't ask again this session</div><div>  3. No, and tell Claude what to do differently</div><span class="hl-tag">Оқып, таңдаңыз</span></div></div></div></div>
+
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Нәтижені браузерде ашыңыз</h3><p>Агент «Дайын» десе, жаңа терезеде немесе агентке былай жазыңыз:</p>
+        <div class="say"><b>Сіз:</b> index.html файлын браузерде аш.</div>
+        <p>Немесе папканы ашып (<code>open .</code> / <code>explorer .</code>), <strong>index.html</strong> файлын екі рет басыңыз. Бет браузерде ашылады.</p></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">file:///…/vibe-zhoba/index.html</span></div><div class="mock-body"><div class="m-page"><h4>Бағалау парағы</h4></div><div class="m-card">Мазмұны (25) · Құрылымы (25) · Дәлелдер (30) · Тілі (20)</div><div class="m-card hl">Жалпы балл: 84 / 100</div></div></div></div></div>
+
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Өзгерту сұраңыз және шығыңыз</h3><p>Чаттағыдай бір хабарламада бір өзгеріс сұраңыз:</p>
+        <div class="say"><b>Сіз:</b> Беттің жоғарғы жағына Академияның атауын қос.</div>
+        <p>Браузерде бетті жаңартыңыз (F5 немесе Cmd+R). Жұмысты аяқтағанда <code>/exit</code> деп жазыңыз.</p>
+        <details class="simpler"><summary>Агент бәрін бұзып жіберсе?</summary><p>«Соңғы өзгерісті кері қайтар» деп жазыңыз. Келесі сабақта GitHub арқылы әр нұсқаны сақтап қоюды үйренеміз. Сонда ештеңе жоғалмайды.</p></details></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Terminal — claude</span></div><div class="mock-body term"><div>&gt; Беттің жоғарғы жағына Академияның атауын қос.</div><div class="c">● Update(index.html)</div><div class="y">✔ Дайын.</div><div class="hl">&gt; /exit</div></div></div></div></div>
+    </div></div></div>
+
+  <div class="part"><div class="part-no">5</div><div class="part-body"><span class="eyebrow">Көшіріп қолданатын AI промпты</span>
+    <div class="prompt" data-title="8-сабақ: Claude Code-қа алғашқы тапсырма"><div class="prompt-top"><strong>Агентке алғашқы тапсырма</strong><button data-copy>Көшіру</button></div><pre>Мен бағдарламашы емеспін, оқытушымын. Әр қадамыңды қазақша қысқа түсіндір.
+Осы папкада index.html деген бір файлдан тұратын бет жаса:
+оқытушының бағалау парағы.
+- 4 критерий: Мазмұны (25), Құрылымы (25), Дәлелдер (30), Тілі (20).
+- Әр критерийге балл енгізетін өріс, жалпы балл автоматты есептелсін.
+- Балл шектен асса, ескерту шықсын.
+- Пікір жазатын өріс және «Пікірді көшіру» батырмасы.
+- Студенттің аты сұралмайды, ештеңе интернетке жіберілмейді.
+Қазақ тілінде, телефонда да ыңғайлы болсын. Соңында тексеріп, не жасағаныңды айт.</pre></div></div></div>
+  <div class="part"><div class="part-no">6</div><div class="part-body"><span class="eyebrow">Күтілетін нәтиже</span>
+    <p><strong>vibe-zhoba</strong> папкасында <strong>index.html</strong> файлы пайда болады. Оны браузерде ашқанда балл енгізетін бағалау парағы шығады. Ол интернетсіз де жұмыс істейді.</p></div></div>
+  <div class="part"><div class="part-no">7</div><div class="part-body"><span class="eyebrow">Өз бетіңізше орындайтын тапсырма</span>
+    <p>Агенттен жобаға екінші бет қостырыңыз: <strong>nusqaulyq.html</strong> — бағалау парағын қалай қолдану керегі туралы қысқа нұсқаулық. Екі бет бір-біріне сілтеме арқылы байланыссын.</p></div></div>
+  <div class="part"><div class="part-no">8</div><div class="part-body"><span class="eyebrow">Тапсырманы қалай орындаймын?</span>
+    <ol class="steps"><li>Терминалда <code>cd Documents/vibe-zhoba</code>, содан кейін <code>claude</code>.</li><li>Жазыңыз: «nusqaulyq.html деген екінші бет жаса: бағалау парағын қалай қолдану керегі, 5 қадам. Екі беттің жоғарғы жағына бір-біріне сілтеме қос».</li><li>Рұқсат сұрауларын оқып, жауап беріңіз.</li><li>Браузерде index.html ашып, сілтеме арқылы екінші бетке өтіп көріңіз.</li></ol></div></div>
+  <div class="part"><div class="part-no">9</div><div class="part-body"><span class="eyebrow">Тексеру тізімі</span>
+    <div class="checklist"><label><input type="checkbox" data-check="l8-1"> Claude Code орнатылды, <code>claude</code> командасы іске қосылады.</label><label><input type="checkbox" data-check="l8-2"> Агентті жоба папкасында іске қостым.</label><label><input type="checkbox" data-check="l8-3"> Рұқсат сұрауларын оқып барып жауап бердім.</label><label><input type="checkbox" data-check="l8-4"> index.html браузерде ашылып, балл дұрыс есептеледі.</label><label><input type="checkbox" data-check="l8-5"> Екінші бет қосылды, сілтемелер жұмыс істейді.</label></div></div></div>
+  <div class="part"><div class="part-no">10</div><div class="part-body"><span class="eyebrow">Жиі кездесетін қиындық</span>
+    <dl class="err"><dt>«claude: command not found» шықты.</dt><dd>Терминал жаңа бағдарламаны әлі «білмейді».</dd><dd><strong>Шешімі:</strong> Терминалды толық жауып, қайта ашыңыз. Болмаса, орнату командасын қайта орындап, соңғы жолдарды 7-сабақтағы промптпен Claude чатына жіберіңіз.</dd></dl>
+    <dl class="err"><dt>Кіру кезінде жазылым туралы хабар шықты.</dt><dd>Claude Code тегін нұсқада жұмыс істемейді.</dd><dd><strong>Шешімі:</strong> Claude Pro жазылымын рәсімдеңіз немесе 11-сабақтағы баламаларды қараңыз. Жұппен жұмыс істеу де жарайды.</dd></dl>
+    <div class="callout warn"><strong>Қауіпсіздік.</strong> Агентті тек жобаның бөлек папкасында іске қосыңыз. Жеке деректер немесе қызметтік құжаттар бар папкада іске қоспаңыз: агент ондағы файлдарды оқи алады.</div></div></div>
+  <div class="part"><div class="part-no">11</div><div class="part-body"><span class="eyebrow">Қысқаша қорытынды</span>
+    <p>Сіз AI агентімен алғаш жұмыс істедіңіз. Ол сіздің компьютеріңізде нағыз файлдар жасады, ал сіз оның әр қадамын бақылап отырдыңыз. Келесі сабақта бұл файлдарды GitHub-та сақтаймыз.</p></div></div>
+  <div class="part"><div class="part-no">12</div><div class="part-body"><span class="eyebrow">Өзіңізді тексеріңіз</span><div class="quiz" data-quiz="l8"></div></div></div>
+  <section class="submission"><h2>Нәтижем</h2><label class="field">Агент не жасады? Қандай рұқсат сұрады?<textarea data-note="result-l8" placeholder="Мысалы: index.html жасады, 3 рет рұқсат сұрады, бірінде No бастым."></textarea></label></section>
+  <footer class="chapter-footer"><label><input type="checkbox" data-done="l8"> Сабақ аяқталды</label><div class="chapter-next"></div></footer>
+</article>
+
+<!-- ================= 9-САБАҚ ================= -->
+<article id="l9" class="chapter" data-title="GitHub: жобаны сақтау" data-group="2-деңгей: нағыз құралдар" data-num="9" data-time="30 минут" data-sub="Жобаңыз интернетте, барлық нұсқасымен сақталады">
+  <header class="chapter-heading"><div><span class="eyebrow">9-сабақ · 30 минут · тегін</span><h1>GitHub: жобаны сақтау</h1><p class="lead">Жобаңызды интернеттегі қоймаға саламыз. Әр өзгеріс жеке нұсқа болып сақталады.</p></div><button class="bookmark" data-bookmark="l9" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+
+  <div class="part"><div class="part-no">1</div><div class="part-body"><span class="eyebrow">Сабақ тақырыбы</span><h2>Репозиторий жасау және файлдарды жүктеу</h2></div></div>
+  <div class="part"><div class="part-no">2</div><div class="part-body"><span class="eyebrow">Сабақ соңында не істей аламын?</span>
+    <ul class="outcomes"><li>GitHub-та аккаунт пен репозиторий жасай аламын.</li><li>Файлдарды браузер арқылы немесе агент арқылы жүктей аламын.</li><li>Өзгерістер тарихын (коммиттерді) көре аламын.</li></ul></div></div>
+  <div class="part"><div class="part-no">3</div><div class="part-body"><span class="eyebrow">Қысқа түсініктеме</span>
+    <p><strong>GitHub</strong> — жобаларға арналған интернеттегі қойма. Google Drive сияқты, бірақ әр өзгерісті жеке нұсқа етіп сақтайды. Бұл нұсқаны <strong>коммит</strong> дейміз. Бір нәрсе бұзылса, кез келген ескі нұсқаға орала аласыз.</p>
+    <p>Тағы бір пайдасы: келесі сабақта Vercel жобаны тікелей GitHub-тан алып, интернетке шығарады.</p>
+    <details class="simpler"><summary>Git пен GitHub бір нәрсе ме?</summary><p>Жоқ. <strong>git</strong> — нұсқаларды сақтайтын бағдарлама, ол компьютерде жұмыс істейді. <strong>GitHub</strong> — сол нұсқалар сақталатын сайт. Бұл сабақта git командаларын өзіңіз жазбайсыз: не браузерде батырма басасыз, не агентке тапсырасыз.</p></details></div></div>
+
+  <div class="part"><div class="part-no">4</div><div class="part-body"><span class="eyebrow">Қадамдық нұсқаулық</span>
+    <div class="wizard" data-wiz="l9">
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>GitHub-қа тіркеліңіз</h3><p><code>github.com</code> сайтына кіріп, <strong>Sign up</strong> басыңыз. Пошта, құпиясөз және ағылшынша пайдаланушы атын (мысалы, <code>aigerim-apa</code>) енгізіңіз. Поштаға келген кодпен растаңыз.</p>
+        <details class="simpler"><summary>Түсінбедім</summary><p>Бұл кез келген сайтқа тіркелу сияқты. Пайдаланушы аты кейін сілтемеде көрінеді, сондықтан қарапайым әрі ресми атау таңдаңыз.</p></details></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">github.com</span></div><div class="mock-body" style="justify-items:center;align-content:center"><div class="m-logo plain">GitHub</div><span class="m-btn hl">Sign up</span><span class="hl-tag">Тіркелу</span></div></div></div></div>
+
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Жаңа репозиторий жасаңыз</h3><p>Жоғарғы оң жақтағы <strong>+</strong> белгісін басып, <strong>New repository</strong> таңдаңыз. Атауы: <code>bagalau-paragy</code>. <strong>Public</strong> қалдырыңыз. <strong>Create repository</strong> басыңыз.</p>
+        <details class="simpler"><summary>Public пен Private айырмасы?</summary><p><strong>Public</strong> — кез келген адам көре алады. <strong>Private</strong> — тек сіз көресіз. Оқу жобасы үшін Public жарайды, бірақ ішінде ешқандай жеке дерек болмауы керек.</p></details></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">github.com/new</span></div><div class="mock-body"><div class="m-card">Repository name: <strong>bagalau-paragy</strong></div><div class="m-card">● Public &nbsp; ○ Private</div><span class="m-btn dark hl" style="justify-self:start">Create repository</span></div></div></div></div>
+
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Файлдарды жүктеңіз (ең оңай жол)</h3><p>Жаңа беттегі <strong>uploading an existing file</strong> сілтемесін басыңыз. <strong>vibe-zhoba</strong> папкасындағы <strong>index.html</strong> және <strong>nusqaulyq.html</strong> файлдарын терезеге сүйреп әкеліңіз.</p>
+        <details class="simpler"><summary>Түсінбедім</summary><p>Бұл поштаға файл тіркегенмен бірдей. Папканы ашып (<code>open .</code>), файлдарды тінтуірмен ұстап, браузердегі терезеге апарып тастайсыз.</p></details></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">github.com/…/bagalau-paragy/upload</span></div><div class="mock-body" style="place-items:center;min-height:140px"><div class="m-card hl" style="text-align:center">📄 index.html &nbsp; 📄 nusqaulyq.html<br><small>Drag files here</small></div><span class="hl-tag">Файлдарды осында сүйреңіз</span></div></div></div></div>
+
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Коммит жасаңыз</h3><p>Төменде «Commit changes» деген бөлім бар. Бірінші жолға не істегеніңізді жазыңыз, мысалы: <code>Бағалау парағының алғашқы нұсқасы</code>. Жасыл <strong>Commit changes</strong> батырмасын басыңыз.</p>
+        <details class="simpler"><summary>Коммит деген не?</summary><p>«Осы күйді сақта» деген белгі және оған қысқа түсініктеме. Кейін тарихтан «қай күні не өзгерді» деп оқи аласыз.</p></details></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">github.com/…/upload</span></div><div class="mock-body"><div class="m-card">Бағалау парағының алғашқы нұсқасы</div><span class="m-btn hl" style="justify-self:start;background:#1f883d;color:#fff">Commit changes</span></div></div></div></div>
+
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Агент арқылы жүктеу (терминал жолы)</h3><p>Келешекте файлдарды қолмен жүктемей, Claude Code-қа тапсыра аласыз. Ол git командаларын өзі жазады. Алғашқы рет GitHub-қа кіру үшін агент <code>gh auth login</code> командасын ұсынады. Браузер ашылып, GitHub-қа кіруді растайсыз.</p>
+        <p>Төмендегі 5-бөлімдегі промпт дәл осы жолға арналған.</p>
+        <details class="simpler"><summary>Түсінбедім</summary><p>Бұл қадам міндетті емес. Браузер жолы жеткілікті. Агент жолы жоба көп файлдан тұрғанда, жиі өзгергенде ыңғайлы.</p></details></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Terminal — claude</span></div><div class="mock-body term"><div>&gt; Осы папканы GitHub-қа жүкте…</div><div class="c">● Bash(git init &amp;&amp; git add . &amp;&amp; git commit -m "…")</div><div class="y hl">Do you want to run this command? ❯ 1. Yes</div><div class="c">● Bash(git push -u origin main)</div></div></div></div></div>
+    </div></div></div>
+
+  <div class="part"><div class="part-no">5</div><div class="part-body"><span class="eyebrow">Көшіріп қолданатын AI промпты</span>
+    <div class="prompt" data-title="9-сабақ: агентпен GitHub-қа жүктеу"><div class="prompt-top"><strong>Claude Code: жобаны GitHub-қа жүктеу</strong><button data-copy>Көшіру</button></div><pre>Мен бағдарламашы емеспін. Осы папкадағы жобаны GitHub-қа жүктеуге көмектес.
+Менің GitHub пайдаланушы атым: [аты]. Репозиторий атауы: [bagalau-paragy].
+- git әлі орнатылмаған немесе баптталмаған болса, не істеу керегін айт.
+- Әр команданы орындамас бұрын оның не істейтінін бір сөйлеммен қазақша түсіндір.
+- Ішінде құпиясөз, кілт немесе жеке дерек жоқ екенін тексер.
+- Коммит хабарламасын қазақша жаз.
+Соңында репозиторийдің сілтемесін бер.</pre></div></div></div>
+  <div class="part"><div class="part-no">6</div><div class="part-body"><span class="eyebrow">Күтілетін нәтиже</span>
+    <p><code>github.com/[сіздің-атыңыз]/bagalau-paragy</code> бетінде екі файл және жоғарыда «1 commit» деген жазу тұр. Бұл — жобаңыздың интернеттегі көшірмесі.</p></div></div>
+  <div class="part"><div class="part-no">7</div><div class="part-body"><span class="eyebrow">Өз бетіңізше орындайтын тапсырма</span>
+    <p>index.html файлының тақырыбын өзгертіп, жаңа коммит жасаңыз. Сосын тарихта екі нұсқаны көріп, айырмашылығын табыңыз.</p></div></div>
+  <div class="part"><div class="part-no">8</div><div class="part-body"><span class="eyebrow">Тапсырманы қалай орындаймын?</span>
+    <ol class="steps"><li>Claude Code-қа: «index.html тақырыбын "Бағалау парағы — 2026" деп өзгерт, сосын коммит жасап, GitHub-қа жүкте» деп жазыңыз. Немесе GitHub-та файлды ашып, ✏️ белгісімен өзіңіз түзетіңіз.</li><li>Репозиторийдің басты бетінде сағат белгісі бар <strong>Commits</strong> сілтемесін басыңыз.</li><li>Соңғы коммитті ашыңыз: қызыл жол — өшірілгені, жасыл жол — қосылғаны.</li></ol></div></div>
+  <div class="part"><div class="part-no">9</div><div class="part-body"><span class="eyebrow">Тексеру тізімі</span>
+    <div class="checklist"><label><input type="checkbox" data-check="l9-1"> GitHub аккаунтым бар.</label><label><input type="checkbox" data-check="l9-2"> bagalau-paragy репозиторийі жасалды.</label><label><input type="checkbox" data-check="l9-3"> Екі файл жүктелді.</label><label><input type="checkbox" data-check="l9-4"> Екінші коммит жасадым.</label><label><input type="checkbox" data-check="l9-5"> Commits тарихынан өзгерісті көрдім.</label></div></div></div>
+  <div class="part"><div class="part-no">10</div><div class="part-body"><span class="eyebrow">Жиі кездесетін қиындық</span>
+    <dl class="err"><dt>Агент «Permission denied» немесе «Authentication failed» деп жазды.</dt><dd>GitHub сізді әлі танымайды.</dd><dd><strong>Шешімі:</strong> Агентке «gh auth login арқылы кіруге көмектес» деп жазыңыз. Браузерде кодты енгізіп, растаңыз.</dd></dl>
+    <dl class="err"><dt>Қателесіп құпиясөз немесе жеке дерек бар файл жүктеп алдым.</dt><dd>Public репозиторийді кез келген адам көреді, ал коммит тарихында файл қалып қояды.</dd><dd><strong>Шешімі:</strong> Сол құпиясөзді бірден ауыстырыңыз. Репозиторийді Settings → Delete this repository арқылы өшіріп, файлсыз қайта жасаңыз.</dd></dl></div></div>
+  <div class="part"><div class="part-no">11</div><div class="part-body"><span class="eyebrow">Қысқаша қорытынды</span>
+    <p>Жобаңыз енді GitHub-та, барлық нұсқасымен сақтаулы. Компьютеріңізге бірдеңе болса да, ештеңе жоғалмайды. Келесі сабақта осы репозиторийден сайт жасаймыз.</p></div></div>
+  <div class="part"><div class="part-no">12</div><div class="part-body"><span class="eyebrow">Өзіңізді тексеріңіз</span><div class="quiz" data-quiz="l9"></div></div></div>
+  <section class="submission"><h2>Нәтижем</h2><label class="field">Репозиторийіңіздің сілтемесі және не қиын болды?<textarea data-note="result-l9" placeholder="github.com/…/bagalau-paragy"></textarea></label></section>
+  <footer class="chapter-footer"><label><input type="checkbox" data-done="l9"> Сабақ аяқталды</label><div class="chapter-next"></div></footer>
+</article>
+
+<!-- ================= 10-САБАҚ ================= -->
+<article id="l10" class="chapter" data-title="Vercel: интернетке шығару" data-group="2-деңгей: нағыз құралдар" data-num="10" data-time="25 минут" data-sub="Жобаңыз өз сілтемесімен интернетте ашылады">
+  <header class="chapter-heading"><div><span class="eyebrow">10-сабақ · 25 минут · тегін</span><h1>Vercel: интернетке шығару</h1><p class="lead">GitHub-тағы жобаны бірнеше батырмамен сайтқа айналдырамыз. Бұл оқулық та дәл осылай шығарылған.</p></div><button class="bookmark" data-bookmark="l10" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+
+  <div class="part"><div class="part-no">1</div><div class="part-body"><span class="eyebrow">Сабақ тақырыбы</span><h2>Жобаны Vercel арқылы жариялау</h2></div></div>
+  <div class="part"><div class="part-no">2</div><div class="part-body"><span class="eyebrow">Сабақ соңында не істей аламын?</span>
+    <ul class="outcomes"><li>Vercel-ге GitHub арқылы кіре аламын.</li><li>Репозиторийді Vercel-ге қосып, сайттың сілтемесін ала аламын.</li><li>GitHub-та өзгеріс жасағанда сайт өзі жаңаратынын түсінемін.</li></ul></div></div>
+  <div class="part"><div class="part-no">3</div><div class="part-body"><span class="eyebrow">Қысқа түсініктеме</span>
+    <p><strong>Vercel</strong> — сайттарды интернетке шығаратын қызмет. Оған GitHub-тағы репозиторийді көрсетесіз, ол сізге <code>атау.vercel.app</code> түріндегі сілтеме береді. Жеке жобалар үшін тегін.</p>
+    <p>Ең ыңғайлы жері: GitHub-та жаңа коммит пайда болса, Vercel сайтты <strong>өзі жаңартады</strong>. Яғни: агентке өзгеріс айтасыз → ол GitHub-қа жүктейді → сайт жаңарады.</p>
+    <div class="flow"><span>Claude Code</span><b>→</b><span>GitHub</span><b>→</b><span class="end">Vercel: сайт</span></div></div></div>
+
+  <div class="part"><div class="part-no">4</div><div class="part-body"><span class="eyebrow">Қадамдық нұсқаулық</span>
+    <div class="wizard" data-wiz="l10">
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Vercel-ге GitHub арқылы кіріңіз</h3><p><code>vercel.com</code> сайтында <strong>Sign Up</strong> басыңыз. Жоспардан <strong>Hobby</strong> (тегін) таңдаңыз. Содан кейін <strong>Continue with GitHub</strong> басып, рұқсат беріңіз.</p>
+        <details class="simpler"><summary>Неге GitHub арқылы?</summary><p>Сонда Vercel сіздің репозиторийлеріңізді бірден көреді. Бөлек құпиясөз ойлаудың да қажеті жоқ.</p></details></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">vercel.com/signup</span></div><div class="mock-body" style="justify-items:center;align-content:center"><div class="m-logo plain">▲ Vercel</div><span class="m-btn dark hl">Continue with GitHub</span><span class="hl-tag">Осы батырма</span></div></div></div></div>
+
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Жаңа жоба қосыңыз</h3><p>Басқару бетінде <strong>Add New…</strong> → <strong>Project</strong> басыңыз. Тізімнен <strong>bagalau-paragy</strong> репозиторийін тауып, жанындағы <strong>Import</strong> батырмасын басыңыз.</p>
+        <details class="simpler"><summary>Тізімде репозиторийім жоқ</summary><p>Тізімнің астындағы <strong>Adjust GitHub App Permissions</strong> сілтемесін басып, Vercel-ге осы репозиторийге рұқсат беріңіз. Сосын бетті жаңартыңыз.</p></details></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">vercel.com/new</span></div><div class="mock-body"><div class="m-page"><h4>Import Git Repository</h4></div><div class="m-card" style="display:flex;justify-content:space-between;align-items:center">🐙 bagalau-paragy <span class="m-btn dark hl">Import</span></div></div></div></div></div>
+
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Deploy басыңыз</h3><p>Баптаулар бетінде ештеңе өзгертпеңіз. Біздің жоба қарапайым HTML, Vercel оны өзі таниды. <strong>Deploy</strong> батырмасын басыңыз. Бірнеше секунд күтесіз.</p>
+        <details class="simpler"><summary>Мына баптаулар не?</summary><p>Framework, Build Command сияқты өрістер күрделі жобаларға керек. Бір-екі HTML файлдан тұратын жобаға оларды өзгертудің қажеті жоқ.</p></details></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">vercel.com/new/import</span></div><div class="mock-body"><div class="m-card">Project Name: bagalau-paragy</div><div class="m-card">Framework Preset: Other</div><span class="m-btn dark hl" style="justify-self:stretch;text-align:center">Deploy</span></div></div></div></div>
+
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Сілтемені алыңыз</h3><p>«Congratulations!» деген жазу шығады. <strong>Continue to Dashboard</strong> басыңыз. <strong>Domains</strong> жанында сайтыңыздың мекенжайы тұр, мысалы <code>bagalau-paragy.vercel.app</code>. Басып, ашып көріңіз.</p></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">vercel.com/…/bagalau-paragy</span></div><div class="mock-body"><div class="m-logo plain">🎉 Congratulations!</div><div class="m-card">Domains: <strong class="hl">bagalau-paragy.vercel.app</strong></div><span class="hl-tag">Сайтыңыздың сілтемесі</span></div></div></div></div>
+
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Сілтемені телефоннан тексеріңіз</h3><p>Сілтемені өзіңізге WhatsApp не поштамен жіберіп, телефоннан ашыңыз. Бет ашылса, оны әріптестеріңізге жібере аласыз.</p>
+        <details class="simpler"><summary>Ашылмай, Vercel-ге кіруді сұрайды</summary><p>Бұл Vercel-дің қорғау баптауы. Жобаның <strong>Settings → Deployment Protection</strong> бөлімінде <strong>Vercel Authentication</strong> қосқышын өшіріп, Save басыңыз. Бұл оқулықтың өзінде де дәл осы мәселе болған.</p></details></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">bagalau-paragy.vercel.app</span></div><div class="mock-body"><div class="m-page"><h4>Бағалау парағы</h4></div><div class="m-card">Мазмұны (25) · Құрылымы (25) · …</div></div></div></div></div>
+    </div></div></div>
+
+  <div class="part"><div class="part-no">5</div><div class="part-body"><span class="eyebrow">Көшіріп қолданатын AI промпты</span>
+    <p>Жоба жаңарғанда Claude Code-қа осыны жазсаңыз, ол өзгерісті GitHub-қа жүктейді, ал Vercel сайтты өзі жаңартады.</p>
+    <div class="prompt" data-title="10-сабақ: өзгерту және жариялау"><div class="prompt-top"><strong>Claude Code: өзгертіп, сайтқа шығару</strong><button data-copy>Көшіру</button></div><pre>Мен бағдарламашы емеспін. Мына өзгерісті жаса: [өзгеріс].
+Браузерде тексер. Бәрі дұрыс болса, коммит жасап, GitHub-қа жүкте.
+Бұл репозиторий Vercel-ге қосылған, сондықтан сайт өзі жаңаруы керек.
+Соңында қазақша айт: не өзгерді және сайтта қашан көрінеді.</pre></div></div></div>
+  <div class="part"><div class="part-no">6</div><div class="part-body"><span class="eyebrow">Күтілетін нәтиже</span>
+    <p>Сізде <code>…vercel.app</code> сілтемесі бар. Оны кез келген адам компьютерден де, телефоннан да аша алады. GitHub-та жаңа коммит пайда болғанда сайт бір минуттың ішінде жаңарады.</p></div></div>
+  <div class="part"><div class="part-no">7</div><div class="part-body"><span class="eyebrow">Өз бетіңізше орындайтын тапсырма</span>
+    <p>Агент арқылы сайтқа бір өзгеріс енгізіп (мысалы, түсін өзгертіп), оның Vercel-де өзі жаңарғанын тексеріңіз. Сілтемені бір әріптесіңізге жіберіп, пікірін сұраңыз.</p></div></div>
+  <div class="part"><div class="part-no">8</div><div class="part-body"><span class="eyebrow">Тапсырманы қалай орындаймын?</span>
+    <ol class="steps"><li>Терминалда жоба папкасына кіріп, <code>claude</code> іске қосыңыз.</li><li>5-бөлімдегі промптты өзгерісіңізбен жіберіңіз.</li><li>Vercel-дің <strong>Deployments</strong> бетінде жаңа жол пайда болғанын көріңіз. Күйі <strong>Ready</strong> болғанын күтіңіз.</li><li>Сайтты жаңартып (F5), өзгерісті тексеріңіз.</li></ol></div></div>
+  <div class="part"><div class="part-no">9</div><div class="part-body"><span class="eyebrow">Тексеру тізімі</span>
+    <div class="checklist"><label><input type="checkbox" data-check="l10-1"> Vercel-ге GitHub арқылы кірдім.</label><label><input type="checkbox" data-check="l10-2"> Репозиторийді Import жасап, Deploy бастым.</label><label><input type="checkbox" data-check="l10-3"> …vercel.app сілтемесі ашылады.</label><label><input type="checkbox" data-check="l10-4"> Сілтеме телефонда да, басқа адамда да ашылады.</label><label><input type="checkbox" data-check="l10-5"> Өзгеріс сайтта өзі жаңарды.</label></div></div></div>
+  <div class="part"><div class="part-no">10</div><div class="part-body"><span class="eyebrow">Жиі кездесетін қиындық</span>
+    <dl class="err"><dt>Сайт «404: NOT_FOUND» көрсетеді.</dt><dd>Басты файлдың аты <code>index.html</code> болуы керек. Vercel дәл осы файлды іздейді.</dd><dd><strong>Шешімі:</strong> Агентке «басты бетті index.html деп өзгерт» деп жазыңыз.</dd></dl>
+    <dl class="err"><dt>Deploy «Error» немесе «Failed» деп аяқталды.</dt><dd><strong>Шешімі:</strong> Қате бетіндегі <strong>Build Logs</strong> мәтінін көшіріп, 7-сабақтағы промптпен Claude-қа жіберіңіз. Немесе Claude Code-қа «Vercel deploy сәтсіз болды, мына лог шықты» деп жазыңыз.</dd></dl>
+    <dl class="err"><dt>Vercel орнына басқа нұсқа керек.</dt><dd><strong>Баламалар:</strong> GitHub Pages (репозиторийдің Settings → Pages бөлімі, тегін) немесе Netlify. Қағидасы бірдей: репозиторийді көрсетесіз, сілтеме аласыз.</dd></dl></div></div>
+  <div class="part"><div class="part-no">11</div><div class="part-body"><span class="eyebrow">Қысқаша қорытынды</span>
+    <p>Сіз толық жолдан өттіңіз: компьютердегі папка → агент → GitHub → интернеттегі сайт. Кәсіби бағдарламашылар да дәл осылай жұмыс істейді.</p></div></div>
+  <div class="part"><div class="part-no">12</div><div class="part-body"><span class="eyebrow">Өзіңізді тексеріңіз</span><div class="quiz" data-quiz="l10"></div></div></div>
+  <section class="submission"><h2>Нәтижем</h2><label class="field">Сайтыңыздың сілтемесі және әріптесіңіздің пікірі<textarea data-note="result-l10" placeholder="https://…vercel.app"></textarea></label></section>
+  <footer class="chapter-footer"><label><input type="checkbox" data-done="l10"> Сабақ аяқталды</label><div class="chapter-next"></div></footer>
+</article>
+
+<!-- ================= 11-САБАҚ ================= -->
+<article id="l11" class="chapter" data-title="Codex және басқа агенттер" data-group="2-деңгей: нағыз құралдар" data-num="11" data-time="30 минут" data-sub="Бір тапсырманы екі агентке беріп, салыстырасыз">
+  <header class="chapter-heading"><div><span class="eyebrow">11-сабақ · 30 минут · ақылы жазылым</span><h1>Codex және басқа агенттер</h1><p class="lead">Бір құралға байланып қалмаймыз. Агенттердің бәрі бір қағидамен жұмыс істейді.</p></div><button class="bookmark" data-bookmark="l11" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+
+  <div class="part"><div class="part-no">1</div><div class="part-body"><span class="eyebrow">Сабақ тақырыбы</span><h2>OpenAI Codex-пен жұмыс және агенттерді салыстыру</h2></div></div>
+  <div class="part"><div class="part-no">2</div><div class="part-body"><span class="eyebrow">Сабақ соңында не істей аламын?</span>
+    <ul class="outcomes"><li>Codex-ті орнатып, іске қоса аламын.</li><li>Бір тапсырманы екі агентке беріп, нәтижелерін салыстыра аламын.</li><li>Өз жағдайыма қай құрал ыңғайлы екенін таңдай аламын.</li></ul></div></div>
+  <div class="part"><div class="part-no">3</div><div class="part-body"><span class="eyebrow">Қысқа түсініктеме</span>
+    <p><strong>Codex</strong> — OpenAI компаниясының агенті, ChatGPT жасаушыларынікі. Claude Code сияқты терминалда жұмыс істейді, ChatGPT аккаунтымен кіресіз. Ақылы ChatGPT жазылымы керек.</p>
+    <div class="table-wrap"><table><thead><tr><th>Құрал</th><th>Кімдікі</th><th>Қайда жұмыс істейді</th></tr></thead><tbody>
+      <tr><td>Claude Code</td><td>Anthropic</td><td>Терминал, Claude қосымшасы, claude.ai/code</td></tr>
+      <tr><td>Codex</td><td>OpenAI</td><td>Терминал, ChatGPT ішіндегі Codex, редакторлар</td></tr>
+      <tr><td>Gemini CLI</td><td>Google</td><td>Терминал</td></tr>
+      <tr><td>Cursor, GitHub Copilot</td><td>Cursor, GitHub</td><td>Код редакторының ішінде</td></tr></tbody></table></div>
+    <p>Бәрінің қағидасы бір: <strong>папка → тапсырма → рұқсат → тексеру → GitHub</strong>. Біреуін үйренсеңіз, қалғаны оңай.</p></div></div>
+
+  <div class="part"><div class="part-no">4</div><div class="part-body"><span class="eyebrow">Қадамдық нұсқаулық</span>
+    <div class="wizard" data-wiz="l11">
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Node.js орнатыңыз (бір рет)</h3><p>Codex npm арқылы орнатылады, ал npm Node.js-пен бірге келеді. <code>nodejs.org</code> сайтынан <strong>LTS</strong> нұсқасын жүктеп, кәдімгі бағдарлама сияқты орнатыңыз.</p>
+        <p>Тексеру: терминалды қайта ашып, <code>node -v</code> жазыңыз. <code>v22…</code> сияқты сан шықса, дайын.</p>
+        <details class="simpler"><summary>Түсінбедім</summary><p>Node.js — көп бағдарламаға қажет көмекші бағдарлама. Оны бір рет орнатасыз да, ұмытасыз. Mac-та Homebrew болса, <code>brew install codex</code> командасымен бұл қадамсыз орнатуға болады.</p></details></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Terminal</span></div><div class="mock-body term"><div><span class="pr">~ %</span> node -v</div><div class="y hl">v22.11.0</div><span class="hl-tag">Сан шықса, дайын</span></div></div></div></div>
+
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Codex-ті орнатыңыз</h3><p>Терминалға жазыңыз:</p>
+        <div class="say"><code>npm install -g @openai/codex</code></div>
+        <p class="lead">Ресми нұсқаулық: <code>github.com/openai/codex</code>. Команда өзгерсе, сол жерден тексеріңіз.</p></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Terminal</span></div><div class="mock-body term"><div><span class="pr">~ %</span> npm install -g @openai/codex</div><div class="c hl">added 1 package in 6s</div></div></div></div></div>
+
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Жаңа папкада іске қосыңыз</h3><p>Салыстыру үшін бөлек папка жасаймыз:</p>
+        <div class="say"><code>cd Documents/vibe-zhoba</code></div><div class="say"><code>mkdir codex-test</code> → <code>cd codex-test</code></div><div class="say"><code>codex</code></div>
+        <p>Алғаш іске қосқанда <strong>Sign in with ChatGPT</strong> таңдап, браузерде кіресіз.</p></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Terminal — codex</span></div><div class="mock-body term"><div><span class="pr">codex-test %</span> codex</div><div class="y">&gt;_ OpenAI Codex</div><div class="hl">❯ 1. Sign in with ChatGPT</div><div>  2. Provide your own API key</div></div></div></div></div>
+
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Сол тапсырманы беріңіз</h3><p>8-сабақтағы бағалау парағының промптын дәл сол күйі жіберіңіз. Codex те рұқсат сұрайды. Claude Code-тағыдай оқып барып жауап беріңіз.</p>
+        <details class="simpler"><summary>Codex-тің режимдері</summary><p>Codex-те агенттің еркіндігін реттейтін режимдер бар (<code>/approvals</code> командасы). Бастауыш ретінде әрқашан рұқсат сұрайтын режимде қалыңыз. «Full access» режимін маңызды файлдар бар папкада қоспаңыз.</p></details></div>
+        <div><div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">Terminal — codex</span></div><div class="mock-body term"><div>▌ Маған оқытушының бағалау парағын жаса…</div><div class="c">• Creating index.html</div><div class="y hl">Allow command? ❯ Yes  No</div></div></div></div></div>
+
+      <div class="wstep"><div><span class="lbl">Қадам</span><h3>Екі нәтижені салыстырыңыз</h3><p>Екі <strong>index.html</strong> файлын браузердің екі қосымша бетінде ашыңыз: біреуі <code>vibe-zhoba</code>, екіншісі <code>vibe-zhoba/codex-test</code> ішінде. Төмендегі сұрақтарға жауап жазыңыз: қайсысы әдемі, қайсысы дұрыс есептейді, қайсысы түсінікті түсіндірді?</p></div>
+        <div><div class="mock"><div class="mock-split mock-body"><div class="m-art"><div class="m-art-top">Claude Code</div><div class="m-card">Жалпы: 84 / 100</div></div><div class="m-art"><div class="m-art-top">Codex</div><div class="m-card">Жалпы: 84 / 100</div></div></div></div></div></div>
+    </div></div></div>
+
+  <div class="part"><div class="part-no">5</div><div class="part-body"><span class="eyebrow">Көшіріп қолданатын AI промпты</span>
+    <div class="prompt" data-title="11-сабақ: агенттерді салыстыру"><div class="prompt-top"><strong>Екі нәтижені салыстыру (Claude чатында)</strong><button data-copy>Көшіру</button></div><pre>Мен бір тапсырманы екі AI агентке бердім: Claude Code және Codex.
+Төменде екі нәтиженің коды бар. Мен бағдарламашы емеспін.
+Кесте түрінде қазақша салыстыр: дизайн, есептеудің дұрыстығы,
+телефонда көрінуі, қауіпсіздік (жеке дерек сұрамауы).
+Соңында қайсысын неге таңдау керегін 3 сөйлеммен айт.
+
+1-нәтиже (Claude Code):
+[index.html мазмұны]
+
+2-нәтиже (Codex):
+[index.html мазмұны]</pre></div></div></div>
+  <div class="part"><div class="part-no">6</div><div class="part-body"><span class="eyebrow">Күтілетін нәтиже</span>
+    <p>Екі папкада екі түрлі бағалау парағы бар. Олардың екеуі де жұмыс істейді, бірақ сырт көрінісі мен түсіндіруі әртүрлі. Сіз қай агент сізге ыңғайлы екенін өз тәжірибеңізбен білесіз.</p></div></div>
+  <div class="part"><div class="part-no">7</div><div class="part-body"><span class="eyebrow">Өз бетіңізше орындайтын тапсырма</span>
+    <p>Өз пәніңізге арналған жаңа шағын құрал ойлап табыңыз («Келесі қадам» бөлімінен идея алуға болады). Оны таңдаған агентпен жасап, GitHub-қа жүктеп, Vercel-де жариялаңыз. Бұл — курстың қорытынды жобасы.</p></div></div>
+  <div class="part"><div class="part-no">8</div><div class="part-body"><span class="eyebrow">Тапсырманы қалай орындаймын?</span>
+    <ol class="steps"><li>Жаңа папка жасаңыз (7-сабақ).</li><li>«Келесі қадам» бөліміндегі үлгімен тапсырма жазып, агентке беріңіз (8 немесе 11-сабақ).</li><li>GitHub-та жаңа репозиторий жасап, жүктеңіз (9-сабақ).</li><li>Vercel-де Import → Deploy жасаңыз (10-сабақ).</li><li>Сілтемені «Нәтижем» өрісіне жазыңыз.</li></ol></div></div>
+  <div class="part"><div class="part-no">9</div><div class="part-body"><span class="eyebrow">Тексеру тізімі</span>
+    <div class="checklist"><label><input type="checkbox" data-check="l11-1"> Codex орнатылды және іске қосылды.</label><label><input type="checkbox" data-check="l11-2"> Бір тапсырманы екі агентке бердім.</label><label><input type="checkbox" data-check="l11-3"> Нәтижелерді салыстырдым.</label><label><input type="checkbox" data-check="l11-4"> Қорытынды жобам Vercel-де жарияланды.</label></div></div></div>
+  <div class="part"><div class="part-no">10</div><div class="part-body"><span class="eyebrow">Жиі кездесетін қиындық</span>
+    <dl class="err"><dt>«npm: command not found» шықты.</dt><dd>Node.js орнатылмаған немесе терминал қайта ашылмаған.</dd><dd><strong>Шешімі:</strong> Node.js LTS орнатып, терминалды жауып, қайта ашыңыз.</dd></dl>
+    <dl class="err"><dt>ChatGPT жазылымым жоқ.</dt><dd><strong>Шешімі:</strong> Бұл сабақты оқып шығыңыз да, салыстыруды әріптесіңізбен жұппен жасаңыз. Немесе Google-дың Gemini CLI құралын байқап көріңіз. Оның тегін лимиті бар. Қағидасы бірдей.</dd></dl>
+    <div class="callout warn"><strong>Қауіпсіздік.</strong> Қай агент болсын, ережесі бірдей: бөлек папка, жеке дерек жоқ, рұқсатты оқып барып беру, GitHub-қа құпиясөз жүктемеу.</div></div></div>
+  <div class="part"><div class="part-no">11</div><div class="part-body"><span class="eyebrow">Қысқаша қорытынды</span>
+    <p>Құттықтаймыз! Сіз вайб-кодингтің толық жолынан өттіңіз: чаттан бастап, терминал, агенттер, GitHub және Vercel арқылы интернеттегі жобаға дейін. Енді жаңа құралдар шыққанда да оларды тез меңгересіз, өйткені қағидасы бірдей.</p></div></div>
+  <div class="part"><div class="part-no">12</div><div class="part-body"><span class="eyebrow">Өзіңізді тексеріңіз</span><div class="quiz" data-quiz="l11"></div></div></div>
+  <section class="submission"><h2>Нәтижем</h2><label class="field">Қай агент ыңғайлы болды және қорытынды жобаңыздың сілтемесі<textarea data-note="result-l11" placeholder="Мысалы: Claude Code түсінікті түсіндірді. Жобам: https://…vercel.app"></textarea></label></section>
+  <footer class="chapter-footer"><label><input type="checkbox" data-done="l11"> Сабақ аяқталды</label><div class="chapter-next"></div></footer>
+</article>
+
 <!-- ================= КЕЛЕСІ ҚАДАМ ================= -->
 <article id="next" class="chapter" data-title="Келесі қадам: идеялар" data-group="Әрі қарай">
-  <header class="chapter-heading"><div><span class="eyebrow">Курстан кейін</span><h1>Келесі қадам: идеялар</h1><p class="lead">Алты сабақтағы тәсілмен жасауға болатын шағын құралдар. Біреуін таңдап, 5-сабақтағыдай сипаттаңыз.</p></div><button class="bookmark" data-bookmark="next" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+  <header class="chapter-heading"><div><span class="eyebrow">Курстан кейін</span><h1>Келесі қадам: идеялар</h1><p class="lead">Курстағы тәсілмен жасауға болатын шағын құралдар. Біреуін таңдап, 5-сабақтағыдай сипаттаңыз, ал 2-деңгейден кейін GitHub пен Vercel арқылы интернетке шығарыңыз.</p></div><button class="bookmark" data-bookmark="next" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
   <div class="grid">
     <div class="card"><span class="tag">Оқыту</span><h3>Силлабус жобасы</h3><p>Пән мақсаты мен тақырыптарын енгізсеңіз, апталар бойынша кесте құрастыратын бет.</p></div>
     <div class="card"><span class="tag">Оқыту</span><h3>Дәріс жоспары</h3><p>90 минутты бөлімдерге бөліп, талқылау сұрақтарын ұсынатын бет.</p></div>
@@ -803,7 +1180,7 @@ abbr.term{text-decoration:underline dotted var(--accent);text-underline-offset:3
 
 <!-- ================= ҚАУІПСІЗДІК ================= -->
 <article id="safety" class="chapter" data-title="Қауіпсіздік ережелері" data-group="Әрі қарай">
-  <header class="chapter-heading"><div><span class="eyebrow">Міндетті түрде оқыңыз</span><h1>Қауіпсіздік ережелері</h1><p class="lead">AI-мен жұмыс істегенде есте сақтайтын алты ереже.</p></div><button class="bookmark" data-bookmark="safety" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
+  <header class="chapter-heading"><div><span class="eyebrow">Міндетті түрде оқыңыз</span><h1>Қауіпсіздік ережелері</h1><p class="lead">AI-мен жұмыс істегенде есте сақтайтын жеті ереже.</p></div><button class="bookmark" data-bookmark="safety" aria-pressed="false" aria-label="Таңдаулыға қосу">☆</button></header>
   <div class="checklist">
     <label><input type="checkbox" data-check="s-1"> <span><strong>Жеке дерек жазбаймыз.</strong> Студенттің аты-жөні, ЖСН, телефон, мекенжай AI чатына енгізілмейді.</span></label>
     <label><input type="checkbox" data-check="s-2"> <span><strong>Қызметтік құжат жазбаймыз.</strong> Ішкі, жарияланбаған немесе «қызмет бабында пайдалану үшін» белгісі бар құжаттарды енгізбейміз.</span></label>
@@ -811,6 +1188,7 @@ abbr.term{text-decoration:underline dotted var(--accent);text-underline-offset:3
     <label><input type="checkbox" data-check="s-4"> <span><strong>Тексереміз.</strong> AI сенімді түрде қате жаза алады. Сан, күн, дерек, заң нормасын түпнұсқамен салыстырамыз.</span></label>
     <label><input type="checkbox" data-check="s-5"> <span><strong>Шешімді адам қабылдайды.</strong> Баға, хат, құжат — соңғы нұсқаны маман бекітеді.</span></label>
     <label><input type="checkbox" data-check="s-6"> <span><strong>Ұйым ережесін сақтаймыз.</strong> Құралды ресми қолданар алдында IT бөлімімен ақылдасамыз. ҚР «Дербес деректер және оларды қорғау туралы» Заңын сақтаймыз.</span></label>
+    <label><input type="checkbox" data-check="s-7"> <span><strong>Агентке шектеу қоямыз.</strong> Claude Code, Codex сияқты агенттерді тек жобаның бөлек папкасында іске қосамыз. Рұқсат сұрауын оқып барып келісеміз. GitHub-қа құпиясөз мен кілт жүктемейміз.</span></label>
   </div>
   <footer class="chapter-footer"><label><input type="checkbox" data-done="safety"> Оқыдым, келісемін</label><div class="chapter-next"></div></footer>
 </article>
@@ -866,7 +1244,7 @@ $('#font-toggle').addEventListener('click',function(){S.large=!S.large;applyThem
 /* chapters & nav */
 var chapters=$$('.chapter');
 var ids=chapters.map(function(c){return c.id;});
-var LESSONS=ids.filter(function(i){return /^l\d$/.test(i);});
+var LESSONS=ids.filter(function(i){return /^l\d+$/.test(i);});
 function titleOf(id){var c=document.getElementById(id);return c?c.getAttribute('data-title'):id;}
 function buildNav(){
   var html='',g=null;
@@ -971,7 +1349,22 @@ var QUIZ={
      {q:'Студент жұмысына пікірді AI-дан сұрамас бұрын не істейміз?',o:['Жұмысты қысқартамыз','Ағылшынға аударамыз','Аты-жөн мен жеке деректерді өшіреміз'],a:2,e:'Жеке деректер ашық AI-ға жіберілмейді.'}],
  l6:[{q:'Жариялау (Publish) не береді?',o:['Құралдың сілтемесін, оны кез келген адам аша алады','Құралды жояды','Құралды компьютерге сақтайды'],a:0,e:'Сілтемесі бар кез келген адам құралды көреді.'},
      {q:'Жариялау алдында ең алдымен нені тексереміз?',o:['Түсі әдемі ме','Бетте жеке немесе ішкі дерек жоқ па','Қанша адам ашады'],a:1,e:'Жарияланған бетті кез келген адам көре алады.'},
-     {q:'Әріптестен пайдалы пікір алу үшін қандай сұрақ жақсы?',o:['«Ұнады ма?»','«Қалай екен?»','«Қай жерде ойланып қалдыңыз?»'],a:2,e:'Нақты сұрақ нақты кедергіні көрсетеді.'}]
+     {q:'Әріптестен пайдалы пікір алу үшін қандай сұрақ жақсы?',o:['«Ұнады ма?»','«Қалай екен?»','«Қай жерде ойланып қалдыңыз?»'],a:2,e:'Нақты сұрақ нақты кедергіні көрсетеді.'}],
+ l7:[{q:'Терминал деген не?',o:['Компьютерге жазбаша бұйрық беретін терезе','Интернет браузері','Вирус'],a:0,e:'Терминалда команда жазып, Enter басасыз.'},
+     {q:'«Мен қай папкадамын?» деген команда қайсы?',o:['ls','pwd','mkdir'],a:1,e:'pwd қазіргі папканы көрсетеді, ls ішіндегісін.'},
+     {q:'Мағынасын білмейтін команданы не істейміз?',o:['Бірден орындаймыз','Алдымен AI-дан «бұл не істейді?» деп сұраймыз','sudo қосып орындаймыз'],a:1,e:'Түсініксіз команда файлдарды өшіріп жіберуі мүмкін.'}],
+ l8:[{q:'Агенттің чаттағы AI-дан айырмасы?',o:['Ол тек ағылшынша сөйлейді','Ол компьютерде өзі файл жасап, өзгерте алады','Ол тегін'],a:1,e:'Агент сіздің папкаңызда өзі әрекет етеді.'},
+     {q:'Claude Code-ты қай жерде іске қосамыз?',o:['Жобаның бөлек папкасында','Үй папкасында','Қызметтік құжаттар папкасында'],a:0,e:'Агент іске қосылған папкадағы файлдарды көреді.'},
+     {q:'Агент рұқсат сұрағанда не істейміз?',o:['Әрқашан Yes басамыз','Оқып, түсінсек қана келісеміз','Терминалды жабамыз'],a:1,e:'Сіз басшысыз: оқып, саналы шешім қабылдайсыз.'}],
+ l9:[{q:'Коммит деген не?',o:['Жобаның сақталған бір нұсқасы','Құпиясөз','Сайттың мекенжайы'],a:0,e:'Әр коммит тарихта сақталады, оған қайта оралуға болады.'},
+     {q:'Public репозиторийді кім көреді?',o:['Тек мен','Кез келген адам','Тек Vercel'],a:1,e:'Сондықтан онда жеке дерек пен құпиясөз болмауы керек.'},
+     {q:'Файлды GitHub-қа ең оңай қалай жүктейміз?',o:['uploading an existing file арқылы сүйреп','Поштамен жіберіп','USB арқылы'],a:0,e:'Браузерде файлды сүйреп, Commit changes басасыз.'}],
+ l10:[{q:'Vercel не істейді?',o:['Код жазады','GitHub-тағы жобаны интернетке сайт етіп шығарады','Файлдарды өшіреді'],a:1,e:'Ол …vercel.app сілтемесін береді.'},
+     {q:'GitHub-та жаңа коммит пайда болса, не болады?',o:['Ештеңе','Vercel сайтты өзі жаңартады','Сайт өшеді'],a:1,e:'Сондықтан агентке өзгеріс айтсаңыз жеткілікті.'},
+     {q:'Сайт «404» көрсетсе, нені тексереміз?',o:['Басты файлдың аты index.html ма','Интернет жылдамдығын','Құпиясөзді'],a:0,e:'Vercel басты бет ретінде index.html іздейді.'}],
+ l11:[{q:'Codex кімнің агенті?',o:['Anthropic','OpenAI','Google'],a:1,e:'Codex — ChatGPT жасаушылары OpenAI-дың агенті.'},
+     {q:'Агенттердің ортақ қағидасы қандай?',o:['Папка → тапсырма → рұқсат → тексеру → GitHub','Тек ағылшынша жазу','Бәрін автоматты режимде қосу'],a:0,e:'Біреуін үйренсеңіз, қалғаны оңай.'},
+     {q:'«Full access» режимін қашан қоспаймыз?',o:['Маңызды файлдар бар папкада','Бос тест папкасында','Ешқашан қосуға болмайды'],a:0,e:'Еркін режимде агент рұқсат сұрамай әрекет етеді.'}]
 };
 function renderQuiz(box){
   var id=box.getAttribute('data-quiz'),qs=QUIZ[id];if(!qs)return;S.quiz[id]=S.quiz[id]||{};

@@ -1,0 +1,18 @@
+{
+  "name": "english-kz-mobile",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Ағылшынша оңай: Capacitor wrapper for the web app in ../index.html",
+  "scripts": {
+    "build": "node build.js",
+    "android": "npm run build && cap add android && cap sync android"
+  },
+  "dependencies": {
+    "@capacitor/android": "7.4.3",
+    "@capacitor/core": "7.4.3"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "3.0.5",
+    "@capacitor/cli": "7.4.3"
+  }
+}

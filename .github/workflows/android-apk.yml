@@ -1,0 +1,37 @@
+name: Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'english-kz/**'
+      - '.github/workflows/android-apk.yml'
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: english-kz/mobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: english-kz/mobile/package-lock.json
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - run: npm ci
+      - run: npm run build
+      - run: npx cap add android
+      - run: npx capacitor-assets generate --android --iconBackgroundColor '#00839e'
+      - run: npx cap sync android
+      - run: ./gradlew assembleDebug
+        working-directory: english-kz/mobile/android
+      - uses: actions/upload-artifact@v4
+        with:
+          name: english-easy-debug-apk
+          path: english-kz/mobile/android/app/build/outputs/apk/debug/app-debug.apk

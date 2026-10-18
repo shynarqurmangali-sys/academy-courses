@@ -1,0 +1,7 @@
+{
+  "appId": "kz.englisheasy.app",
+  "appName": "Ағылшынша оңай",
+  "webDir": "www",
+  "backgroundColor": "#f1f7f9",
+  "android": { "allowMixedContent": false }
+}

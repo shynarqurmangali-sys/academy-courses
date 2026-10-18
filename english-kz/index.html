@@ -23,7 +23,8 @@
 * { box-sizing: border-box; }
 body { background: var(--bg); color: var(--ink); font: 16px/1.55 var(--sans); }
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); background: var(--surface); z-index: 10; }
-button { font: inherit; color: inherit; cursor: pointer; }
+button { font: inherit; color: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; user-select: none; -webkit-user-select: none; }
+button:focus:not(:focus-visible) { outline: none; }
 :focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
 header { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: var(--surface); border-bottom: 1px solid var(--line);
   padding-block: 10px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }

@@ -468,6 +468,8 @@ GRAMMAR.unshift({ id: 'sounds', lv: 'A0', en: 'Hard sounds', kk: 'Қиын ды�
 
 // ---- curriculum: order is the lesson plan ----
 const LET = [['A','эй'],['B','би'],['C','си'],['D','ди'],['E','и'],['F','эф'],['G','джи'],['H','эйч'],['I','ай'],['J','джей'],['K','кей'],['L','эл'],['M','эм'],['N','эн'],['O','оу'],['P','пи'],['Q','кью'],['R','ар'],['S','эс'],['T','ти'],['U','ю'],['V','ви'],['W','дабл-ю'],['X','экс'],['Y','уай'],['Z','зэд']];
+// Spoken as words so the voice reads the letter name, not "capital A"
+const LS = Object.fromEntries(LET.map(([c], i) => [c, ['ay','bee','see','dee','ee','eff','gee','aitch','eye','jay','kay','el','em','en','oh','pee','cue','ar','ess','tee','you','vee','double you','ex','why','zee'][i]]));
 const STAGES = [
   ['1-кезең. Әліпби және дыбыстар', ['L:0', 'L:1', 'G:sounds']],
   ['2-кезең. Алғашқы сөздер', ['V:greet:0', 'V:greet:1', 'G:pron', 'G:tobe', 'V:num:0', 'V:num:1']],
@@ -517,10 +519,10 @@ function gSteps(g) {
 }
 function lSteps(u) {
   const Ls = u.letters, names = Ls.map(x => x[1]), chars = Ls.map(x => x[0]);
-  const nameQ = l => ({ t: 'mcq', qp: 'Бұл әріп қалай аталады?', q: l[0], say: l[0], opts: options(l[1], names), a: l[1], after: `${l[0]} — «${l[1]}»` });
+  const nameQ = l => ({ t: 'mcq', qp: 'Бұл әріп қалай аталады?', q: l[0], say: LS[l[0]], opts: options(l[1], names), a: l[1], after: `${l[0]} — «${l[1]}»` });
   const charQ = l => ({ t: 'mcq', qp: `«${l[1]}» қай әріп?`, q: '?', opts: options(l[0], chars), a: l[0] });
-  const hearQ = l => hasTTS ? { t: 'mcq', qp: 'Тыңдап, әріпті таңдаңыз', listen: l[0], opts: options(l[0], chars), a: l[0], after: `${l[0]} — «${l[1]}»` } : charQ(l);
-  const grid = g => ({ t: 'teach', html: `<h2>Әріпті басып тыңдаңыз</h2><div class="letters">${g.map(([c, n]) => `<button class="letter" data-say="${c}" aria-label="${c}"><b>${c}</b><span>${n}</span></button>`).join('')}</div>` });
+  const hearQ = l => hasTTS ? { t: 'mcq', qp: 'Тыңдап, әріпті таңдаңыз', listen: LS[l[0]], opts: options(l[0], chars), a: l[0], after: `${l[0]} — «${l[1]}»` } : charQ(l);
+  const grid = g => ({ t: 'teach', html: `<h2>Әріпті басып тыңдаңыз</h2><div class="letters">${g.map(([c, n]) => `<button class="letter" data-say="${LS[c]}" aria-label="${c}"><b>${c}</b><span>${n}</span></button>`).join('')}</div>` });
   const g1 = Ls.slice(0, 7), g2 = Ls.slice(7);
   return [grid(g1), ...shuffle(g1).slice(0, 4).map(nameQ), grid(g2), ...shuffle(g2).slice(0, 4).map(nameQ),
     ...shuffle([hearQ(g1[0]), hearQ(g2[0]), charQ(g1[3]), charQ(g2[3]), hearQ(g1[5])])];
@@ -651,7 +653,7 @@ function renderReview() {
 function renderRef() {
   if (gid === 'alpha') {
     app.innerHTML = `<button class="back" id="bk">← Барлық ережелер</button><h1>Ағылшын әліпбиі</h1><p class="lead">Әріпті басып, оның атын тыңдаңыз.</p>
-    <div class="letters">${LET.map(([c, n]) => `<button class="letter" data-say="${c}" aria-label="${c}"><b>${c}</b><span>${n}</span></button>`).join('')}</div>`;
+    <div class="letters">${LET.map(([c, n]) => `<button class="letter" data-say="${LS[c]}" aria-label="${c}"><b>${c}</b><span>${n}</span></button>`).join('')}</div>`;
     bindSay(app); $('bk').onclick = () => { gid = null; renderRef(); }; return;
   }
   if (gid) {

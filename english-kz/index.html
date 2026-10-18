@@ -29,8 +29,17 @@ header { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; backg
 .brand b { color: var(--accent); }
 .stats { display: flex; gap: 8px; font-size: 14px; font-weight: 600; }
 .stat { background: var(--gold-soft); border-radius: 99px; padding: 2px 12px; font-variant-numeric: tabular-nums; }
-nav { max-width: 760px; margin: 8px auto 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
-nav button { border: 0; background: transparent; padding: 8px 4px; border-radius: 8px; font-weight: 600; font-size: 14px; color: var(--muted); }
+nav { max-width: 760px; margin: 8px auto 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; }
+nav button { border: 0; background: transparent; padding: 8px 2px; border-radius: 8px; font-weight: 600; font-size: 14px; color: var(--muted); min-width: 0; }
+@media (max-width: 460px) { nav button { font-size: 12px; } }
+.lvl { display: inline-block; font-size: 12px; font-weight: 700; background: var(--gold-soft); border-radius: 99px; padding: 1px 10px; margin-bottom: 8px; }
+.rule { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; margin-bottom: 10px; }
+.rule h3 { font: 700 17px/1.3 var(--serif); margin: 0 0 4px; }
+.rule p { margin: 0; }
+.rule b { color: var(--accent); }
+.gq { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; }
+.gq .qt { font-weight: 600; margin-bottom: 8px; }
+.why { margin-top: 8px; font-size: 14px; color: var(--muted); }
 nav button[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); }
 main { max-width: 760px; margin: 0 auto; padding-block: 20px 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 h1 { font: 700 28px/1.2 var(--serif); margin: 0 0 6px; text-wrap: balance; }
@@ -88,7 +97,8 @@ form.ask input { flex: 1; min-width: 0; border: 1px solid var(--line); backgroun
     <div class="stats"><span class="stat" id="st-streak"></span><span class="stat" id="st-xp"></span></div>
   </div>
   <nav role="tablist" aria-label="Бөлімдер">
-    <button role="tab" data-tab="home">Сабақ</button>
+    <button role="tab" data-tab="home">Сөздер</button>
+    <button role="tab" data-tab="gram">Грамматика</button>
     <button role="tab" data-tab="cards">Карточка</button>
     <button role="tab" data-tab="quiz">Тест</button>
     <button role="tab" data-tab="ai">AI мұғалім</button>
@@ -156,7 +166,7 @@ const TOPICS = [
 const ALL = TOPICS.flatMap(t => t.words);
 
 // ---- persistence (per-viewer only) ----
-let P = { xp: 0, streak: 0, last: '', known: {}, done: {} };
+let P = { xp: 0, streak: 0, last: '', known: {}, done: {}, g: {} };
 try { Object.assign(P, JSON.parse(localStorage.getItem('enkz') || '{}')); } catch (e) {}
 const save = () => { try { localStorage.setItem('enkz', JSON.stringify(P)); } catch (e) {} };
 const today = () => new Date().toISOString().slice(0, 10);
@@ -191,10 +201,14 @@ const pool = () => topic ? TOPICS.find(t => t.id === topic).words : ALL;
 function go(t) {
   tab = t;
   document.querySelectorAll('nav button').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === t));
-  ({ home: renderHome, cards: startCards, quiz: startQuiz, ai: renderAI })[t]();
+  ({ home: renderHome, gram: renderGram, cards: startCards, quiz: startQuiz, ai: renderAI })[t]();
   window.scrollTo(0, 0);
 }
-document.querySelectorAll('nav button').forEach(b => b.onclick = () => { if (b.dataset.tab === 'home') topic = null; go(b.dataset.tab); });
+document.querySelectorAll('nav button').forEach(b => b.onclick = () => {
+  if (b.dataset.tab === 'home') topic = null;
+  if (b.dataset.tab === 'gram') gid = null;
+  go(b.dataset.tab);
+});
 
 // ---- home ----
 function renderHome() {
@@ -331,6 +345,230 @@ function renderAI() {
     }
     busy = false; $('send').disabled = false; inp.focus();
   };
+}
+
+// ---- grammar ----
+const GRAMMAR = [
+{ id: 'art', lv: 'A1', en: 'Articles: a, an, the', kk: 'Артикльдер',
+  intro: 'Қазақ тілінде артикль жоқ, ал ағылшынша зат есімнің алдында жиі тұрады. Үш ереже жеткілікті.',
+  rules: [
+    ['a / an: «бір», белгісіз зат', 'Затты бірінші рет айтқанда немесе кез келген біреуін меңзегенде <b>a</b> қолданамыз: <b>a book</b> (бір кітап), <b>a teacher</b>. Тек жекеше, саналатын зат есіммен тұрады.'],
+    ['a мен an айырмасы', 'Артикль келесі сөздің <b>дыбысына</b> байланысты. Дауыссыз дыбыстан бұрын <b>a</b>: a car, a boy. Дауысты дыбыстан бұрын <b>an</b>: an apple, an orange. Әріп емес, дыбыс маңызды: an hour (h оқылмайды), a university («ю» дыбысы дауыссыз).'],
+    ['the: белгілі, нақты зат', 'Екі жақ та қай затты айтып тұрғанын білсе, <b>the</b> қолданамыз: Close <b>the</b> door. I saw a dog. <b>The</b> dog was big (бұрын аталған ит). Жалғыз заттарға да the: the sun, the moon.'],
+    ['Артикль қойылмайтын жерлер', 'Жалпы ұғымдағы көпше сөздерде, спорт, тағам, тіл атауларында артикль жоқ: I like music. We play football. She speaks English.']],
+  ex: [['I have a dog.', 'Менде ит бар.'], ['She eats an apple.', 'Ол алма жейді.'], ['The dog is in the garden.', 'Ит бақшада.'], ['I like tea.', 'Маған шай ұнайды.']],
+  q: [['I have ___ umbrella.', ['a', 'an', 'the'], 1, 'umbrella дауысты дыбыстан басталады, сондықтан an.'],
+      ['Open ___ window, please. (екеуміз де қай терезе екенін білеміз)', ['a', 'an', 'the'], 2, 'Нақты, белгілі терезе болғандықтан the.'],
+      ['She is ___ university student.', ['a', 'an', 'the'], 0, 'university «ю» дыбысымен басталады (дауыссыз), сондықтан a.']] },
+{ id: 'plural', lv: 'A1', en: 'Plural nouns', kk: 'Көпше түр және саналмайтын заттар',
+  intro: 'Ағылшынша көпше жалғауы бір ғана: -s. Бірақ бірнеше ерекшелік бар.',
+  rules: [
+    ['Көпше жасау: -s', 'Көпшілік зат есімге <b>-s</b> қосылады: book → books, cat → cats.'],
+    ['-es және -ies', '-s, -x, -ch, -sh-мен біткенде <b>-es</b>: bus → buses, box → boxes, watch → watches. Дауыссыздан кейінгі -y → <b>-ies</b>: city → cities, baby → babies.'],
+    ['Ерекше көпше', 'Жаттап алыңыз: man → men, woman → women, child → children, person → people, foot → feet, tooth → teeth.'],
+    ['Саналмайтын заттар', 'water, milk, bread, money, information сияқты заттар санала бермейді: көпше жалғауы да, a/an да жоқ. Мөлшерін a glass of water, a piece of bread деп айтамыз.']],
+  ex: [['two books', 'екі кітап'], ['three children', 'үш бала'], ['a glass of milk', 'бір стақан сүт'], ['Many people live here.', 'Мұнда көп адам тұрады.']],
+  q: [['One box, two ___.', ['boxs', 'boxes', 'boxies'], 1, 'x-пен біткен сөзге -es қосылады.'],
+      ['There are three ___ in the room. (бала)', ['childs', 'childrens', 'children'], 2, 'child ерекше көпше: children.'],
+      ['Қайсысы дұрыс?', ['a water', 'a bread', 'a book'], 2, 'water мен bread саналмайды, олардың алдында a тұрмайды. Book саналады.']] },
+{ id: 'pron', lv: 'A1', en: 'Pronouns: I, you, he, she...', kk: 'Есімдіктер',
+  intro: 'Ағылшынша сөйлемде бастауыш әрқашан айтылады. Қазақшадағыдай «барамын» деп қана айтуға болмайды.',
+  rules: [
+    ['Жіктеу есімдіктері', '<b>I</b> (мен), <b>you</b> (сен, сіз, сендер), <b>he</b> (ол, еркек), <b>she</b> (ол, әйел), <b>it</b> (ол, зат немесе жануар), <b>we</b> (біз), <b>they</b> (олар). «Ол» үшін үш сөз бар.'],
+    ['Тәуелдік есімдіктер', '<b>my</b> (менің), <b>your</b> (сенің, сіздің), <b>his</b> / <b>her</b> / <b>its</b> (оның), <b>our</b> (біздің), <b>their</b> (олардың). Зат есімнің алдында тұрады: <b>my</b> book, <b>her</b> mother.'],
+    ['Бастауыш міндетті', 'Қазақшада бастауышты түсіріп кетуге болады. Ағылшынша болмайды: <b>I</b> go, <b>we</b> read.'],
+    ['Объектілік форма', 'Етістіктен кейін <b>me, you, him, her, it, us, them</b> қолданылады: She loves <b>me</b>. I see <b>them</b>.']],
+  ex: [['I am a student.', 'Мен студентпін.'], ['She likes her job.', 'Оған жұмысы ұнайды.'], ['They love us.', 'Олар бізді жақсы көреді.'], ['Give it to him.', 'Оны оған беріңіз.']],
+  q: [['Anna is my sister. ___ is a doctor.', ['He', 'She', 'It'], 1, 'Әйел адам үшін she.'],
+      ['___ name is Aibek. (оның аты)', ['His', 'Him', 'He'], 0, 'Зат есімнің алдында тәуелдік есімдік тұрады: his.'],
+      ['Please help ___. (мені)', ['I', 'my', 'me'], 2, 'Етістіктен кейін объектілік форма: me.']] },
+{ id: 'tobe', lv: 'A1', en: 'To be: am, is, are', kk: 'Болу етістігі',
+  intro: 'Қазақша «-мын, -сың, -ды» қосымшасының орнына ағылшынша жеке сөз тұрады.',
+  rules: [
+    ['Үш форма', 'I <b>am</b>, he / she / it <b>is</b>, you / we / they <b>are</b>.'],
+    ['Қысқа түрі', 'I’m, you’re, he’s, she’s, it’s, we’re, they’re. Ауызекі тілде әрқашан қысқа түрін естисіз.'],
+    ['Болымсыз', '<b>not</b> қосамыз: I am not, he <b>isn’t</b>, they <b>aren’t</b>.'],
+    ['Сұрақ', 'Етістік бастауыштың алдына шығады: <b>Are</b> you a student? <b>Is</b> she at home?']],
+  ex: [['I am Aigerim.', 'Мен Әйгерімін.'], ['He is tired.', 'Ол шаршаған.'], ['We are friends.', 'Біз доспыз.'], ['Are you ready?', 'Дайынсыз ба?']],
+  q: [['My brothers ___ at school.', ['is', 'am', 'are'], 2, 'brothers көпше (they), сондықтан are.'],
+      ['She ___ a teacher.', ['are', 'is', 'am'], 1, 'she-мен is тұрады.'],
+      ['___ you from Kazakhstan?', ['Is', 'Are', 'Am'], 1, 'you-мен әрқашан are.']] },
+{ id: 'there', lv: 'A1', en: 'There is / There are', kk: '«Бар» құрылымы',
+  intro: 'Бір жерде нәрсенің бар екенін айтудың ең жиі жолы.',
+  rules: [
+    ['Қолданылуы', 'Бір зат болса <b>There is</b>, көп зат болса <b>There are</b>: There is a book on the table. There are two books on the table.'],
+    ['Болымсыз және сұрақ', 'There <b>isn’t</b> a chair. There <b>aren’t</b> any chairs. <b>Is there</b> a bank near here? <b>Are there</b> any shops?'],
+    ['Қалай таңдаймыз', 'Соңынан келетін зат есімге қараңыз: жекеше немесе саналмайтын болса is (There is water), көпше болса are.']],
+  ex: [['There is a park near my house.', 'Үйімнің жанында саябақ бар.'], ['There are five students.', 'Бес студент бар.'], ['Is there a bank here?', 'Мұнда банк бар ма?']],
+  q: [['There ___ three cats in the garden.', ['is', 'are', 'am'], 1, 'cats көпше, сондықтан are.'],
+      ['___ there a hotel near here?', ['Is', 'Are', 'Do'], 0, 'hotel жекеше: Is there...?'],
+      ['There ___ any milk.', ['isn’t', 'aren’t', 'don’t'], 0, 'milk саналмайды, сондықтан isn’t.']] },
+{ id: 'pres', lv: 'A1', en: 'Present Simple', kk: 'Үнемі болатын әрекет',
+  intro: 'Әдет, жұмыс, күн тәртібі және ақиқат туралы айтатын негізгі шақ.',
+  rules: [
+    ['Қашан қолданамыз', 'Үнемі қайталанатын әрекет үшін: I <b>work</b> every day. The sun <b>rises</b> in the east. Белгі сөздер: always, usually, often, every day, never.'],
+    ['he / she / it + -s', 'I, you, we, they-мен етістік өзгермейді: I work. He / she / it-пен <b>-s</b> қосылады: he work<b>s</b>. Ерекшелік: go → goes, have → has, study → studies.'],
+    ['Болымсыз', '<b>don’t</b> (I, you, we, they) немесе <b>doesn’t</b> (he, she, it) + түбір: I don’t like tea. She doesn’t like tea. Doesn’t-тен кейін -s түспейді.'],
+    ['Сұрақ', '<b>Do</b> / <b>Does</b> + бастауыш + түбір: Do you speak English? Does he work here?']],
+  ex: [['I drink tea every morning.', 'Мен күнде таңертең шай ішемін.'], ['She works in a bank.', 'Ол банкте жұмыс істейді.'], ['He doesn’t eat meat.', 'Ол ет жемейді.'], ['Do you live here?', 'Сіз осында тұрасыз ба?']],
+  q: [['He ___ English every day.', ['study', 'studies', 'studys'], 1, 'Дауыссыз + y → ies: studies.'],
+      ['She doesn’t ___ coffee.', ['drinks', 'drink', 'drinking'], 1, 'doesn’t-тен кейін етістік түбірде тұрады.'],
+      ['___ they live in Almaty?', ['Do', 'Does', 'Are'], 0, 'they-мен Do қолданылады.']] },
+{ id: 'quest', lv: 'A1', en: 'Questions: what, where, why', kk: 'Сұрақ құру',
+  intro: 'Қазақша сұрақ сөз сөйлем ішінде тұрады. Ағылшынша сұрақ сөз әрқашан басында.',
+  rules: [
+    ['Сұрақ сөздер', '<b>What</b> (не), <b>Where</b> (қайда), <b>When</b> (қашан), <b>Who</b> (кім), <b>Why</b> (неге), <b>How</b> (қалай), <b>How much / many</b> (қанша), <b>Which</b> (қайсы).'],
+    ['Құру реті', 'Сұрақ сөз + көмекші етістік + бастауыш + негізгі етістік: <b>Where do you live?</b> <b>What did she say?</b>'],
+    ['Көмекші етістік', 'To be болса, соны шығарамыз (Where <b>are</b> you?). Present Simple-де do / does, өткен шақта did, Perfect-те have / has, модальда can / will.'],
+    ['Қысқа жауап', 'Do you like tea? — Yes, I <b>do</b>. / No, I <b>don’t</b>. Is she here? — Yes, she <b>is</b>.']],
+  ex: [['Where do you work?', 'Сіз қайда жұмыс істейсіз?'], ['What is your name?', 'Атыңыз кім?'], ['Why are you late?', 'Неге кешіктіңіз?'], ['How many brothers do you have?', 'Сіздің неше ағаңыз бар?']],
+  q: [['___ do you live? (қайда)', ['Where', 'Who', 'When'], 0, 'Орынды сұрағанда where.'],
+      ['Where ___ she live now?', ['do', 'does', 'is'], 1, 'she-мен does қолданылады.'],
+      ['Is he a doctor? — Yes, he ___.', ['does', 'is', 'has'], 1, 'Қысқа жауапта сұрақтағы етістікті қайталаймыз: is.']] },
+{ id: 'cont', lv: 'A2', en: 'Present Continuous', kk: 'Қазір болып жатқан әрекет',
+  intro: 'Дәл қазір немесе осы кезеңде болып жатқан әрекет үшін.',
+  rules: [
+    ['Жасалуы', 'am / is / are + етістік-<b>ing</b>: I <b>am reading</b> now. They <b>are playing</b> football. Белгі сөздер: now, at the moment, today.'],
+    ['-ing қосу', 'Көбіне тікелей: work → working. -e түседі: make → making. Қысқа сөзде дауыссыз қосарланады: run → running, sit → sitting.'],
+    ['Болымсыз және сұрақ', 'She <b>isn’t</b> sleeping. <b>Are</b> you listening?'],
+    ['Present Simple-мен айырмасы', 'Simple — үнемі болатын нәрсе (I work in a school). Continuous — дәл қазір (I am working now).']],
+  ex: [['I am learning English.', 'Мен ағылшынша үйреніп жатырмын.'], ['She is cooking dinner.', 'Ол кешкі ас дайындап жатыр.'], ['They aren’t sleeping.', 'Олар ұйықтап жатқан жоқ.'], ['What are you doing?', 'Не істеп жатырсыз?']],
+  q: [['Look! It ___.', ['rains', 'is raining', 'raining'], 1, 'Қазір көзге көрінген әрекет: is raining.'],
+      ['We ___ TV now.', ['watch', 'are watching', 'watching'], 1, 'now белгісі Continuous-ты көрсетеді.'],
+      ['He is ___ in the park.', ['runing', 'running', 'runs'], 1, 'Қысқа сөзде соңғы дауыссыз қосарланады: running.']] },
+{ id: 'past', lv: 'A2', en: 'Past Simple', kk: 'Өткен шақ',
+  intro: 'Өткен уақытта аяқталған әрекет туралы айтамыз: yesterday, last week, in 2020.',
+  rules: [
+    ['Дұрыс етістіктер: -ed', 'work → worked, play → played. -e-мен біткенде -d: live → lived. Дауыссыз + y → -ied: study → studied.'],
+    ['Ерекше етістіктер', 'Жаттау керек: go → <b>went</b>, see → <b>saw</b>, eat → <b>ate</b>, have → <b>had</b>, buy → <b>bought</b>, write → <b>wrote</b>, come → <b>came</b>, take → <b>took</b>.'],
+    ['was / were', 'To be өткен шақта: I / he / she / it <b>was</b>, you / we / they <b>were</b>.'],
+    ['Болымсыз және сұрақ', '<b>didn’t</b> + түбір: I didn’t go. <b>Did</b> + бастауыш + түбір: Did you see him? Did-тен кейін етістік өткен шақта тұрмайды.']],
+  ex: [['I visited my aunt yesterday.', 'Мен кеше тәтеме қонаққа бардым.'], ['She went to Astana.', 'Ол Астанаға барды.'], ['We didn’t see the film.', 'Біз фильмді көрмедік.'], ['Did you eat?', 'Тамақтандыңыз ба?']],
+  q: [['Yesterday I ___ to school.', ['go', 'went', 'goed'], 1, 'go ерекше етістік: went.'],
+      ['She ___ a letter last week.', ['write', 'writed', 'wrote'], 2, 'write → wrote.'],
+      ['Did he ___ the door?', ['closed', 'close', 'closes'], 1, 'Did-тен кейін түбір қолданылады.']] },
+{ id: 'irr', lv: 'A2', en: 'Irregular verbs', kk: 'Ерекше етістіктер',
+  intro: 'Ерекше етістіктің үш формасы бар: V1 (түбір), V2 (Past Simple) және V3 (Present Perfect). Тізімді күнде 5 минут қайталаңыз.',
+  rules: [
+    ['Үш форма', 'V1 — I <b>go</b> every day. V2 — I <b>went</b> yesterday. V3 — I have <b>gone</b> already.'],
+    ['Бірдей формалар', 'Кейбіреуінде бәрі бірдей: put – put – put, cut – cut – cut. read – read – read жазылуы бірдей, бірақ оқылуы өзгереді (рид – ред – ред).']],
+  ex: [['go – went – gone', 'бару'], ['see – saw – seen', 'көру'], ['eat – ate – eaten', 'жеу'], ['write – wrote – written', 'жазу'], ['take – took – taken', 'алу'], ['give – gave – given', 'беру'], ['come – came – come', 'келу'], ['buy – bought – bought', 'сатып алу'], ['have – had – had', 'ие болу'], ['make – made – made', 'жасау'], ['know – knew – known', 'білу'], ['speak – spoke – spoken', 'сөйлеу'], ['drink – drank – drunk', 'ішу'], ['run – ran – run', 'жүгіру']],
+  q: [['buy: V2 қайсы?', ['buyed', 'bought', 'boughten'], 1, 'buy – bought – bought.'],
+      ['I have ___ breakfast. (eat)', ['ate', 'eaten', 'eated'], 1, 'have-тен кейін V3: eaten.'],
+      ['Yesterday we ___ a film. (see)', ['saw', 'seen', 'sawed'], 0, 'Өткен шақта V2: saw.']] },
+{ id: 'future', lv: 'A2', en: 'Future: will, going to', kk: 'Келер шақ',
+  intro: 'Ағылшынша келер шақтың екі негізгі жолы бар.',
+  rules: [
+    ['will + түбір', 'Сол сәттегі шешім, болжам, уәде: I <b>will</b> help you. It <b>will</b> rain tomorrow. Қысқа түрі: I’ll, she’ll. Болымсыз: <b>won’t</b>.'],
+    ['be going to', 'Алдын ала жоспар немесе көзге көрінген белгі: I <b>am going to</b> study medicine. Look at the clouds, it <b>is going to</b> rain.'],
+    ['Белгі сөздер', 'tomorrow, next week, soon, in two days, tonight.']],
+  ex: [['I will call you tomorrow.', 'Мен саған ертең қоңырау шаламын.'], ['We are going to travel in summer.', 'Біз жазда саяхаттамақпыз.'], ['It won’t be difficult.', 'Қиын болмайды.']],
+  q: [['The phone is ringing. I ___ answer it.', ['will', 'am going', 'is'], 0, 'Сол сәтте қабылданған шешім: will.'],
+      ['I ___ visit Paris next year. (жоспарым бар)', ['am going to', 'will to', 'going'], 0, 'Жоспар үшін be going to.'],
+      ['She ___ be late. (болымсыз)', ['won’t', 'doesn’t', 'isn’t'], 0, 'will not = won’t.']] },
+{ id: 'perfect', lv: 'A2', en: 'Present Perfect', kk: 'Нәтижесі бар өткен әрекет',
+  intro: 'Қазақша мұны «-ып қойдым, -ған едім» сияқты тұлғалармен салыстыруға болады.',
+  rules: [
+    ['Жасалуы', 'have / has + етістіктің <b>V3</b> формасы: I <b>have seen</b> it. She <b>has finished</b>. Дұрыс етістікте V3 = -ed. Ерекшеде: go → gone, eat → eaten, write → written.'],
+    ['Қашан қолданамыз', 'Нәтижесі қазір маңызды әрекет немесе өмірлік тәжірибе: I have lost my keys. Have you ever been to London?'],
+    ['Белгі сөздер', 'already, yet, ever, never, just, since, for. <b>yesterday</b>, last year сияқты нақты уақытпен қолданылмайды, онда Past Simple қажет.']],
+  ex: [['I have never eaten sushi.', 'Мен ешқашан суши жеген емеспін.'], ['She has already left.', 'Ол кетіп қалды.'], ['Have you finished?', 'Бітірдіңіз бе?']],
+  q: [['I ___ my homework already.', ['have done', 'did', 'am doing'], 0, 'already Present Perfect-пен жиі тұрады.'],
+      ['He has ___ the book. (write)', ['wrote', 'written', 'writed'], 1, 'has-тан кейін V3: written.'],
+      ['Қайсысы дұрыс?', ['I have seen him yesterday.', 'I saw him yesterday.', 'I see him yesterday.'], 1, 'yesterday нақты уақыт, сондықтан Past Simple.']] },
+{ id: 'modal', lv: 'A2', en: 'Modal verbs: can, must, should', kk: 'Модаль етістіктер',
+  intro: 'Мүмкіндік, міндет, кеңес білдіретін көмекші етістіктер.',
+  rules: [
+    ['can: істей алу', 'I <b>can</b> swim. Болымсыз: can’t. Сұрақ: Can you help me? Can-нан кейін түбір тұрады.'],
+    ['must / have to: міндет', 'You <b>must</b> wear a seatbelt. I <b>have to</b> work tomorrow. <b>mustn’t</b> — тыйым: You mustn’t smoke here.'],
+    ['should: кеңес', 'You <b>should</b> sleep more (көбірек ұйықтауыңыз керек).'],
+    ['could / may: сыпайы өтініш', '<b>Could</b> you open the window? <b>May</b> I come in?'],
+    ['Ортақ ереже', 'Модаль етістіктен кейін <b>to</b> жоқ, -s жоқ: She can swim. Дұрыс емес: she cans, she can to swim.']],
+  ex: [['I can speak Kazakh and Russian.', 'Мен қазақша және орысша сөйлей аламын.'], ['You should drink water.', 'Су ішуіңіз керек.'], ['Could you help me?', 'Маған көмектесе аласыз ба?']],
+  q: [['She can ___ well.', ['sings', 'sing', 'to sing'], 1, 'can-нан кейін түбір, to жоқ.'],
+      ['You ___ drive fast here. (тыйым)', ['mustn’t', 'should', 'can'], 0, 'Тыйым үшін mustn’t.'],
+      ['The doctor says: You ___ rest.', ['should', 'are', 'does'], 0, 'Кеңес үшін should.']] },
+{ id: 'adj', lv: 'A2', en: 'Adjectives and comparison', kk: 'Сын есім және салыстыру',
+  intro: 'Қазақша «-рақ, ең» сөздерінің ағылшынша баламасы.',
+  rules: [
+    ['Орны', 'Сын есім зат есімнің алдында тұрады және өзгермейді: a <b>big</b> house, two <b>big</b> houses.'],
+    ['Қысқа сөз: -er / -est', 'tall → tall<b>er</b> → the tall<b>est</b>. big → bigger → the biggest. happy → happier → the happiest.'],
+    ['Ұзын сөз: more / most', 'beautiful → <b>more</b> beautiful → <b>the most</b> beautiful. «-дан гөрі» ағылшынша <b>than</b>: She is taller <b>than</b> me.'],
+    ['Ерекшелер', 'good → better → the best; bad → worse → the worst; far → farther → the farthest.']],
+  ex: [['This book is cheaper than that one.', 'Бұл кітап анау кітаптан арзан.'], ['Almaty is the biggest city in Kazakhstan.', 'Алматы — Қазақстандағы ең үлкен қала.'], ['English is easier than I thought.', 'Ағылшын тілі ойлағаннан оңай.']],
+  q: [['My car is ___ than yours.', ['fast', 'faster', 'more fast'], 1, 'Қысқа сөзге -er қосылады.'],
+      ['This is ___ film I have ever seen. (ең жақсы)', ['the best', 'the goodest', 'better'], 0, 'good → better → the best.'],
+      ['She is ___ beautiful than her sister.', ['more', 'most', 'beautifuler'], 0, 'Ұзын сөзде more + than.']] },
+{ id: 'prep', lv: 'A2', en: 'Prepositions: in, on, at', kk: 'Предлогтар',
+  intro: 'Қазақша жалғаулар (-да, -ға, -дан) ағылшынша жеке сөздер болады.',
+  rules: [
+    ['Уақыт', '<b>at</b> — нақты сағат (at 5 o’clock, at night). <b>on</b> — күн (on Monday, on 5 May). <b>in</b> — ай, жыл, мезгіл (in May, in 2025, in summer, in the morning).'],
+    ['Орын', '<b>in</b> — ішінде (in the room, in Almaty). <b>on</b> — үстінде (on the table). <b>at</b> — нүктеде (at school, at the station).'],
+    ['Қозғалыс', '<b>to</b> — қайда? (go to school). <b>from</b> — қайдан? (from Astana). <b>into</b> — ішке кіру.'],
+    ['Тұрақты тіркестер', 'by bus (автобуспен), at home (үйде), at work (жұмыста). Бірақ go home: бұл жерде to қойылмайды.']],
+  ex: [['I wake up at 7 o’clock.', 'Мен сағат 7-де оянамын.'], ['The book is on the table.', 'Кітап үстелдің үстінде.'], ['We go to school by bus.', 'Біз мектепке автобуспен барамыз.']],
+  q: [['See you ___ Monday.', ['at', 'on', 'in'], 1, 'Апта күндерімен on қолданылады.'],
+      ['I was born ___ 2005.', ['in', 'on', 'at'], 0, 'Жылмен in қолданылады.'],
+      ['She is ___ home.', ['in', 'on', 'at'], 2, 'at home — тұрақты тіркес.']] },
+{ id: 'quant', lv: 'A2', en: 'Some, any, much, many', kk: 'Мөлшер сөздері',
+  intro: 'Саналатын және саналмайтын заттарға әртүрлі сөздер керек.',
+  rules: [
+    ['some: болымды сөйлемде', 'I have <b>some</b> friends. I need <b>some</b> water. Ұсыныста да: Would you like <b>some</b> tea?'],
+    ['any: болымсыз және сұрақта', 'I don’t have <b>any</b> money. Do you have <b>any</b> questions?'],
+    ['many / much', '<b>many</b> + саналатын көпше: many books. <b>much</b> + саналмайтын: much water. Сұрақта: How <b>many</b> students? How <b>much</b> is it?'],
+    ['a lot of', 'Болымды сөйлемде екеуіне де жарайды: a lot of books, a lot of water.']],
+  ex: [['There are some apples.', 'Бірнеше алма бар.'], ['We don’t have any bread.', 'Бізде нан жоқ.'], ['How much is this?', 'Бұл қанша тұрады?']],
+  q: [['I don’t have ___ time.', ['some', 'any', 'many'], 1, 'Болымсыз сөйлемде any.'],
+      ['How ___ students are in your group?', ['much', 'many', 'any'], 1, 'students саналады, сондықтан many.'],
+      ['There is ___ milk in the fridge.', ['some', 'many', 'a few'], 0, 'Болымды сөйлемде, саналмайтын сөзбен some.']] },
+];
+
+let gid = null;
+function renderGram() {
+  if (gid) return renderLesson();
+  const done = GRAMMAR.filter(g => P.g[g.id] >= 2).length;
+  const lvName = { A1: 'Бастапқы деңгей (A1)', A2: 'Орташа деңгей (A2)' };
+  app.innerHTML = `<h1>Грамматика</h1>
+  <p class="lead">Артикльдерден бастап етістік шақтарына дейін, қазақша түсіндірмемен. Әр сабақта ереже, мысал және 3 сұрақ бар. Ретімен өтуді ұсынамыз.</p>
+  <div><strong>${done} / ${GRAMMAR.length}</strong> сабақ өтілді</div>
+  <div class="progress"><i style="width:${done / GRAMMAR.length * 100}%"></i></div>
+  ${['A1', 'A2'].map(l => `<h2>${lvName[l]}</h2><div class="tiles" style="margin-bottom:22px">${GRAMMAR.filter(g => g.lv === l).map(g =>
+    `<button class="tile ${P.g[g.id] >= 2 ? 'done' : ''}" data-g="${g.id}"><span class="en">${g.en}</span><span class="kk">${g.kk}</span>
+     <small>${P.g[g.id] != null ? P.g[g.id] + ' / 3 дұрыс' : 'әлі өтілмеген'}</small></button>`).join('')}</div>`).join('')}`;
+  app.querySelectorAll('.tile').forEach(b => b.onclick = () => { gid = b.dataset.g; renderGram(); window.scrollTo(0, 0); });
+}
+function renderLesson() {
+  const g = GRAMMAR.find(x => x.id === gid), next = GRAMMAR[GRAMMAR.indexOf(g) + 1];
+  app.innerHTML = `<button class="back" id="bk">← Барлық ережелер</button>
+  <div class="lvl">${g.lv}</div><h1>${g.en}</h1>
+  <p class="lead">${g.kk}. ${g.intro}</p>
+  ${g.rules.map(([h, b]) => `<div class="rule"><h3>${h}</h3><p>${b}</p></div>`).join('')}
+  <h2 style="margin-top:20px">Мысалдар</h2>
+  ${g.ex.map(([e, k], i) => `<div class="word"><div><div class="en" style="font-size:17px">${esc(e)}</div><div class="kk" style="font-weight:500">${esc(k)}</div></div>
+    <button class="say" data-i="${i}" aria-label="Тыңдау">🔊</button></div>`).join('')}
+  <h2 style="margin-top:20px">Жаттығу</h2><div id="gq"></div><div id="gsum"></div>`;
+  $('bk').onclick = () => { gid = null; renderGram(); };
+  app.querySelectorAll('.say').forEach(b => b.onclick = () => say(g.ex[b.dataset.i][0].replace(/–/g, ',')));
+  let answered = 0, right = 0;
+  g.q.forEach(([q, o, a, why], qi) => {
+    const d = document.createElement('div'); d.className = 'gq';
+    d.innerHTML = `<div class="qt">${qi + 1}. ${esc(q)}</div><div class="opts">${o.map((t, k) => `<button data-k="${k}">${esc(t)}</button>`).join('')}</div><div class="why" hidden></div>`;
+    d.querySelectorAll('.opts button').forEach(b => b.onclick = () => {
+      const ok = +b.dataset.k === a;
+      d.querySelectorAll('.opts button').forEach((x, j) => { x.disabled = true; if (j === a) x.classList.add('ok'); });
+      if (ok) { right++; earn(5); } else b.classList.add('no');
+      const w = d.querySelector('.why'); w.hidden = false;
+      w.textContent = (ok ? 'Дұрыс! ' : 'Дұрыс жауабы: ' + o[a] + '. ') + why;
+      if (++answered === g.q.length) {
+        P.g[g.id] = Math.max(P.g[g.id] ?? 0, right); save();
+        $('gsum').innerHTML = `<div class="tip"><strong>${right} / ${g.q.length} дұрыс.</strong> ${right >= 2 ? 'Сабақ өтілді!' : 'Ережені қайта оқып, тағы бір рет көріңіз.'}</div>
+        <div class="row"><button class="btn" id="rt">Қайталау</button>${next ? `<button class="btn primary" id="nx">Келесі: ${next.en}</button>` : ''}</div>`;
+        $('rt').onclick = renderLesson;
+        if (next) $('nx').onclick = () => { gid = next.id; renderLesson(); window.scrollTo(0, 0); };
+      }
+    });
+    $('gq').appendChild(d);
+  });
 }
 
 head(); go('home');

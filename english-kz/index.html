@@ -613,26 +613,23 @@ function finish() {
 }
 
 // ---- screens ----
-const unlocked = i => P.all || i === 0 || P.done[FLAT[i - 1].id];
 function renderPath() {
   const ni = FLAT.findIndex(u => !P.done[u.id]), n = FLAT[ni];
   const done = FLAT.filter(u => P.done[u.id]).length;
   let i = 0;
   app.innerHTML = `<h1>Ағылшынша нөлден бастаймыз</h1>
-  <p class="lead">Ретімен жүріңіз: әріптен сөзге, сөзден сөйлемге. Әр сабақ 3-5 минут. Қате жауап соңында қайта сұралады, сондықтан қателесуден қорықпаңыз.</p>
+  <p class="lead">Ретімен жүріңіз: әріптен сөзге, сөзден сөйлемге. Әр сабақ 3-5 минут, кез келген сабақты ашуға болады. Қате жауап соңында қайта сұралады, сондықтан қателесуден қорықпаңыз.</p>
   ${n ? `<div class="hero"><small>${done ? 'Келесі сабақ' : 'Бірінші сабақ'}</small><h2>${esc(n.title)}</h2><p>${esc(n.sub)}</p><button class="btn" id="go-n">${done ? 'Жалғастыру' : 'Бастау'}</button></div>`
     : '<div class="hero"><h2>Барлық сабақ өтілді!</h2><p>Қайталау бөлімінде сөздерді бекітіп, AI мұғаліммен сөйлесіңіз.</p></div>'}
   <div><strong>${done} / ${FLAT.length}</strong> сабақ өтілді</div><div class="progress"><i style="width:${done / FLAT.length * 100}%"></i></div>
   ${PATH.map(s => `<section class="stage"><h2>${s.name}<span>${s.units.filter(u => P.done[u.id]).length} / ${s.units.length}</span></h2>${s.units.map(u => {
-    const k = i++, d = P.done[u.id], lock = !unlocked(k);
+    const k = i++, d = P.done[u.id], lock = false;
     return `<button class="node ${d ? 'done' : ''} ${k === ni ? 'next' : ''} ${lock ? 'lock' : ''}" data-i="${k}" ${lock ? 'disabled' : ''}>
       <span class="n">${d ? '✓' : k + 1}</span><span><b>${esc(u.title)}</b><small>${esc(u.sub)}</small></span><span class="stars">${d ? '★'.repeat(d) + '☆'.repeat(3 - d) : lock ? 'жабық' : ''}</span></button>`;
-  }).join('')}</section>`).join('')}
-  <button class="back" id="ua">${P.all ? 'Сабақтарды қайта жабу' : 'Тілді білсеңіз: барлық сабақты ашу'}</button>`;
+  }).join('')}</section>`).join('')}`;
   const run = k => { const u = FLAT[k]; startRun({ u, steps: build(u) }); };
   if (n) $('go-n').onclick = () => run(ni);
   app.querySelectorAll('.node').forEach(b => b.onclick = () => run(+b.dataset.i));
-  $('ua').onclick = () => { P.all = !P.all; save(); renderPath(); };
 }
 function renderReview() {
   const seen = ALL.filter(w => P.seen[w.en]), wk = seen.filter(w => P.weak[w.en]);
